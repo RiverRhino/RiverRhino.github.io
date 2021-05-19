@@ -15,7 +15,20 @@
 	<div class="grid">
 
 		<div class="item1">
-			<img id="imgrt" src="imagenes\D.png">
+				<input id="imgrt" type="image" name="Dinosaurio" src="imagenes\D.png" class="Reproducir"></input>
+				<audio src="Dinosaurio.mp4"></audio>
+				<script>
+		
+				var boton = document.querySelector(".Reproducir")
+				var audioEtiqueta = document.querySelector("audio")
+		
+				boton.addEventListener("click", () => {
+				audioEtiqueta.setAttribute("src","Dinosaurio.mp4")
+				audioEtiqueta.play()
+				console.log("Reproduciendo: ${audioEtiqueta.src}")
+				})
+				</script>
+		
 			<img id="imginicio" src="imagenes\maid.png">
 			<h1> Galeria del mejor <span id="c">AR</span><span id="c2">TE</span></h1>
 		</div>
