@@ -42,5 +42,5 @@ document.querySelector('#Adivinar').addEventListener('click', () =>{
 });
 
 function reiniciar(){
-    location = "jue.html"
+    location = "https://riverrhino.github.io/Jue.html"
 }
