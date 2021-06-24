@@ -1,0 +1,33 @@
+#Video{
+    margin-left: 310px;
+    width: auto;
+    height: auto;
+    background-color: #282828;
+}
+
+h1{
+    margin-left: 230px;
+    color:white;
+}
+
+p{
+    color:white;
+}
+
+h2{
+    color:white;
+    margin-left: 25px;
+}
+
+#Regalobtn{
+   width: 100px;
+   height: 100px;
+   margin-left:330px;
+}
+
+#Texto{
+    color:white;
+    font-size: 25px;
+    font-family: 'Roboto', sans-serif;
+    text-align: justify;
+}

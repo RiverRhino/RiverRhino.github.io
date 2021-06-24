@@ -1,0 +1,127 @@
+@media only screen and (max-width: 700px) {
+	
+	/*Div principales*/
+
+
+	.menusito li a{
+		color:grey;
+	}
+	
+	#imglg{
+	margin-left: 30px;
+	}
+
+	#img{
+		margin-top: 20px;
+	}
+
+    #imgu{
+        margin-left: 100px;
+    }
+
+    #BodyGal{
+        background-image: url("https://i.pinimg.com/236x/a1/2f/e6/a12fe6dc79517e7de7e0abdff7111396.jpg");
+    }
+
+    /*Juego del Ahorcado*/
+
+    #Negroh1{
+        margin-right: 120px;
+        margin-top: 50px;
+    }
+
+    #Intento{
+        margin-left: 150px;
+        margin-right: 150px;
+    }
+
+    #Tjuego{
+        margin-left: 170px;
+    }
+
+    #Palabraad{
+        margin-left: 200px;
+    }
+
+    #Adivinar{
+        margin-left: 150px;
+    }
+
+    .Flechamedio2{
+        margin-left: 200px;
+    }
+
+    /* Video */
+
+    #VS{
+        width:350px;
+        height: 350px;
+        margin-left: 5px;
+    }
+
+    #Video{
+        background-image: url("https://www.xtrafondos.com/wallpapers/vertical/espacio-estrellas-universo-nebulosa-3337.jpg");
+        margin-right: 10px;
+        margin-left: 0;
+    }
+
+    #Ts{
+        margin-left: 20px;
+        color:red;
+    }
+
+    /* Inicio */
+
+    #Texto{
+        margin-left: 150px ;
+        animation-name: texto;
+        color: #2F67FC;
+    }
+
+    @keyframes texto {
+        from{color:#FFFFFF}
+        to{color:#2F67FC}
+    }
+
+    #Texto:hover{
+        color:#2FF954; 
+    }
+
+    #Letras{
+        animation-name: letras;
+        color:#2F67FC;
+    }
+
+    @keyframes letras {
+        from{color:#FFFFFF}
+        to{color:#2F67FC}
+    }
+
+    #Inicial{
+        background-image: url("https://i.pinimg.com/originals/21/9a/ba/219aba703762227694708f500ad8d6ed.gif");
+    }
+
+
+    /* Model conteiner de la galeria */
+    
+    .modal{
+        background-color:#004C93;
+        width: 600px;
+        max-width: 100%;
+        border-radius: 10%;
+        padding: 30px 50px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        text-align:center;
+        margin-left: 300px;
+        margin-top: 250px;
+    }
+
+    #gif{
+        margin-left: 30px;
+    }
+
+    #close{
+        margin-left: 30px;
+    }
+
+  }
