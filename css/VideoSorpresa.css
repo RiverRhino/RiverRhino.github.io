@@ -1,13 +1,24 @@
 #Video{
-    margin-left: 310px;
     width: auto;
     height: auto;
     background-color: #282828;
 }
 
-h1{
-    margin-left: 230px;
+#Ts{
+    display: block;
+    margin: auto;
     color:white;
+    text-align: center;
+    margin-bottom: 20px;
+    user-select: none;
+    user-zoom:unset;
+}
+
+#VS{
+    display: block;
+    margin: auto;
+    width:720px; 
+    height:360px;
 }
 
 p{
@@ -22,12 +33,31 @@ h2{
 #Regalobtn{
    width: 100px;
    height: 100px;
-   margin-left:330px;
+   display: block;
+   margin: auto;
+   user-select: none;
 }
 
-#Texto{
+#TextoSP{
     color:white;
     font-size: 25px;
     font-family: 'Roboto', sans-serif;
     text-align: justify;
+    text-align: center;
+}
+
+#TextoSP::selection{
+    color:red;
+}
+
+#Pregunta{
+    text-align: center;
+    color: white;
+    font-size: 25px;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+}
+
+#Pregunta:hover{
+    color:green;
 }

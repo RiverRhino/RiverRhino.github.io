@@ -11,6 +11,7 @@
 		<link rel="shortcut icon" href="imagenes/iconos(paginas)/iconluna.png"/>
         <script src="Scripts/Sorpresa.js"></script>
         <script src="Scripts/Onclicks.js"></script>
+        
         <title> Sorpresa </title>
     </head> 
 
@@ -20,20 +21,37 @@
 
             <div class="Sor1">
 
-                <p>Adivina la palabra</p>
-
-                <form>
-                <input type="password" id="Acertijo">
-                <input type="button" value="¿Es correcto?" id="num" onclick="verificar()">
-                </form>
-
-                <input type="button" id="BotonSorpresa" hidden value="Presiona aqui" onclick="VideoSorpresa()">
+                <h1 id="Tit"> Es una palabra que decimos para afirmar :3</h1>
 
             </div>
+
+            <div class="Sor2">
+
+                <form>
+                    <input type="text" id="Acertijo" placeholder="Holis :3" onfocus="this.value=''">
+                    <input type="button" value="¿Es correcto?" id="num" onclick="verificar()">
+                    <p id="Respuesta"></p>
+                </form>
+
+            </div>
+
+            <div  class="Sor3">
+
+                <img id="imag">
+
+                
+            </div>
+
+            <div  class="Sor4">
+
+                <input type="button" id="BotonSorpresa" hidden value="Presiona aqui" onclick="VideoSorpresa()">
+                
+            </div>
+
     
         </div>
         
-        <audio src="audios/Btton.mp3" type="audio/mp3" autoplay loop>
+        <audio src="audios/Sorpresa.m4a" type="audio/mp3" autoplay loop>
 
     </body>
 

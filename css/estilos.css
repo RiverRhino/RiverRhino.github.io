@@ -84,7 +84,7 @@ div p{
 	grid-column-end:5;
 	height: 220px;
 	width: 200px;
-	background-image: url('./imagenes/ImagenAh.png');
+	background-image: url("https://pablomonteserin.com/wp-content/uploads/2020/05/hangman-game_pm-1024x212.png");
 	margin-left: 600px;
 }
 
@@ -110,14 +110,31 @@ div p{
 
 .Sor1{
 	grid-column-start:1;
-	grid-column-end:4 ;
+	grid-column-end:5;
 }
+
+.Sor2{
+	grid-column-start:1;
+	grid-column-end:5;
+}
+
+.Sor3{
+	grid-column-start:1;
+	grid-column-end:5;
+}
+
+.Sor4{
+	grid-column-start:1;
+	grid-column-end:5;
+}
+
 
 /* Texto para el H1*/
 
 h1{
 	color:white;
 	text-align:center;
+	user-select: none;
 }
 
 #Negroh1{
@@ -129,11 +146,9 @@ h1{
 
 
 #Tminijuegos{
-
 	color:#C50000;
 	font-family: cursive;
 	font-size: 40px;
-
 }
 
 
@@ -175,28 +190,34 @@ h1{
 	height:300px;
 	margin-right:10px;
 	margin-left: 80px;
+	transition: 3s;
+	user-select: none;
 }
 
 #imgu{
 	width:300px;
 	height:300px;
 	margin-right:10px;
+	transition: 3s;
+	user-select: none;
 }
 
 #img:hover{
-	width:500px;
-	height:500px;
+	transform: scale(1.4);
+	box-shadow: 3px 3px 8px 8px gray;
+	user-select: none;
 }
 
 #imgu:hover{
-	width:450px;
-	height:450px;
+	transform: scale(1.5);
+	box-shadow: 3px 3px 8px 8px gray;
 }
 
 #imgl{
 	width:250px;
 	height:250px;
 	float:left;
+	user-select: none;
 }
 
 #imgl2{
@@ -204,6 +225,7 @@ h1{
 	height:250px;
 	float:right;
 	margin-top:168px;
+	user-select: none;
 }
 
 #imglg{
@@ -211,6 +233,7 @@ h1{
 	height:300px;
 	margin-right:10px;
 	margin-top:10px;
+	user-select: none;
 }
 
 #imglgc{
@@ -218,23 +241,32 @@ h1{
 	height:300px;
 	margin-right:10px;
 	margin-top:10px;
+	user-select: none;
 }
 
 #imgrt{
 	width:70px;
 	height:80px;
 	float:left;
+	user-select: none;
 }
 
 #imginicio{
 	float:right;
 	width:80px;
 	height:80px;
+	user-select: none;
 }
 
 #img5min{
 	width: 350px;
 	height:350px;
+	user-select: none;
+}
+
+#imag{
+	margin-left: 440px;
+	user-select: none;
 }
 
 /* Cierre del diseño de las imagenes */
@@ -350,14 +382,15 @@ h1{
 	width: 110px;
 	height: 30px;
 	margin-left: 600px;
-	margin-top: 300px;
-	color:green;
-	background-color: #F3F3A7;
-	border-color: #F3F3A7;
+	margin-top: 50px ;
+	color:ghostwhite;
+	background-color: #2E303D;
+	border-color:#2E303D ;
 	border: 0px;
 	font-family: bold, sans-serif;
 	font-size: 15px;
 	font-weight: bold;
+	border-radius: 10%;
 }
 
 #close{
@@ -366,6 +399,25 @@ h1{
 	padding: 8px;
 	margin-left: 10px;
 }
+
+#num{
+	padding: 5px;
+	border: 0;
+	border-radius: 15%;
+	background-color: white;
+	font-weight: bold;
+	font-size: 14px;
+	margin-left: auto;
+	margin-right: auto;
+	transition: 1s;
+}
+
+#num:hover{
+
+	background-color: #009B62;
+
+}
+
 
 /* Cierre del diseño de botones */
 
@@ -384,6 +436,14 @@ h1{
 
 #Acertijo{
 	margin-top: 100px;
+	background-color:blanchedalmond;
+	border-radius: 15%;
+	border-style: none;
+	padding: 10px;
+	color:#222222;
+	text-align: center;
+	margin-left: 520px;
+	outline: none;
 }
 
 /* Fin diseño caja de textos */
@@ -411,6 +471,35 @@ h1{
 	text-align: center;
 	margin-right: 490px;
 	margin-left: 600px;
+}
+
+#Respuesta{
+	color:white;
+	text-align: center;
+}
+
+#Esposo{
+	color:white;
+	text-align:justify;
+	font: 20px verdana;
+	margin-left:20px;
+	padding:10px;
+}
+
+#Esposo::selection{
+	color:green;
+}
+
+#Esposa{
+	color:white;
+	text-align:justify;
+	font: 20px verdana;
+	margin-left:20px;
+	padding:10px;
+}
+
+#Esposa::selection{
+	color:red;
 }
 
 /* Cierre de diseño "p" */
@@ -443,6 +532,18 @@ h1{
 	height: 175px;
 	box-shadow: 3px 3px 3px 3px#781202 ;
 
+}
+
+#Empezamos{
+	outline: none;
+	display: block;
+	margin: auto;
+	width: 400px;
+	margin-top:-210px;
+}
+
+#Empezamos::selection{
+	user-select: none;
 }
 
 /* Cierre de referencias */
@@ -552,6 +653,7 @@ button{
 	width:300px;
 	height:300px;
 	margin-right:10px;
+	user-select: none;
 }
 
 #letras3{
@@ -606,3 +708,27 @@ font-size: 50px;
 	to {color: white;}
   }
 
+/* width */
+::-webkit-scrollbar {
+	width: 8px;
+	background-image: url("https://cdn.wallpapersafari.com/91/26/hXsK6W.jpg");
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+	background-color: gray;
+	border-radius: 20px;
+	width: 8px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+	background: red;
+	width: 8px;
+	border-radius: 20px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+	background: green;
+  }
