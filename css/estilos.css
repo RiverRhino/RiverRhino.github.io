@@ -42,7 +42,7 @@ div p{
 	grid-column-end: 4;
 }
 
-.item2{
+.MenuPrincipal{
 	grid-column-start: 1;
 	grid-column-end: 2;
 }
@@ -56,6 +56,26 @@ div p{
 	grid-column-start: 1;
 	grid-column-end: 4;
 }
+
+.gridgaleria{
+	display: grid;
+	grid-template-columns: auto auto;
+	box-sizing: border-box;
+	width: 80%;
+	grid-area: auto;
+}
+
+.gridgaleria1{
+	grid-column-start: 1;
+	grid-column-end: 2;
+}
+
+.gridgaleria2{
+	grid-column-start: 3;
+	grid-column-end: 4;
+}
+
+
 
 /* Grid para pagina juegos (Ahorcado) */
 
@@ -128,6 +148,37 @@ div p{
 	grid-column-end:5;
 }
 
+/* Div para menu de juegos */
+
+.MenuJuegoPr{
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	grid-gap: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.Menujuego1{
+	grid-column-start:1;
+	grid-column-end: 5;
+}
+
+.Menujuego2{
+	grid-column-start:1;
+	grid-column-end: 5;
+}
+
+.Menujuego3{
+	grid-column-start:1;
+	grid-column-end: 5;
+}
+
+.Menujuego4{
+	grid-column-start:1;
+	grid-column-end: 5;
+}
+
 
 /* Texto para el H1*/
 
@@ -146,9 +197,13 @@ h1{
 
 
 #Tminijuegos{
-	color:#C50000;
+	color: #6A029E;
 	font-family: cursive;
 	font-size: 40px;
+	display: block;
+	margin: auto;
+	background-color: black;
+	width:300px;
 }
 
 
@@ -188,10 +243,11 @@ h1{
 #img{
 	width:300px;
 	height:300px;
-	margin-right:10px;
-	margin-left: 80px;
 	transition: 3s;
 	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
 }
 
 #imgu{
@@ -200,6 +256,9 @@ h1{
 	margin-right:10px;
 	transition: 3s;
 	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
 }
 
 #img:hover{
@@ -218,6 +277,9 @@ h1{
 	height:250px;
 	float:left;
 	user-select: none;
+	border-radius: 3%;
+	margin: auto;
+	display: block;
 }
 
 #imgl2{
@@ -226,22 +288,29 @@ h1{
 	float:right;
 	margin-top:168px;
 	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
 }
 
 #imglg{
 	width:450px;
 	height:300px;
-	margin-right:10px;
 	margin-top:10px;
 	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
 }
 
 #imglgc{
 	width:500px;
 	height:300px;
-	margin-right:10px;
 	margin-top:10px;
 	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
 }
 
 #imgrt{
@@ -249,6 +318,9 @@ h1{
 	height:80px;
 	float:left;
 	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
 }
 
 #imginicio{
@@ -256,17 +328,25 @@ h1{
 	width:80px;
 	height:80px;
 	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
 }
 
 #img5min{
 	width: 350px;
 	height:350px;
 	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
 }
 
 #imag{
-	margin-left: 440px;
 	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
 }
 
 /* Cierre del diseño de las imagenes */
@@ -274,43 +354,63 @@ h1{
 
 /*Diseño para el menu de la pagina */
 
-.menusito{
-	position: sticky;
+.MenuPrincipal{
+	position: fixed;
+	width: 300px;
+	border-radius: 10px; 
+	box-sizing: initial;
+	transition: 1s;
+}
+
+.MenuPrincipal ul{
+	position: absolute;
 	top: 0;
-}
-
-.menusito ul{
 	list-style-type:none;
+	width: 100%;
 	overflow: hidden;
-	padding:20px;
-	margin-top:20px;
 }
 
-.menusito li{
-	margin-bottom:40px;
-	text-decoration:none;
+.MenuPrincipal li{
+	position: relative;
+	list-style:none;
+	width: 100%;
 }
 
-.menusito a{
+.MenuPrincipal ul li a{
+	position: relative;
 	display:block;
+	width: 100%;
+	display: flex;
 	color:white;
 	text-align:center;
 	text-decoration: none;
 	font: bold 16px verdana;
 }	
 
-.menusito a:hover{
+.MenuPrincipal ul li a .icono
+{
+	position: relative;
+	display: block;
+	min-width: 60px;
+	height: 60px;
+	line-height:70px;
+	text-align: center;
+}
+
+.MenuPrincipal ul li a .title
+{
+	position: relative;
+	display: block;
+	padding-left: 5px;
+	min-width: 60px;
+	height: 60px;
+	line-height:60px;
+	white-space: normal;
+}
+
+.MenuPrincipal a:hover{
 	color:#F8FF6A;
 }
-
-.menusito li ul{
-		display:none;
-        position: sticky;
-        margin-bottom: -40px;
-		padding-bottom: 0px;
-}
-
-.menusito li:hover ul{display:block;}
 
 #menunv ul{
 	list-style-type:none;
@@ -520,6 +620,12 @@ h1{
 	margin-top: 20px;
 }
 
+#Flecharetorno2{
+	float: left;
+	width: 45px;
+	height: 45px;
+}
+
 .MinijuegoA{
 	width: 180px;
 	height: 170px;
@@ -551,12 +657,6 @@ h1{
 /* Modal container */
 
 /* Diseño de bodys */
-
-#BodyGal{
-	background-image: url("https://cdn.wallpapersafari.com/91/26/hXsK6W.jpg");
-	width: auto;
-	height: auto;
-}
 
 .Bodyuwu{
 	background-image: url('https://i.pinimg.com/originals/31/82/e5/3182e579d9e985daa8168ea729da7cba.gif');

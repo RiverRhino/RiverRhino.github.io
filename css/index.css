@@ -1,0 +1,17 @@
+body
+{
+    background-image: url("file:///C:/Users/Oscar/Documents/Proyecto%20Personal/imagenes/lunar-midnight.gif");
+}
+
+#Titulo
+{
+    color:white;
+    text-align: center;
+}
+
+#Presentacion
+{
+    width: 250px;
+    margin: auto;
+    display: block;
+}
