@@ -1,0 +1,116 @@
+<html>
+
+	<head>
+		<meta charset = "UTF-8">
+		<meta name = "author" content ="MoonRXOS">
+		<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+		<meta name = "description" content = "Pagina sobre nosotros uwu">
+		<meta name = "keywords" content = "Vida,escribir una historia">
+		<link rel = "stylesheet" type ="text/css" href="css/estilos2.css">
+        <link rel ="stylesheet" type="text/css" href="css/maxwidth.css">
+		<link rel="shortcut icon" href="imagenes/Anillo.png" />
+        <title> Votos </title>
+    </head>
+	
+	<body background="imagenes/Noche.jpg">
+	
+	<div class="grid">
+	
+	<div class="item1">
+				<nav id="menunv">	
+					<ul>
+						<li><a href="Galeria.html">Galeria</a></li>
+						<li><a href="Galeria.html">Boda</a>
+						<ul>
+							<li><a href="Votos.html">Votos</a></li>
+						</ul>
+						</li>
+						<li><a href="https://www.youtube.com/channel/UCgOoFUZmeNnmMyPJGJ7IsAw" target="_blank"> Canal de Youtube :3</a></li>
+						<li><a href="https://www.youtube.com/playlist?list=PLuF4mLsEyJX7BYY3PFij1DXwJrHJBIdHN" target="_blank">Nuestra playlist :3</a></li>
+					</ul>
+				</nav>
+		</div>
+	
+	
+	<div class="item2">
+	
+		<h2 id="TextoH2P"> Votos del esposo: </h2>
+	
+		<p id="Esposo">
+		"Yo quiero y prometo, hacer del viaje una en mil aventuras, sin dejar que la rutina nos separe, tus sueños, metas y decisiones,
+		tu felicidad, tus caidas, seran las mias, tu felicidad sera mi prioridad alla donde estemos. ¿Vendras conmigo?, Te aseguro protejere 
+		mi promesa, aunque me duela, porque se que contigo valdra la pena"
+		</p>
+		
+		<input id="imgl2" type="image" name="Esposo" src="imagenes\Esposo.jpeg" class="Esposo"></input>
+		<audio src="Esposo.mp3"></audio>
+		
+		<script>
+		
+		var boton = document.querySelector(".Esposo")
+		var audioEtiqueta = document.querySelector("audio")
+		
+		boton.addEventListener("click", () => {
+			audioEtiqueta.setAttribute("src","audios/Esposo.mp3")
+			audioEtiqueta.play()
+			console.log("Reproduciendo: ${audioEtiqueta.src}")
+		})
+		</script>
+		
+	
+	</div>
+	
+	<div class="item3">
+	
+		<h2 id="he3"> Votos de la esposa: </h2>
+	
+		<p id="Esposa">
+		"Prometo que estaré contigo en cada momento de tu vida en el que estés, si está es un momento alegre ,
+		yo lo festejare contigo y lo recordaremos con alegría. Si es un momento, qué quisieras olvidar, estaré ahí para ti, para apoyarte 
+		de la forma en que yo lo puedo hacer, puede que no resuelva todo pero con qué pueda ayudarte aunque sea un poco de manera emocional,
+		eso me alegraría. También te prometo que estaré contigo toda la vida, no importa  los kilómetros que nos separen ni cualquier distancia en 
+		general, porque mientras pueda escuchar tu voz o tu grito uwu, eso es lo que más feliz me hace. Espero y algun dia, podamos reunirnos y así
+		poder abrazarte y decirte lo mucho que te quiero...."
+		</p>
+		
+		<input id="imgl" type="image" name="Esposa" src="imagenes\Esposa.jpeg" class="Esposa"></input>
+		<audio src="Esposa.mp3"></audio>
+		
+		<script>
+		
+		var boton = document.querySelector(".Esposa")
+		var audioEtiqueta = document.querySelector("audio")
+		
+		boton.addEventListener("click", () => {
+			audioEtiqueta.setAttribute("src","audios/Esposa.mp3")
+			audioEtiqueta.play()
+			console.log("Reproduciendo: ${audioEtiqueta.src}")
+		})
+		</script>
+	
+	</div>
+	
+	<div class="item4">
+		
+		<input type="image" name="Anillo" src="imagenes/Anillo.png" class="Reproducir"></input>
+		<audio src="Bodauwu.mp3"></audio>
+		
+		<script>
+		
+		var boton = document.querySelector(".Reproducir")
+		var audioEtiqueta = document.querySelector("audio")
+		
+		boton.addEventListener("click", () => {
+			audioEtiqueta.setAttribute("src","audios/Bodauwu.mp3")
+			audioEtiqueta.play()
+			console.log("Reproduciendo: ${audioEtiqueta.src}")
+		})
+		</script>
+
+	</div>
+	
+	</div>
+	
+	</body>
+
+</html>

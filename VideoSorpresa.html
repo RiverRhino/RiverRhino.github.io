@@ -14,6 +14,7 @@
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 		<script src="Scripts/VideoSorpresa.js"></script>
+		<script src="Scripts/screenfull.min.js"></script>
 		<title> VS </title>
     </head>
 
@@ -23,7 +24,33 @@
 
 			<h1 id="Ts" class="animate__animated animate__slideInDown"> I RAWR YOU :3 💝💕</h1>
 
-			<video id="VS" src="videos/VideoS.mp4" controls autoplay>
+			<video id="VS" src="videos/VideoS.mp4" autoplay></video>
+			
+			<div class="Divs">
+				<div class="Divs1" onclick="Plays()" id="Playvideo" title="Reproducir"> 
+					<img src="https://img.icons8.com/material-sharp/24/000000/play--v1.png"/>
+				</div>
+				
+				<div class="Divs2" onclick="Pause()" id="Playvideo2" title="Pausar">
+					<img src="https://img.icons8.com/material-rounded/24/000000/pause.png"/>
+				</div>
+
+				<div class="Divs3" id="Playvideo" onclick="Retroceder()" title="Reiniciar">
+					<img src="https://img.icons8.com/material-rounded/24/000000/recurring-appointment.png"/>
+				</div>
+
+				<div class="Divs4" onclick="BajarV()" id="Playvideo" title="Silenciar">
+					<img src="https://img.icons8.com/material-outlined/24/000000/mute.png"/>
+				</div>
+
+				<div class="Divs5"onclick="SubirV()" id="Playvideo" title="Sonido 100%">
+					<img src="https://img.icons8.com/material-rounded/24/000000/room-sound.png"/>
+				</div>
+
+				<div class="Divs6" id="Playvideo" onclick="Pantallacompleta()">
+					<img src="https://img.icons8.com/material-outlined/24/000000/full-screen--v1.png"/>
+				</div>
+		</div>
 
 		</div>
         
@@ -38,6 +65,8 @@
 				<a id="Pregunta" href="https://es.aliexpress.com/item/1005002722600337.html?spm=a2g0o.productlist.0.0.9b464b74ncc2pM&algo_pvid=5c45100c-0292-4edf-9830-486c7345a056&algo_exp_id=5c45100c-0292-4edf-9830-486c7345a056-0" style="display: none;">¿Te quieres casar conmigo y ser un duo, para toda la vida?</a>
 
 		</div>
+
+		<script src="Scripts/video.js"></script>
 
     </body>
 

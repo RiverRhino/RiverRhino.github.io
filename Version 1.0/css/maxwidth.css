@@ -1,0 +1,231 @@
+@media only screen and (max-width: 700px) {
+	
+	/*Div principales*/
+
+
+	.menusito li a{
+		color:navajowhite;
+	}
+	
+	#imglg{
+        display: block;
+        margin: auto;
+        margin-bottom: 20px;
+        margin-top: 20px;
+	}
+
+	#img{
+        display: block;
+	    margin: auto;
+        margin-bottom: 20px;
+	}
+
+    #imgu{
+        display: block;
+	    margin: auto;
+        margin-bottom: 20px;    
+    }
+
+    #imglgc{
+        margin-bottom: 20px;
+    }
+
+    #open{
+        display: block;
+        margin: auto;
+        margin-bottom: 20px;
+    }
+
+    #img5min{
+        display: block;
+	    margin: auto;
+        margin-bottom: 20px;
+    }
+
+    #BodyGal{
+        background-image: url("https://i.pinimg.com/originals/31/9a/aa/319aaa76e09ae7f1a935453366ad33a2.jpg");
+    }
+
+    #Empezamos{
+        display: block;
+	    margin: auto;
+        margin-top: -180px;
+        margin-left: -50px;
+    }
+
+    /*Juego del Ahorcado*/
+
+    #Negroh1{
+       display: block;
+       margin:auto;
+       text-align: center;
+       margin-left: 30px;
+    }
+
+    #Intento{
+        display: block;
+        margin: auto;
+    }
+
+    #Tjuego{
+        display: block;
+        margin: auto;
+    }
+
+    #Palabraad{
+        display: block;
+        margin: auto;
+    }
+
+    #Adivinar{
+        display: block;
+        margin: auto;
+    }
+
+    .Flechamedio2{
+        display: block;
+        margin: auto;
+    }
+
+    #Letritas{
+        margin:auto;
+        display: block;
+    }
+
+    #Reiniciar{
+        display: block;
+        margin: auto;
+        margin-top: 20px;
+    }
+
+    #Flecharetorno{
+        width: 30px;
+        height: 30px;
+    }
+
+        /* Video */
+    
+        #VS{
+            display: block;
+            margin: auto;
+            width:350px; 
+            height:350px;
+            margin-left: 5px ;
+        }
+    
+        #Video{
+            background-image: url("https://www.xtrafondos.com/wallpapers/vertical/espacio-estrellas-universo-nebulosa-3337.jpg");
+            margin-right: 10px;
+            margin-left: 0;
+        }
+    
+        #Ts{
+            text-align: center;
+            color:red;
+            margin-bottom: -40px;
+        }
+    
+        #TextoSP{
+            color: white;
+            display: block;
+            margin: auto;
+            text-align: center;
+        }
+    
+    /* Inicio */
+
+    #Texto{
+        margin-left: 150px ;
+        animation-name: texto;
+        color: #2F67FC;
+    }
+
+    @keyframes texto {
+        from{color:#FFFFFF}
+        to{color:#2F67FC}
+    }
+
+    #Texto:hover{
+        color:#2FF954; 
+    }
+
+    #Letras{
+        animation-name: letras;
+        color:#2F67FC;
+    }
+
+    @keyframes letras {
+        from{color:#FFFFFF}
+        to{color:#2F67FC}
+    }
+
+    #Inicial{
+        background-image: url("https://i.pinimg.com/originals/21/9a/ba/219aba703762227694708f500ad8d6ed.gif");
+    }
+
+
+    /* Model conteiner de la galeria */
+    
+    .modal{
+        background-color:#004C93;
+        width: 600px;
+        max-width: 100%;
+        border-radius: 10%;
+        padding: 30px 50px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        text-align:center;
+        margin-left: 300px;
+        margin-top: 250px;
+    }
+
+    #gif{
+        margin-left: 30px;
+    }
+
+    #close{
+        margin-left: 30px;
+    }
+
+    /* Contador */
+
+    #uwu{
+        background-image: url("https://i.pinimg.com/originals/89/3a/ff/893affd94d612d181f9f059dc09cc990.jpg");
+    }
+
+    /* Sorpresa */
+
+    #Acertijo{
+        display: block;
+        margin: auto;
+    }
+
+    #num{
+        display: block;
+        margin: auto;
+        margin-top: 20px;
+    }
+
+    #Respuesta{
+        display: block;
+        margin: auto;
+    }
+
+    #BotonSorpresa{
+        margin: auto;
+    }
+
+    #imag{
+        display: block;
+        margin: auto;
+        width: auto;
+        height: auto;
+    }
+
+    #Tit{
+        display: block;
+        margin: auto;
+        margin-bottom: 30px;
+    }
+
+
+  }
