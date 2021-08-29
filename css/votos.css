@@ -1,0 +1,76 @@
+/* Estilos de fuentes de letra*/
+@import url('https://fonts.googleapis.com/css2?family=Klee+One&display=swap');
+/*----------------------------*/
+.MenuSecundario
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.MenuSecundario ul{
+    list-style:none;
+    display: inline-flex;
+}
+
+.MenuSecundario ul li{
+    text-decoration: none;
+}
+
+.MenuSecundario ul li a{
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    font-family: 'Klee One', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    
+}
+
+body
+{
+    background-image: url("https://marketplace.canva.com/EAEK4rYL-Qk/1/0/1600w/canva-pastel-arte-l%C3%ADquido-tendencia-moderna-fondo-para-zoom-Q6zORw9qrdA.jpg");
+}
+
+.Votos
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#Esposa
+{
+    width: 170px;
+    border-radius: 5%;
+    user-select: none; 
+}
+
+#Esposo
+{
+    width: 170px;
+    border-radius: 5%;
+    user-select: none; 
+}
+
+p{
+    color:black;
+    font-size: 20px;
+    font-family: 'Klee One', cursive;
+    text-align: justify;
+    font-weight: 700;
+}
+
+p::selection
+{
+    color: purple;
+}
+
+.icon
+{
+    width: 30px;
+}
+

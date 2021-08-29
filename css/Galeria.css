@@ -5,7 +5,7 @@
 }
 
 body{
-    background-image: url("https://w.wallha.com/ws/6/JkEH2y0b.png");
+    background-image: linear-gradient(to top,#fbc8d4 0%,#9795f0 100%);
 }
 
 
@@ -31,13 +31,13 @@ body{
 
 .MenuPrincipal
 {
-    position:fixed;
-    top:30px;
-    left:20px;
-    bottom:20px;
-    border-radius: 3%;
+    position: fixed;
+    top: -10px;
+    /* left: 20px; */
+    bottom: 0px;
+    /* border-radius: 3%; */
     box-sizing: initial;
-    width:60px;
+    width: 60px;
     transition: width 1s;
     overflow: hidden;
     background-color: #5C38A5;
@@ -45,7 +45,7 @@ body{
 }
 
 .MenuPrincipal.activo{
-    width: 300px;
+    width: 330px;
 }
 
 .MenuPrincipal ul{
@@ -117,11 +117,12 @@ body{
 
 .barrita{
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: -10px;
+    /* right: 20px; */
+    margin-left: 8px;
     width: 50px;
     height: 50px;
-    cursor:pointer;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -147,7 +148,7 @@ body{
 
 #TextoPrincipal{
     margin-top: 10px;
-    font-size: 25px;
+    font-size: 20px;
     color: white;
     font-family: 'Fira Sans', sans-serif;
     padding: 2px;
@@ -155,4 +156,31 @@ body{
 
 iframe{
     width:20px;
+}
+
+.Sub
+{
+    position: sticky;
+    top: 0px;
+    background-color: #5C38A5;
+    text-align: center;
+    color: white;
+    margin-bottom: 5px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.SubGaleria
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.Apartado1{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

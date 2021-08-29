@@ -1,6 +1,6 @@
 body
 {
-    background-image: url("file:///C:/Users/Oscar/Documents/Proyecto%20Personal/imagenes/lunar-midnight.gif");
+    background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
 }
 
 #Titulo
@@ -11,7 +11,8 @@ body
 
 #Presentacion
 {
-    width: 250px;
+    width: 300px;
+    height: 580px;
     margin: auto;
     display: block;
 }

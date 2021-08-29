@@ -1,80 +1,92 @@
 
 .Galeria1
 {
-    width: 520px;
+    width: 50%;
+    max-width: 410px;
     cursor: zoom-in;
+    margin-bottom: 10px;
+    height: auto;
 }
 
 .Galeria1-1
 {
     width: 95%;
     cursor: zoom-in;
+    margin-bottom: 10px;
 }
 
 #Galeria2
 {
-    width: 520px;
+    min-width: 150px;
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    margin-bottom: 10px;
 }
 
 #Galeria3
 {
     width: 820px;
+    margin-bottom: 10px;
 }
 
 #Galeria4
 {
     width: 850px;
+    margin-bottom: 10px;
 }
 
 
 #Galeria5
 {
     width: 850px;
+    margin-bottom: 10px;
 }
 
 #Galeria6{
-    width: 800px;
+    width: 500px;
+    margin-bottom: 10px;
 }
 
 
 #Galeria7{
-    width: 850px;
+    width: 500px;
+    margin-bottom: 10px;
 }
 
 
 #Galeria8{
-    width: 600px;
+    width: 500px;
+    margin-bottom: 10px;
 }
 
 
 #Galeria9{
-    width: 900px;
+    width: 500px;
+    margin-bottom: 10px;
 }
 
 
 #Galeria10{
-    width: 850px;
+    width: 500px;
+    margin-bottom: 10px;
 }
 
 
 #Galeria11{
-    width: 90%;
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+
+#Musica{
+    width: 600px;
+    cursor:pointer;
+    margin-bottom: 10px;
 }
 /* Media Screen */
 
 @media only screen and (max-width: 700px){
-
-
-    .Galeria1
-    {
-        width: 150px;
-    }
-
-    
-    #Galeria2
-    {   
-        width: 150px;
-    }
 
     #Galeria3
 {
@@ -114,6 +126,11 @@
 
 #Galeria11{
     width: 200px;
+}
+
+
+#Musica{
+    width: 150px;
 }
 
 }
