@@ -15,3 +15,12 @@ for(let i = 0; i<list.length; i++){
         list[i].className = 'listaactiva';
     }
 }
+
+//Music//
+let Music = document.getElementById('Musica');
+let Audio = document.querySelector('audio');
+
+Music.addEventListener('click', ()=>{
+    Audio.setAttribute("src","audios/Lover is a day.mp3");
+    Audio.play();
+});
