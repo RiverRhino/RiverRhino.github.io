@@ -9,9 +9,17 @@ function menujuegos(){
 
 function Sorpresa(){
 
-    location = "https://riverrhino.github.io/Sorpresa.html"
+    location = "https://riverrhino.github.io/Sorpresa.html";
 }
 
 function Galeria(){
-    location = "https://riverrhino.github.io/Galeria.html"
+    location = "https://riverrhino.github.io/Galeria.html";
+}
+
+function Registrarse(){
+    location = "Registrarse.html";
+}
+
+function Menudejuegos(){
+    location="Menu de juegos.html";
 }
