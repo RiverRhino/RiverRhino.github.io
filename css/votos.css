@@ -1,32 +1,6 @@
 /* Estilos de fuentes de letra*/
 @import url('https://fonts.googleapis.com/css2?family=Klee+One&display=swap');
 /*----------------------------*/
-.MenuSecundario
-{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.MenuSecundario ul{
-    list-style:none;
-    display: inline-flex;
-}
-
-.MenuSecundario ul li{
-    text-decoration: none;
-}
-
-.MenuSecundario ul li a{
-    text-decoration: none;
-    color: black;
-    padding: 10px;
-    font-family: 'Klee One', cursive;
-    font-size: 20px;
-    font-weight: 700;
-    
-}
 
 body
 {
@@ -62,6 +36,7 @@ p{
     font-family: 'Klee One', cursive;
     text-align: justify;
     font-weight: 700;
+    padding: 30px;
 }
 
 p::selection
@@ -74,3 +49,37 @@ p::selection
     width: 30px;
 }
 
+#Titulo
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fira Sans', sans-serif;
+    color:black;
+    padding: 10px;
+}
+
+.Ani
+{
+    display: flex;
+    flex-direction: row;
+    flex: auto;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    padding: 40px;
+}
+
+#Anillo
+{
+    width: 100px;
+}
+
+#Subtitulo
+{
+    text-align: center;
+    font-family: 'Fira Sans', sans-serif;
+    color:black;
+    padding: 20px;
+}

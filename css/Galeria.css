@@ -37,7 +37,7 @@ body{
     bottom: 0px;
     /* border-radius: 3%; */
     box-sizing: initial;
-    width: 60px;
+    width: 0px;
     transition: width 1s;
     overflow: hidden;
     background-color: #5C38A5;
@@ -45,7 +45,7 @@ body{
 }
 
 .MenuPrincipal.activo{
-    width: 330px;
+    width: 412px;
 }
 
 .MenuPrincipal ul{
