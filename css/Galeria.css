@@ -38,11 +38,37 @@ body{
     /* border-radius: 3%; */
     box-sizing: initial;
     width: 0px;
-    transition: width 1s;
-    overflow: hidden;
+    transition: 1s;
+    overflow: auto;
+    overflow-x: hidden;
     background-color: #5C38A5;
     margin-top: 10px;
+    z-index: 9999;
 }
+
+::-webkit-scrollbar {
+    width:15px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+        width :8px;
+      }
+      
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: gray;
+      }
+      
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #DFD256;
+      }
+      
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #3F6865 ;
+      }
 
 .MenuPrincipal.activo{
     width: 412px;
@@ -127,6 +153,7 @@ body{
     justify-content: center;
     align-items: center;
     margin-top: 10px;
+    z-index: 9999;
 }
 
 .barrita icono-barra{
@@ -179,8 +206,70 @@ iframe{
     align-items: center;
 }
 
-.Apartado1{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+#Submenu
+{
+    position: relative;
+    display: block;
+    padding-left: 10px;
+    height: 60px;
+    line-height: 60px;
+    white-space: normal;
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+#Submenu:hover
+{
+    background-color: #9795f0;
+    border-radius: 20px;
+}
+
+#Submenus
+{
+    position: relative;
+    display: block;
+    padding-left: 10px;
+    height: 60px;
+    line-height: 60px;
+    white-space: normal;
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+#Submenus:hover
+{
+    background-color: #9795f0;
+    border-radius: 20px;
+}
+
+#Submenus1
+{
+    position: relative;
+    display: block;
+    padding-left: 10px;
+    height: 60px;
+    line-height: 60px;
+    white-space: normal;
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+#Submenus1:hover
+{
+    background-color: #9795f0;
+    border-bottom-left-radius: 20px;
+}
+
+#AbrirM
+{
+    position: relative;
+    display: block;
+    white-space: normal;
+    text-align: center;
 }
