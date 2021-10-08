@@ -24,3 +24,45 @@ Music.addEventListener('click', ()=>{
     Audio.setAttribute("src","audios/Lover is a day.mp3");
     Audio.play();
 });
+
+//Scrollbar
+let Submenu = document.getElementById('Submenus');
+let Submenu1 = document.getElementById('Submenus1');
+
+Submenu.addEventListener('click', Scrollbar);
+Submenu1.addEventListener('click', Scrollbars);
+
+        function Scroll()
+        {
+            window.scroll(
+         {
+                 top:0,
+                 behavior: "smooth"
+                }
+            )
+
+        }
+
+
+        function Scrollbar()
+        {
+            window.scroll(
+                {
+                    top:2680,
+                    behavior: "smooth"
+                }
+            )
+
+        }
+
+        function Scrollbars()
+        {
+            window.scroll
+            (
+                {
+                    top:6000,
+                    behavior:"smooth"
+                }
+
+            )
+        }
