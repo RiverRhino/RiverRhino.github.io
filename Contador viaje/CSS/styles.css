@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap');
+
+body
+{
+    background-color: #070C40;
+}
+
+#contador
+{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#FirstLetter
+{
+    color:white;
+    text-align: center;
+}
+
+.simply-section
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(76, 7, 97);
+    margin: 5px 5px 5px 5px;
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+}
+
+.simply-amount
+{
+    color:white;
+    font-family: 'Ubuntu', sans-serif;
+    white-space: normal;
+    margin-right: 5px;
+}
+
+.simply-word
+{
+    color:white;
+    font-family: 'Ubuntu', sans-serif;
+}
