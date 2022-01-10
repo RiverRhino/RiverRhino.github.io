@@ -20,11 +20,11 @@ hr{
 }
 
 #Orden::before{
-    content: "Lista de nuestras cosas uwu :3" ;
+    content: "Lista de actividades 💜" ;
 }
 
 #Orden::after{
-    content: "¿Faltaran más cosas.....?";
+    content: "MoonRxos-2022";
 }
 
 #NotaImg{
@@ -59,4 +59,11 @@ hr{
 ::-webkit-scrollbar-thumb{
     background-color: gray;
     border-radius: 10px;
+}
+
+#MenuC
+{
+    position: absolute;
+    top:0;
+    left:0;
 }
