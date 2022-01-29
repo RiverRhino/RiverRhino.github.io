@@ -24,8 +24,8 @@ hr{
 }
 
 #Orden::after{
-    content: "MoonRxos-2022";
-}
+    content: "MoonRxos-2022 Primer lista: 18-25/01/2022";
+} 
 
 #NotaImg{
     display: block;
@@ -66,4 +66,9 @@ hr{
     position: absolute;
     top:0;
     left:0;
+}
+
+.tachado
+{
+    text-decoration: line-through;
 }
