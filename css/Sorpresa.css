@@ -1,0 +1,72 @@
+body
+{
+    background-image: linear-gradient(to right, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%);
+}
+
+.Sorpresa1
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    flex: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.Subsorpresa1
+{
+    display: flex;
+    padding: 50px;
+}
+
+#HearthRed{
+    width: 50px;
+    height: 50px;
+    background: #f20044;
+    display: block;
+    margin: auto;
+    position: relative;
+    transform: rotate(-45deg);
+    box-shadow: -10px 10px 90px #f20044;
+    animation: heart 1s linear infinite;
+    top:80px;
+}
+
+@keyframes heart {
+   0%{
+       transform: rotate(-45deg) scale(1.07);
+       left: 40px;
+   } 
+
+   80%{
+        transform: rotate(-45deg) scale(1.0);
+        right: 0;
+    } 
+
+    100%{
+        transform: rotate(-45deg) scale(0.8);
+        right: 40px;
+    }    
+}
+
+#HearthRed::before{
+    content: " ";
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    background: #f20044;
+    top:-50%;
+    border-radius: 50px;
+    box-shadow: -10px 10px 90px #f20044;
+}
+
+#HearthRed::after{
+    content: " ";
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    background: #f20044;
+    right:-50%;
+    border-radius: 50px;
+    box-shadow: -10px 10px 90px #f20044;
+}
