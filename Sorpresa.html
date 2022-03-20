@@ -1,58 +1,28 @@
-<html>
-
-    <head>
-        <meta charset = "UTF-8">
-		<meta name = "author" content = "MoonRXOS">
-		<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
-		<meta name = "description" content = "Pagina sobre nosotros uwu">
-		<meta name = "keywords" content = "Vida,escribir una historia">
-		<link rel = "stylesheet" type ="text/css" href="css/estilos.css">
-        <link rel ="stylesheet" type="text/css" href="css/maxwidth.css">
-		<link rel="shortcut icon" href="imagenes/iconos(paginas)/iconluna.png"/>
-        <script src="Scripts/Sorpresa.js"></script>
-        <script src="Scripts/Onclicks.js"></script>
-        
-        <title> Sorpresa </title>
-    </head> 
-
-    <body class="Bodyuwu">
-
-        <div class="Sorpresagrid">
-
-            <div class="Sor1">
-
-                <h1 id="Tit"> Es una palabra que decimos para afirmar :3</h1>
-
-            </div>
-
-            <div class="Sor2">
-
-                <form>
-                    <input type="text" id="Acertijo" placeholder="Holis :3" onfocus="this.value=''">
-                    <input type="button" value="¿Es correcto?" id="num" onclick="verificar()">
-                    <p id="Respuesta"></p>
-                </form>
-
-            </div>
-
-            <div  class="Sor3">
-
-                <img id="imag">
-
-                
-            </div>
-
-            <div  class="Sor4">
-
-                <input type="button" id="BotonSorpresa" hidden value="Presiona aqui" onclick="VideoSorpresa()">
-                
-            </div>
-
-    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/Sorpresa.css">
+    <title>Sorpresa</title>
+</head>
+<body>
+    <div class="Sorpresa1">
+        <div class="Subsorpresa1">
+            <h1>Adivina la palabra :3</h1>
         </div>
-        
-        <audio src="audios/Sorpresa.m4a" type="audio/mp3" autoplay loop>
+        <div>
+            <input id="Check" type="text" placeholder="Adivina :3">
+            <button id="tru">¿Correcto?</button>
 
-    </body>
+        </div>
+        <div id="HearthRed" title="Tu casita ❤"> 
+    </div>
 
+    <script src="Scripts/check.js"></script>
+
+    </div>
+    
+</body>
 </html>
