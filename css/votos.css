@@ -4,7 +4,8 @@
 
 body
 {
-    background-image: url("https://marketplace.canva.com/EAEK4rYL-Qk/1/0/1600w/canva-pastel-arte-l%C3%ADquido-tendencia-moderna-fondo-para-zoom-Q6zORw9qrdA.jpg");
+    background-image: url("https://fondosmil.com/fondo/54336.png");
+    background-repeat: no-repeat;
 }
 
 .Votos
@@ -41,7 +42,7 @@ p{
 
 p::selection
 {
-    color: purple;
+    color: white;
 }
 
 .icon
