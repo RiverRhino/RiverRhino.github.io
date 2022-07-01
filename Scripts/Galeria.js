@@ -25,7 +25,7 @@ Music.addEventListener('click', ()=>{
     Audio.play();
 });
 
-//Scrollbar
+/* //Scrollbar
 let Submenu = document.getElementById('Submenus');
 let Submenu1 = document.getElementById('Submenus1');
 
@@ -65,4 +65,4 @@ Submenu1.addEventListener('click', Scrollbars);
                 }
 
             )
-        }
+        } */

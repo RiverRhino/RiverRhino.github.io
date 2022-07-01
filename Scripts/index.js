@@ -5,6 +5,8 @@ resultado = `<h1>Holis</h1>
 `;
 */
 
+const { IncomingMessage } = require("http");
+
 /* let array = ["Hola", 3, "Si", "Mexico"];
 
 let frutas = ["manzana", "banana", "pera", "naranja"];
@@ -27,13 +29,13 @@ document.write(pc["procesador"]); */
 //Bucles y interacion//
 
 //let numeroParaSumar = 0;
-
+/* 
  while(numeroParaSumar < 10){
     numeroParaSumar++;
     document.write(numeroParaSumar);
 } 
-
- 
+ */
+/*  
 do{
     numeroParaSumar++;
     document.write(numeroParaSumar+ "<br>");
@@ -45,12 +47,12 @@ do{
 for(let i = 0; i < 8; i++){
     document.write(i)
 }
-
+ */
 //For in (posiciones) && For of(valores)//
 
 //Funciones//
 
-function Holis(){
+/* function Holis(){
     let nombre = prompt("Me pasas tu nombre");
     if(nombre == "dino"){  
     alert("Hola ratoncita :3")
@@ -60,8 +62,28 @@ function Holis(){
 }
 
 Holis(); */
-
+/* 
 const Holis = ()=>{
     prompt("Hola xD")
 }
-Holis();
+Holis(); */
+/* 
+class animal
+{
+    constructor(especie,edad,color ){
+        this.especie = especie;
+        this.edad = edad;
+        this.color = color
+    }
+}
+
+let perro = new animal();
+ */
+// extends es para heredar de la clase
+
+//objeto debe ser diferente de la variable
+
+//super
+
+
+

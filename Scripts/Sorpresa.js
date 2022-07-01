@@ -1,29 +1,22 @@
+let mostrar = document.getElementById('tru');
+
 function verificar(){
     
-    var cambiar = document.getElementById('Respuesta');
-    let Adiv = document.querySelector('#Acertijo').value;
-    let img = document.querySelector('#imag');
-    let ver = "Acepto";
-    let mostrar = document.getElementById('BotonSorpresa');
-    mostrar.style.display = 'none';
+    let Adiv = document.querySelector('#Acertijo').value;   // El input donde va introducido el texto
+    let ver = "Acepto";                                     // La respuesta
+    let respuesta = document.getElementById('Sorpresalink');
 
     if(Adiv == ver){
-        mostrar.style.display='block';
-        cambiar.innerHTML = "Correcto :3";
-        img.src="imagenes/dinosaurio corazon.gif";
+
+        respuesta.style.display = 'block';
+
     }
     
     if(Adiv != ver){
-        cambiar.innerHTML = "No es correcto :(";
-        img.src="imagenes/rikkatriste.gif";
+
         
     }
 
 }
 
-function VideoSorpresa(){
-
-    location = "VideoSorpresa.html";
-
-}
-
+mostrar.addEventListener('click' , verificar);
