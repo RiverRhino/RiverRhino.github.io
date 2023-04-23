@@ -1,33 +1,31 @@
-*{
-    padding: 0;
-    margin: 0;
-    margin-top: 0;
+.Dig
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    
 }
 
-body{
+body
+{
     background-color: #54084D;
 }
 
 
-.Galeria{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+img
+{
+ max-width: 30%;
+ padding-top: 5px;
 }
 
-.Galeria1-5{
-    height: 100%;
-    align-items: center;
+h1
+{
+    color: white;
     text-align: center;
 }
 
-.GaleriaPrincipal{
-    display: flex;
-    align-items: center;
-    flex-flow: column;
-    padding-left: 0px;
-    justify-content: center;
-}
+/*Menu de opciones*/
 
 .MenuPrincipal
 {
@@ -46,29 +44,6 @@ body{
     z-index: 9999;
 }
 
-::-webkit-scrollbar {
-    width:15px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-        width :8px;
-      }
-      
-      /* Track */
-      ::-webkit-scrollbar-track {
-        background: beige;
-      }
-      
-      /* Handle */
-      ::-webkit-scrollbar-thumb {
-        background: rgb(20, 125, 151);
-      }
-      
-      /* Handle on hover */
-      ::-webkit-scrollbar-thumb:hover {
-        background: #3F6865 ;
-      }
 
 .MenuPrincipal.activo{
     width: 412px;
@@ -144,16 +119,16 @@ body{
 .barrita{
     position: fixed;
     top: -10px;
-    /* right: 20px; */
     margin-left: 8px;
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
     z-index: 9999;
+    padding: 10npx;
 }
 
 .barrita icono-barra{
@@ -173,17 +148,6 @@ body{
     display: none;
 }
 
-#TextoPrincipal{
-    margin-top: 10px;
-    font-size: 20px;
-    color: white;
-    font-family: 'Fira Sans', sans-serif;
-    padding: 2px;
-}
-
-iframe{
-    width:20px;
-}
 
 .Sub
 {
@@ -273,3 +237,15 @@ iframe{
     white-space: normal;
     text-align: center;
 }
+
+
+@media only screen and (max-width: 600px)
+{
+img
+{
+ max-width: 100%;
+ 
+}
+
+}
+
