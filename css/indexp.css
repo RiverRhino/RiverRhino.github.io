@@ -14,7 +14,7 @@ body{
 h1{
     font-size: 60px;
     font-family: "TASA Explorer", sans-serif;
-  font-optical-sizing: auto;
+    font-optical-sizing: auto;
 }
 
 ul,ol{
