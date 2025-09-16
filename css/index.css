@@ -1,0 +1,18 @@
+body
+{
+    background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
+}
+
+#Titulo
+{
+    color:white;
+    text-align: center;
+}
+
+#Presentacion
+{
+    width: 300px;
+    height: 580px;
+    margin: auto;
+    display: block;
+}

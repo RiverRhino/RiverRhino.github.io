@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap');
+
+body
+{
+    background-color: #070C40;
+}
+
+#contador
+{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#FirstLetter
+{
+    color:white;
+    text-align: center;
+}
+
+.simply-section
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(76, 7, 97);
+    margin: 5px 5px 5px 5px;
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+}
+
+.simply-amount
+{
+    color:white;
+    font-family: 'Ubuntu', sans-serif;
+    white-space: normal;
+    margin-right: 5px;
+}
+
+.simply-word
+{
+    color:white;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#display
+{
+    margin: auto;
+    display: block;
+    max-width: 80%;
+    margin-top: 10px;
+}
+
+p
+{
+    text-align: center;
+    color: white;
+}
+
+.imagen
+{
+    position: absolute;
+    width: 180px;
+    animation: linear;
+    animation-name: correr;
+    animation-duration: 5s;
+}
+
+@keyframes correr {
+
+    0%
+    {
+        left:50px;
+    }
+
+    50%
+    {
+        left:500px;
+    }
+
+    100%
+    {
+        left:0px;
+    }
+}
+
+.imagen2
+{
+    position: absolute;
+    width: 180px;
+    right: 0px;
+    top: 2px;
+    width: 180px;
+    animation: linear;
+    animation-name: correr2;
+    animation-duration: 5s;
+}
+
+@keyframes correr2 {
+
+    0%
+    {
+        right:50px;
+    }
+
+    50%
+    {
+        right:500px;
+    }
+
+    100%
+    {
+        right:0px;
+    }
+
+}
+
+
+@media only screen and (max-width: 1260px) {
+
+    .imagen{
+        display:none;
+    }
+
+    .imagen2{
+        display:none;
+    }
+    
+}

@@ -1,0 +1,834 @@
+/* Cierre de los max width */
+
+div h2{
+	color:white;
+	text-align:justify;
+	margin-left:20px;
+	padding:10px;
+}
+
+div p{
+	color:white;
+	text-align:justify;
+	font: 20px verdana;
+	margin-left:20px;
+	padding:10px;
+}
+
+#c{
+	color:#0DBC1D;
+}
+
+#c2{
+	color:#BC0D1D;
+}
+
+/* Inicio del grid */
+.grid{
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	grid-gap: 0px;
+	padding: 2px;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.grid > div{
+	padding: 0px 0;
+}
+
+.item1{
+	grid-column-start: 1;
+	grid-column-end: 4;
+}
+
+.MenuPrincipal{
+	grid-column-start: 1;
+	grid-column-end: 2;
+}
+
+.item3{
+	grid-column-start: 3;
+	grid-column-end: 4;
+}
+
+.item4{
+	grid-column-start: 1;
+	grid-column-end: 4;
+}
+
+.gridgaleria{
+	display: grid;
+	grid-template-columns: auto auto;
+	box-sizing: border-box;
+	width: 80%;
+	grid-area: auto;
+}
+
+.gridgaleria1{
+	grid-column-start: 1;
+	grid-column-end: 2;
+}
+
+.gridgaleria2{
+	grid-column-start: 3;
+	grid-column-end: 4;
+}
+
+
+
+/* Grid para pagina juegos (Ahorcado) */
+
+.Juegosgrid{
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	grid-gap: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+/*Encabezado*/
+.Flechaarriba{
+	grid-column-start: 1;
+	grid-column-end: 5;
+}
+
+.Flechamedio{
+	grid-column-start:1;
+	grid-column-end:5;
+}
+
+.Flechamedio2{
+	grid-column-start:1;
+	grid-column-end:5;
+	height: 220px;
+	width: 200px;
+	background-image: url("https://pablomonteserin.com/wp-content/uploads/2020/05/hangman-game_pm-1024x212.png");
+	margin-left: 600px;
+}
+
+.Flechaabajo{
+	grid-column-start:1;
+	grid-column-end:5 ;
+}
+
+/* Fin del grid */
+
+/* Grid para sorpresa */
+
+.Sorpresagrid{
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	grid-gap: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+/*Div del Sorpresagrid*/
+
+.Sor1{
+	grid-column-start:1;
+	grid-column-end:5;
+}
+
+.Sor2{
+	grid-column-start:1;
+	grid-column-end:5;
+}
+
+.Sor3{
+	grid-column-start:1;
+	grid-column-end:5;
+}
+
+.Sor4{
+	grid-column-start:1;
+	grid-column-end:5;
+}
+
+/* Div para menu de juegos */
+
+.MenuJuegoPr{
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	grid-gap: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.Menujuego1{
+	grid-column-start:1;
+	grid-column-end: 5;
+}
+
+.Menujuego2{
+	grid-column-start:1;
+	grid-column-end: 5;
+}
+
+.Menujuego3{
+	grid-column-start:1;
+	grid-column-end: 5;
+}
+
+.Menujuego4{
+	grid-column-start:1;
+	grid-column-end: 5;
+}
+
+
+/* Texto para el H1*/
+
+h1{
+	color:white;
+	text-align:center;
+	user-select: none;
+}
+
+#Negroh1{
+	color:#B00101;
+	font-family: fantasy;
+	font-size: 40px;
+	margin-left: 130px;
+}
+
+
+#Tminijuegos{
+	color: #6A029E;
+	font-family: cursive;
+	font-size: 40px;
+	display: block;
+	margin: auto;
+	background-color: black;
+	width:300px;
+}
+
+
+/* Texto para el H2 */
+#TextoH2P{
+	color:white;
+	animation-name: esposo;
+	animation-duration:10s;
+}
+
+/* Texto para el H3 */
+
+#he3{
+	color:white;
+	animation-name: esposa;
+	animation-duration:10s;
+}
+
+
+/*Animacion del "Titulo" de votos */
+
+@keyframes esposo {
+  from {color: white;}
+  to {color: green;}
+}
+
+@keyframes esposa {
+	from {color: white;}
+	to {color: red;}
+  }
+
+/* Fin de las animaciones */
+
+
+/* Diseño para las imagenes */ 
+
+#img{
+	width:300px;
+	height:300px;
+	transition: 3s;
+	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
+}
+
+#imgu{
+	width:300px;
+	height:300px;
+	margin-right:10px;
+	transition: 3s;
+	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
+}
+
+#img:hover{
+	transform: scale(1.4);
+	box-shadow: 3px 3px 8px 8px gray;
+	user-select: none;
+}
+
+#imgu:hover{
+	transform: scale(1.5);
+	box-shadow: 3px 3px 8px 8px gray;
+}
+
+#imgl{
+	width:250px;
+	height:250px;
+	float:left;
+	user-select: none;
+	border-radius: 3%;
+	margin: auto;
+	display: block;
+}
+
+#imgl2{
+	width:250px;
+	height:250px;
+	float:right;
+	margin-top:168px;
+	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
+}
+
+#imglg{
+	width:450px;
+	height:300px;
+	margin-top:10px;
+	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
+}
+
+#imglgc{
+	width:500px;
+	height:300px;
+	margin-top:10px;
+	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
+}
+
+#imgrt{
+	width:70px;
+	height:80px;
+	float:left;
+	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
+}
+
+#imginicio{
+	float:right;
+	width:80px;
+	height:80px;
+	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
+}
+
+#img5min{
+	width: 350px;
+	height:350px;
+	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
+}
+
+#imag{
+	user-select: none;
+	border-radius: 3%;
+	display: block;
+	margin: auto;
+}
+
+/* Cierre del diseño de las imagenes */
+
+
+/*Diseño para el menu de la pagina */
+
+.MenuPrincipal{
+	position: fixed;
+	width: 300px;
+	border-radius: 10px; 
+	box-sizing: initial;
+	transition: 1s;
+}
+
+.MenuPrincipal ul{
+	position: absolute;
+	top: 0;
+	list-style-type:none;
+	width: 100%;
+	overflow: hidden;
+}
+
+.MenuPrincipal li{
+	position: relative;
+	list-style:none;
+	width: 100%;
+}
+
+.MenuPrincipal ul li a{
+	position: relative;
+	display:block;
+	width: 100%;
+	display: flex;
+	color:white;
+	text-align:center;
+	text-decoration: none;
+	font: bold 16px verdana;
+}	
+
+.MenuPrincipal ul li a .icono
+{
+	position: relative;
+	display: block;
+	min-width: 60px;
+	height: 60px;
+	line-height:70px;
+	text-align: center;
+}
+
+.MenuPrincipal ul li a .title
+{
+	position: relative;
+	display: block;
+	padding-left: 5px;
+	min-width: 60px;
+	height: 60px;
+	line-height:60px;
+	white-space: normal;
+}
+
+.MenuPrincipal a:hover{
+	color:#F8FF6A;
+}
+
+#menunv ul{
+	list-style-type:none;
+	margin-left:20px;
+	padding:0px;
+	overflow: hidden;
+	text-align:center;
+}
+
+#menunv li{	
+	float:left;
+}
+
+#menunv li a:hover{
+	color:#F8FF6A;
+}
+
+#menunv li a{
+	display:block;
+	color:white;
+	text-align:center;
+	padding:16px 16px;
+	text-decoration: none;
+	font: bold 16px verdana;
+}
+
+#menunv li ul{
+	display:none;
+    position:absolute;
+	left:55px;
+}
+
+#menunv li:hover ul{display:block;}
+
+/* Cierre del diseño de los menus */
+
+/* Diseño de botones */
+#boton{
+	border-radius:40%;
+	padding:20px;
+}
+
+#Adivinar{
+	padding: 8px;
+	border-radius: 15%;
+	border-color: #F7F575 ;
+	background-color: #F7F575 ;
+	color:black;
+	border: 0;
+	margin-left: 570px;
+	margin-top: 40px;
+}
+
+#Reiniciar{
+	padding: 8px;
+	border-radius: 15%;
+	border-color: #E87A7A ;
+	background-color:#E87A7A  ;
+	border:0;
+}
+
+#Botonaceptar{
+
+	background-color: greenyellow;
+
+}
+
+#BotonSorpresa{
+	width: 110px;
+	height: 30px;
+	margin-left: 600px;
+	margin-top: 50px ;
+	color:ghostwhite;
+	background-color: #2E303D;
+	border-color:#2E303D ;
+	border: 0px;
+	font-family: bold, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	border-radius: 10%;
+}
+
+#close{
+	background-color: antiquewhite;
+	border:0;
+	padding: 8px;
+	margin-left: 10px;
+}
+
+#num{
+	padding: 5px;
+	border: 0;
+	border-radius: 15%;
+	background-color: white;
+	font-weight: bold;
+	font-size: 14px;
+	margin-left: auto;
+	margin-right: auto;
+	transition: 1s;
+}
+
+#num:hover{
+
+	background-color: #009B62;
+
+}
+
+
+/* Cierre del diseño de botones */
+
+
+/* Caja de Texto */
+
+#Letritas{
+	background-color: #AFAFAF;
+	outline: none;
+	font-family: sans-serif;
+	color: black;
+	border: 0;
+	text-align: center;
+	margin-left: 670px;
+}
+
+#Acertijo{
+	margin-top: 100px;
+	background-color:blanchedalmond;
+	border-radius: 15%;
+	border-style: none;
+	padding: 10px;
+	color:#222222;
+	text-align: center;
+	margin-left: 520px;
+	outline: none;
+}
+
+/* Fin diseño caja de textos */
+
+
+/* Diseño de los "p" */
+
+#Tjuego{
+	font-family: verdana;
+	font-size: 18px;
+	color:black;
+	margin-left: 570px;
+}
+
+#Palabraad{
+	font-family: 'Times New Roman', Times, serif;
+	font-size: 16px;
+	color:black;
+	margin-left: 650px;
+}
+
+#Intento{
+	background-color: coral;
+	font-family: Verdana;
+	text-align: center;
+	margin-right: 490px;
+	margin-left: 600px;
+}
+
+#Respuesta{
+	color:white;
+	text-align: center;
+}
+
+#Esposo{
+	color:white;
+	text-align:justify;
+	font: 20px verdana;
+	margin-left:20px;
+	padding:10px;
+}
+
+#Esposo::selection{
+	color:green;
+}
+
+#Esposa{
+	color:white;
+	text-align:justify;
+	font: 20px verdana;
+	margin-left:20px;
+	padding:10px;
+}
+
+#Esposa::selection{
+	color:red;
+}
+
+/* Cierre de diseño "p" */
+
+/* Input "type=image" */
+
+#Ahorcado{
+	text-decoration: none;
+	color:cadetblue;
+	background-color: chartreuse;
+	width: 100px;
+}
+
+#Flecharetorno{
+	float:left;
+	width:45px;
+	height: 45px;
+	margin-top: 20px;
+}
+
+#Flecharetorno2{
+	float: left;
+	width: 45px;
+	height: 45px;
+}
+
+.MinijuegoA{
+	width: 180px;
+	height: 170px;
+	border-radius: 20%;
+}
+
+.MinijuegoA:hover{
+	
+	width: 185px;
+	height: 175px;
+	box-shadow: 3px 3px 3px 3px#781202 ;
+
+}
+
+#Empezamos{
+	outline: none;
+	display: block;
+	margin: auto;
+	width: 400px;
+	margin-top:-210px;
+}
+
+#Empezamos::selection{
+	user-select: none;
+}
+
+/* Cierre de referencias */
+
+/* Modal container */
+
+/* Diseño de bodys */
+
+.Bodyuwu{
+	background-image: url('https://i.pinimg.com/originals/31/82/e5/3182e579d9e985daa8168ea729da7cba.gif');
+	width: auto;
+	height: auto;
+}
+
+/* Cierre de este diseño */
+
+
+
+/*Pagina de "jue.html" */
+
+#Prueba{
+	color:black;
+}
+
+
+
+.Formulario{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	opacity: 10px;
+	top:0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	background-color: gray;
+}
+
+.Contenedor{
+	background-color:#6CB7BD;
+	width: 600px;
+	max-width: 100%;
+	border-radius: 5%;
+	padding: 30px 50px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+	text-align:center;
+}
+
+.Reproducir{
+	width:80px;
+	height:80px;
+	margin-left:40px;
+}
+
+#boda{
+	width:80px;
+	height:80px;
+}
+
+
+video{
+	float:right;
+}
+
+button{
+	background: #FDFD81;
+	border-color: #FDFD81 ;
+	border-radius: 20%;
+}
+
+.modal-container{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	pointer-events: none;
+	opacity: 0;
+	top:0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+}
+
+.show{
+	pointer-events: auto;
+	opacity: 1;
+}
+
+.modal{
+	background-color:#004C93;
+	width: 600px;
+	max-width: 100%;
+	border-radius: 10%;
+	padding: 30px 50px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+	text-align:center;
+}
+
+#open{
+	width:300px;
+	height:300px;
+	margin-right:10px;
+	user-select: none;
+}
+
+#letras3{
+	font-size: 12px;
+	text-align: justify;
+}
+
+#gif{
+	width: 250px;
+	height: 200px;
+	border-radius: 10%;
+	margin-left: 30px;
+}
+
+#icon{
+	width: 35px;
+	height: 35px;
+	float: right;
+}
+
+#texto{
+	text-decoration: none;
+	text-align: center;
+	color:white;
+	position: sticky;
+	margin-left: 440px;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 100px;
+	animation-name: texto;
+	animation-duration: 20s;
+}
+
+#texto:hover{
+	color: red;
+}
+
+@keyframes texto {
+	from {color: black;}
+	to {color: white;}
+  }
+
+
+#letras{
+text-align: center;
+animation-name: letras;
+animation-duration: 20s;
+font-size: 50px;
+}
+
+@keyframes letras {
+	from {color: black;}
+	to {color: white;}
+  }
+
+/* width */
+::-webkit-scrollbar {
+	width: 8px;
+	background-image: url("https://cdn.wallpapersafari.com/91/26/hXsK6W.jpg");
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+	background-color: gray;
+	border-radius: 20px;
+	width: 8px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+	background: red;
+	width: 8px;
+	border-radius: 20px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+	background: green;
+  }
