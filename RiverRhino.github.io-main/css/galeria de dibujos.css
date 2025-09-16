@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=TASA+Explorer:wght@400..800&display=swap');
+
+.contendores{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+}
+
+img{
+    border-radius: 8px;
+    border: 5px solid black;
+}
+
+.contenedor1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "TASA Explorer", sans-serif;
+    border-radius: 8px;
+}
+
+#dibujo{
+    color: white;
+    font-family: "TASA Explorer", sans-serif;
+    list-style: none;
+    font-size: 30px;
+    font-weight: bold;
+}

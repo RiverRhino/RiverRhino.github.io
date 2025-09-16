@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<meta charset = "UTF-8">
+		<meta name = "author" content = "MoonRXOS">
+		<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+		<meta name = "description" content = "Pagina sobre nosotros uwu">
+		<meta name = "keywords" content = "Vida,escribir una historia">
+		<link rel = "stylesheet" type ="text/css" href="css/estilos2.css">
+        <link rel ="stylesheet" type="text/css" href="css/maxwidth.css">
+		<link rel="shortcut icon" href="imagenes/iconos(paginas)/iconluna.png"/>
+		<script src="Scripts/Onclicks.js"></script>
+        <title> Galeria </title>
+    </head>
+	
+	<body id="BodyGal">
+
+	<div class="grid">
+		<div class="item1">
+			<input id="imgrt" type="image" name="Dinosaurio" src="imagenes\D.png" class="Reproducir"></input>
+				<audio src="audios/Dinosaurio.mp4"></audio>
+					<script>
+						var boton = document.querySelector(".Reproducir")
+						var audioEtiqueta = document.querySelector("audio")
+		
+							boton.addEventListener("click", () => {
+							audioEtiqueta.setAttribute("src","audios/Dinosaurio.mp4")
+							audioEtiqueta.play()
+							console.log("Reproduciendo: ${audioEtiqueta.src}")
+						})
+					</script>
+		
+			<input id="imginicio" type ="image" name ="Gato" src="imagenes\maid.png" class="Reproducir1"></input>
+				<audio src="audios/Gato..m4a"></audio>
+					<script>
+					var boton = document.querySelector(".Reproducir1")
+					var audioEtiqueta = document.querySelector("audio")
+			
+						boton.addEventListener("click", () => {
+						audioEtiqueta.setAttribute("src","audios/Gato.m4a")
+						audioEtiqueta.play()
+						console.log("Reproduciendo: ${audioEtiqueta.src}")
+					})
+					</script>
+
+			<h1> Galeria del mejor <span id="c">AR</span><span id="c2">TE</span></h1>
+		</div>
+		
+		<div class="item2">
+			<nav class="menusito">
+        		<ul>
+				<li><a href="index.html">Inicio</a></li>
+           		 <li><a href="Galeria.html">Galeria</a></li>
+           		 <li><a href="Galeria.html">Boda</a><ul>
+                	<li><a href="Votos.html">Votos</a></li>
+           		 </ul></li>
+            	<li><a href="Menu de juegos.html">Juegos</a></li>
+				<li><a href="https://www.youtube.com/channel/UCgOoFUZmeNnmMyPJGJ7IsAw" target="_blank"> Canal de Youtube :3</a></li>
+				<li><a href="https://www.youtube.com/playlist?list=PLuF4mLsEyJX7BYY3PFij1DXwJrHJBIdHN" target="_blank">Nuestra playlist :3</a></li>
+				</ul>
+			</nav>
+		</div>
+		
+		<div class="item3">
+			<img id="imglg" src="imagenes\GALLERY/Boda.jpg">
+			<img id="imglgc" src="imagenes\GALLERY/3.jpeg">
+			<img id="img" src="imagenes\GALLERY/2.jpg">
+			<img id="imglgc" src="imagenes\GALLERY/P.png">
+			<img id="imglgc" src="imagenes\GALLERY/Moon.jpeg">
+			<img id="imgu" src="imagenes\GALLERY/1.png">
+			<img id="img" src="imagenes/GALLERY/dulce.png">
+			<img id="img" src="imagenes/GALLERY/votos.png">
+			<input id="open" type="image" name="Aniversario" src="imagenes\GALLERY/mes.jpeg"></input>
+			<a href="Sorpresa.html" target="_blank"><img id="img5min" src="imagenes/GALLERY/5 minutos mas.png"></a>
+
+			<div class="modal-container" id="modal_container">
+				<div class="modal">
+					<h1>Feliz aniversario de 1 mes!!!!!!!!</h1>
+						<img id="gif" src="imagenes\Mess.gif">
+							<p id="letras3">
+								Ya hemos cumplido un mes (aaaaaaaaaaaaaaaaaaaaaaaaaaa), puede que sea poco tiempo pero siento que llevamos mucho mas, 
+								desde que empezamos a hablar, cada dia tenia una emocion por querer escucharte, por hacer algo juntos, imaginar a futuro
+								las actividades que deseo hacer contigo y cuando llego el dia de la confesion, a la mañana siguiente no lo asimilaba, sentia 
+								que era un sueño pero al hablarte vi que no, todo fue real y tuve una emocion, porque no habia conectado tan bien con una persona, 
+								en tan poco tiempo......Solo dire, feliz aniversarioooo ratoncita, I RAWR YOU :3, TE AMO, TE QUIERO MUCHO, GRACIAS POR ESTAR CONMIGO!!!!.	
+							</p>
+								<button id="close">Acepto</button>
+				</div>
+				<script>
+					const open = document.getElementById('open');
+					const modal_container = document.getElementById('modal_container');
+					const close = document.getElementById('close');
+			
+					open.addEventListener('click', () => {
+						modal_container.classList.add('show');
+					});
+			
+					close.addEventListener('click', () =>{
+					modal_container.classList.remove('show');
+					});
+				</script>
+			</div>
+
+		</div>
+
+		<div class="item4">
+			<a href="https://www.youtube.com/channel/UCgOoFUZmeNnmMyPJGJ7IsAw"  target="_blank"><img id="icon" src="imagenes\Youtube.png"></a>
+			<a href="https://www.instagram.com/moonrxos/"  target="_blank"><img id="icon" src="imagenes\Instagram.png"></a>
+			<!--<a href="MoonRxos.apk" download="AppMoonRxos" > Descarga nuestra aplicacion para celular :3</a> -->
+		</div>
+
+	</div>
+
+	</body>
+</html>

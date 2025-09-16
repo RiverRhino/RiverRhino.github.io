@@ -1,0 +1,212 @@
+body
+{
+    background-color: rebeccapurple;
+}
+
+
+#ImgM
+{
+    width: 100px;
+}
+
+#Incorrecto
+{
+    width: 150px;
+}
+
+#Incorrecto1
+{
+    width: 150px;
+}
+
+#Incorrecto2
+{
+    width: 150px;
+}
+
+#Correcto
+{
+    width: 150px;
+}
+
+.DiseñoExam
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center ;
+}
+
+.Imagenes
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.titulo
+{
+    text-align: center;
+    color:white;
+}
+
+.respuesta
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#Validar
+{
+    background-color: aquamarine;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar1
+{
+    background-color: red;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar2
+{
+    background-color: green;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar3
+{
+    background-color: orange;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar4
+{
+    background-color: purple;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar5
+{
+    background-color: yellow;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar6
+{
+    background-color: blueviolet;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar7
+{
+    background-color: khaki;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar8
+{
+    background-color: indianred;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar9
+{
+    background-color: firebrick;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar10
+{
+    background-color: lawngreen;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar11
+{
+    background-color: mediumseagreen;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar12
+{
+    background-color: palevioletred;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar13
+{
+    background-color: magenta;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+#Validar14
+{
+    background-color: gray;
+    border-radius: 5px;
+    border:0;
+    padding: 5px;
+}
+
+
+label
+{
+    color: white;
+    font-size: 20px;
+}
+
+h1{
+    text-align: center;
+    color: white;
+}
+
+#Foto
+{
+    width: 120px;
+    padding-right: 5px;
+    filter: grayscale(100%);
+    border-radius: 50%;
+    user-select: none;
+}
+
+.F1
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}

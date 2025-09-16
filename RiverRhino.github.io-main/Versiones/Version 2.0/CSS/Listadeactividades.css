@@ -1,0 +1,74 @@
+body{
+    position: relative;
+    background-color: #F1EF5B;
+}
+
+hr{
+    height: 2px;
+    background-color: black;
+    border: 0%;
+    border-color: black;
+  }
+
+#Orden{
+    font-family: 'Zen Loop', cursive;
+    font-size: 40px;
+    display: block;
+    margin: auto;
+    font-weight: bold;
+    user-select: none;
+}
+
+#Orden::before{
+    content: "Lista de actividades 💜" ;
+}
+
+#Orden::after{
+    content: "MoonRxos-2022 Primer lista: 18-25/01/2022";
+} 
+
+#NotaImg{
+    display: block;
+    margin: auto;
+    width: 100px;
+    height: 90px;
+    border-radius: 10px;
+    transition: 1s;
+}
+
+#NotaImg:hover{
+    transform: scale(4.0);
+}
+
+.videonuestro{
+    display: block;
+    margin: auto;
+    width:540px; 
+    height:310px;
+    border-radius: 3%;
+}
+
+#Cancion{
+    text-align: center;
+}
+
+::-webkit-scrollbar{
+    background-color: #4F4F4F;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: gray;
+    border-radius: 10px;
+}
+
+#MenuC
+{
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.tachado
+{
+    text-decoration: line-through;
+}

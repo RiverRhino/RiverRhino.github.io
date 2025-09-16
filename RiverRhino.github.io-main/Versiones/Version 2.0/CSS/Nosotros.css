@@ -1,0 +1,42 @@
+.Principal{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: aquamarine;
+}
+
+.Section1{
+    background-color: aliceblue;
+    text-align: center;
+}
+
+.Section2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center;
+    background-color: aquamarine;
+}
+
+.Section2 ul{
+    list-style: none;
+}
+
+.Section2 ul li a{
+    list-style: none;
+    text-decoration: none;
+    color:black;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+iframe{
+    border:0;
+    display: block;
+    margin: auto;
+}
+
+
