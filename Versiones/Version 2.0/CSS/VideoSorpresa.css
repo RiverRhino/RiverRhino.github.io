@@ -1,0 +1,51 @@
+.Container
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+body
+{
+    background-image: url("https://thumbs.dreamstime.com/b/dise%C3%B1o-de-fondo-patrones-morados-patr%C3%B3n-morado-para-uso-con-dise%C3%B1os-en-la-creaci%C3%B3n-contenido-168371057.jpg");
+}
+
+#Ts
+{
+    color:black;
+    background-color: beige;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+#Regalobtn
+{
+    max-width: 200px;
+}
+
+#VS
+{
+    max-width: 800px;
+    width: 100%;
+}
+
+#TextoSP
+{
+    color:black;
+    font-size: 20px;
+    background-color: beige;
+    border-radius: 15px;
+    text-align: center;
+    padding: 5px;
+}
+
+#Pregunta
+{
+    color:black;
+    font-size: 20px;
+    background-color: beige;
+    text-align: center;
+    padding: 5px;
+}

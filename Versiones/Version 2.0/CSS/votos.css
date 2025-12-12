@@ -1,0 +1,87 @@
+/* Estilos de fuentes de letra*/
+@import url('https://fonts.googleapis.com/css2?family=Klee+One&display=swap');
+/*----------------------------*/
+
+body
+{
+    background-image: url("https://fondosmil.com/fondo/54336.png");
+    background-repeat: no-repeat;
+}
+
+.Votos
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#Esposa
+{
+    width: 170px;
+    border-radius: 5%;
+    user-select: none; 
+}
+
+#Esposo
+{
+    width: 170px;
+    border-radius: 5%;
+    user-select: none; 
+}
+
+p{
+    color:black;
+    font-size: 20px;
+    font-family: 'Klee One', cursive;
+    text-align: justify;
+    font-weight: 700;
+    padding: 30px;
+}
+
+p::selection
+{
+    color: white;
+}
+
+.icon
+{
+    width: 30px;
+}
+
+#Titulo
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fira Sans', sans-serif;
+    color:black;
+    padding: 10px;
+}
+
+.Ani
+{
+    display: flex;
+    flex-direction: row;
+    flex: auto;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    padding: 40px;
+}
+
+#Anillo
+{
+    width: 100px;
+}
+
+#Subtitulo
+{
+    text-align: center;
+    font-family: 'Fira Sans', sans-serif;
+    color:black;
+    padding: 20px;
+}
+

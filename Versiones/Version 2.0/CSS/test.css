@@ -1,0 +1,12 @@
+button
+{
+    padding: 15px;
+    border-radius: 10%;
+    border:0;
+    background-color: aquamarine;
+}
+
+button:hover
+{
+    background-color: blueviolet;
+}

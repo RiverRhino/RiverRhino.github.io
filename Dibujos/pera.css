@@ -1,0 +1,152 @@
+#tallo{
+    background-color: brown;
+    width: 20px;
+    height: 90px;
+    margin-bottom: -59px;
+    margin-left: 96px;
+    border-radius: 20px;
+}  
+
+#circle{
+    background: #d6b238;
+    border-radius: 50%;
+    width: 210px;
+    height: 220px;
+    margin-top: -110px;
+}
+
+#circle2{
+    background: #d6b238;
+    border-radius: 50%;
+    width: 170px;
+    height: 190px;
+    margin-left: 20px;
+    margin-top: 50px;
+}
+
+#circle3{
+    background: rgb(240, 225, 194);
+    border-radius: 50%;
+    width: 120px;
+    height: 130px;
+    margin-left: 10px;
+    margin-top: -170px;
+}
+
+#boca{
+      width: 40px;
+      height: 40px;
+      margin-top: -30px;
+      margin-left: 43px;
+      shape-outside: circle(30% at 50%);
+      clip-path: circle(50% at 0%);
+      background: rgb(0, 0, 0);
+      transform: rotate(90deg);
+}
+
+#eyeright{
+      width: 30px;
+      height: 30px;
+      margin-left: 80px;
+      margin-top: -102px;
+      shape-outside: ellipse(20% 50%);
+      clip-path: ellipse(20% 50%);
+      background: rgb(247, 0, 0);
+}
+
+#eyeleft{
+      width: 30px;
+      height: 30px;
+      margin-left: 20px;
+      margin-top: -29px;
+      shape-outside: ellipse(20% 50%);
+      clip-path: ellipse(20% 50%);
+      background: rgb(247, 0, 0);
+}
+
+#hair{
+    background-color: rgb(175, 18, 18);
+    width: 120px;
+    height: 70px;
+    margin-top:-106px;
+    margin-left: 14px;
+    border-radius: 15px;
+}
+
+#hair1{
+    background-color: rgb(175, 18, 18);
+    width: 90px;
+    height: 50px;
+    margin-top:-55px;
+    margin-left: 105px;
+    border-radius: 20px;
+}
+
+#hair2{
+    background-color: rgb(175, 18, 18);
+    width: 70px;
+    height: 40px;
+    margin-top:-18px;
+    margin-left: 115px;
+    border-radius: 20px;
+}
+
+#hair3{
+    background-color: rgb(175, 18, 18);
+    width: 50px;
+    height: 25px;
+    margin-top:-6px;
+    margin-left: 125px;
+    border-radius: 70px;
+    border-color: rgb(0, 0, 0);
+}
+
+.tetopear{
+    display: flex;
+    flex-direction: column;
+    margin-left: 90px;
+}
+
+#hair4{
+    background-color: rgb(175, 18, 18);
+    width: 90px;
+    height: 50px;
+    margin-top:-90px;
+    margin-left:-50px;
+    border-radius: 70px;
+}
+
+#hair5{
+    background-color: rgb(175, 18, 18);
+    width: 70px;
+    height: 40px;
+    margin-top:-10px;
+    margin-left: -45px;
+    border-radius: 70px;
+}
+
+#hair6{
+    background-color: rgb(175, 18, 18);
+    width: 50px;
+    height: 25px;
+    margin-top:-6px;
+    margin-left: -35px;
+    border-radius: 70px;
+}
+
+.title{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 900;
+    color: rgb(18, 14, 41);
+}
+
+#shadow{
+    width: 900px;
+    height: 30px;
+    background: linear-gradient(to right, #afae9a, #aeb194);
+    margin-top: 93px;
+    margin-left: -210px;
+    shape-outside: ellipse(10% 90%);
+    clip-path: ellipse(20% 100%);
+    filter: blur(20px);
+}

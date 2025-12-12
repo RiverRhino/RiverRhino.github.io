@@ -1,0 +1,46 @@
+body{
+    background-color: #2B2B2B;
+}
+
+.Sesion{
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	grid-gap: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.Iniciarsesion{
+	grid-column-start: 1;
+	grid-column-end: 5;
+}
+.Iniciarsesion2{
+	grid-column-start: 1;
+	grid-column-end: 5;
+}
+.Iniciarsesion3{
+	grid-column-start: 1;
+	grid-column-end: 5;
+}
+.Iniciarsesion4{
+	grid-column-start: 1;
+	grid-column-end: 5;
+}
+
+.Regs{
+    color:black;
+    padding: 120px 95px;
+    border: 0px;
+    background-color: burlywood;
+    border-radius: 15%;
+    font-size: 30px;
+    display: block;
+    margin:auto;
+    margin-top: 150px;
+}
+
+.Regs:hover{
+    background-color: darkblue;
+    color:White;
+}

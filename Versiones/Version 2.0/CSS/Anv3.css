@@ -1,0 +1,124 @@
+body{
+    background-color: #0b1522;
+    padding: 0;
+}
+
+.Aniversario{
+display: flex;
+flex-direction: column;
+flex-flow: column;
+border: 3px solid black;
+justify-content: center;
+align-content: center;
+}
+
+#An1{
+    border-style: inherit;
+    padding: 25px;
+}
+
+#An2{
+    width: 70px;
+    height: 70px;
+    background: #f20044;
+    display: block;
+    margin: auto;
+    position: relative;
+    transform: rotate(-45deg);
+    box-shadow: -10px 10px 90px #f20044;
+    animation: heart 0.6s linear infinite;
+}
+
+@keyframes heart {
+   0%{
+       transform: rotate(-45deg) scale(1.07);
+   } 
+   80%{
+        transform: rotate(-45deg) scale(1.0);
+    } 
+    100%{
+        transform: rotate(-45deg) scale(0.8);
+    }    
+}
+
+#An2::before{
+    content: " ";
+    position: absolute;
+    height: 70px;
+    width: 70px;
+    background: #f20044;
+    top:-50%;
+    border-radius: 50px;
+    box-shadow: -10px 10px 90px #f20044;
+}
+
+#An2::after{
+    content: " ";
+    position: absolute;
+    height: 70px;
+    width: 70px;
+    background: #f20044;
+    right:-50%;
+    border-radius: 50px;
+    box-shadow: -10px 10px 90px #f20044;
+}
+
+#An3{
+    padding:40px;
+}
+
+
+#TextoAniversario{
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+#AnTx{
+    color:white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+.ImgAn{
+    margin: auto;
+    border-radius: 5%;
+    display: flex;
+    width: 150px;
+    float: right;
+}
+
+.ImgAn1{
+    margin: auto;
+    border-radius: 5%;
+    display: flex;
+    width: 120px;
+    float: left;
+}
+
+#AniversarioVideo{
+    margin:auto;
+    display: block;
+}
+
+#Anh2{
+    text-align: center;
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
+}
+
+#ImgD{
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    display: block;
+    transform: rotate(350deg);
+}
+
+#An1-5{
+    display:flex;
+}
+
+
+

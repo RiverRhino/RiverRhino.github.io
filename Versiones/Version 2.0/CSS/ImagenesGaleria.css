@@ -1,0 +1,166 @@
+
+.Galeria1
+{
+    width: 50%;
+    max-width: 410px;
+    cursor: zoom-in;
+    margin-bottom: 10px;
+    height: auto;
+}
+
+.Galeria1-1
+{
+    width: 95%;
+    cursor: zoom-in;
+    margin-bottom: 10px;
+}
+
+#Galeria2
+{
+    min-width: 150px;
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+#Galeria3
+{
+    width: 820px;
+    margin-bottom: 10px;
+}
+
+#Galeria4
+{
+    width: 850px;
+    margin-bottom: 10px;
+}
+
+
+#Galeria5
+{
+    width: 850px;
+    margin-bottom: 10px;
+}
+
+#Galeria6{
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+
+#Galeria7{
+    width: 500px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+
+#Galeria8{
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+
+#Galeria9{
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+
+#Galeria10{
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+
+#Galeria11{
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+
+#Musica{
+    width: 600px;
+    cursor:pointer;
+    margin-bottom: 10px;
+}
+/* Media Screen */
+
+@media only screen and (max-width: 700px){
+
+    #Galeria3
+{
+    width: 250px;
+}
+
+#Galeria4
+{
+    width: 250px;
+}
+
+
+#Galeria5
+{
+    width: 200px;
+}
+
+#Galeria6{
+    width: 200px;
+}
+
+#Galeria7{
+    width: 200px;
+}
+
+#Galeria8{
+    width: 200px;
+}
+
+#Galeria9{
+    width: 200px;
+}
+
+#Galeria10{
+    width: 200px;
+}
+
+#Galeria11{
+    width: 200px;
+}
+
+
+#Musica{
+    width: 150px;
+}
+
+}
+
+.modal-container{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	pointer-events: none;
+	opacity: 0;
+	top:0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+    background-color: #003059;
+}
+
+.modal{
+    background-color: cadetblue;
+	width: 600px;
+    max-width: 100%;
+	border-radius: 8%;
+	padding: 30px 50px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+	text-align:center;
+}
+
+.show{
+	pointer-events: auto;
+	opacity: 3;
+}

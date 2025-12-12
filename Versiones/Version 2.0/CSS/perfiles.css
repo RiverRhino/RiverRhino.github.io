@@ -1,0 +1,88 @@
+body{
+    background-color: black;
+}
+
+h1{
+    color:white;
+    text-align: center;
+}
+
+label{
+    color:white;
+    display: block;
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+#img1{
+    border-radius: 50%;
+    width: 360px;
+    height: 350px;
+    display: block;
+    margin: auto;
+}
+
+input[type=file]#myFile{
+    display: block;
+    margin: auto;
+    margin-top: 30px;
+}
+
+#Usuario{
+    outline: none;
+    color:black;
+    background-color: white;
+    border:none;
+    display: block;
+    margin: auto;
+    margin-top:20px;
+}
+
+#Enviar{
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    background-color: yellowgreen;
+    border: none;
+    padding: 8px;
+    border-radius: 15px;
+}
+
+#Reg{
+    color:white;
+    user-select: none;
+    background-color: gray;
+    float: right;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+}
+#Sesion{
+    color:white;
+    user-select: none;
+    background-color: gray;
+    float: right;
+    margin-right: 5px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#Us{
+    float:right;
+    width:50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+#Usuariouwu{
+    font-size: 15px;
+    text-align: right;
+    color:white;
+    background-color: black;
+    margin: auto;
+    width: 0px;
+    float:right;
+    margin-right:50px;
+}
