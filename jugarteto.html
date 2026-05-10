@@ -55,15 +55,22 @@
 
     <script>
 
-//****** GAME LOOP ********//
+//****** GAME LOOP ********/
+var presionado = false;
 var btnReiniciar = document.querySelector("#btnReiniciar");
+var btnJugar = document.querySelector("#felicidad");
 btnReiniciar.addEventListener("click", function() {
-    location.reload();
+     reiniciarJuego();
+     btnReiniciar.blur();
+});
+
+btnJugar.addEventListener("click", function() {
+ presionado = true;
 });
 var time = new Date();
 var deltaTime = 0;
 
-if(document.readyState === "complete" || document.readyState === "interactive"){
+if(btnJugar === true){
     setTimeout(Init, 1);
 }else{
     document.addEventListener("DOMContentLoaded", Init); 
@@ -261,6 +268,8 @@ function MoverNubes() {
 
 function GanarPuntos() {
     score++;
+    let puntuacion = score;
+    localStorage.setItem("punt", puntuacion);
     textoScore.innerText = score;
     if(score == 5){
         gameVel = 1.5;
@@ -304,6 +313,43 @@ function IsCollision(a, b, paddingTop, paddingRight, paddingBottom, paddingLeft)
         (aRect.left + paddingLeft > (bRect.left + bRect.width))
     );
 }
+
+function reiniciarJuego() {
+    // 1. Ocultar el mensaje de Game Over (si tienes uno con esa clase)
+    if(gameOver) gameOver.style.display = "none";
+
+    // 2. Limpiar obstáculos y nubes del HTML
+    for (var i = obstaculos.length - 1; i >= 0; i--) {
+        obstaculos[i].parentNode.removeChild(obstaculos[i]);
+    }
+    for (var i = nubes.length - 1; i >= 0; i--) {
+        nubes[i].parentNode.removeChild(nubes[i]);
+    }
+
+    // 3. Resetear arreglos y variables de estado
+    obstaculos = [];
+    nubes = [];
+    score = 0;
+    gameVel = 1;
+    parado = false;
+    saltando = false;
+    velY = 0;
+    dinoPosY = sueloY;
+    sueloX = 0;
+
+    // 4. Resetear textos y clases visuales
+    textoScore.innerText = "0";
+    dino.classList.remove("dino-estrellado");
+    dino.classList.add("dino-corriendo");
+    contenedor.classList.remove("mediodia", "tarde", "noche");
+    suelo.style.animationDuration = "3s";
+    
+    // 5. Reiniciar el tiempo para el siguiente ciclo
+    setTimeout(Init, 1);
+}
+
+let puntuacionGuardada = localStorage.getItem("punt");
+console.log("Puntuaciojn guardada: " + puntuacionGuardada);
     </script>
 
     <script src="./js/tomoteto.js"></script>
