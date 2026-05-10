@@ -1,5 +1,8 @@
 const canvas = document.getElementById("teto");
 const ctx = canvas.getContext("2d");
+const mostrarJuego = document.getElementById("contenedor");
+const btnMostrar = document.getElementById("btnReiniciar");
+
 var miimgagen = new Image();
 miimgagen.src = "./imagenes/tetoplush.png";
  miimgagen.onload = function() {
@@ -122,7 +125,12 @@ felicidad.addEventListener("click", function () {
     comiendo = false;
     cagando = false;
     tetoNormal();
+    mostrarJuego.style.visibility = "visible";
+    btnMostrar.style.visibility = "visible";
+    
 });
+
+
 
 /*
 // ── DIBUJO DE TETO ──
