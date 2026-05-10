@@ -136,6 +136,7 @@ h1 {
 
 #contenedor{
     visibility: hidden;
+    display: none;
 }
 
 #btnReiniciar {

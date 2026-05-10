@@ -126,6 +126,7 @@ felicidad.addEventListener("click", function () {
     cagando = false;
     tetoNormal();
     mostrarJuego.style.visibility = "visible";
+    mostrarJuego.style.display = "block";
     btnMostrar.style.visibility = "visible";
     
 });
