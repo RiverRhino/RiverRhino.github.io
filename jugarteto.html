@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tama Teto</title>
+    <link rel="stylesheet" href="./css/tomoteto.css">
+</head>
+<body>
+
+    <h1>Tama Teto</h1>
+
+    <div class="pantalla">
+
+        <!-- Pantalla / Canvas -->
+        <canvas id="teto" width="360" height="270">
+        </canvas>
+
+        <!-- Stats de estado -->
+        <div class="stats">
+            <span>Energía: <b id="energiaCant">100%</b></span>
+            <span>Felicidad: <b id="felicidadCant">100%</b></span>
+            <span>Hambre: <b id="hambreCant">100%</b></span>
+            <span>Cagada: <b id="cagadaCant">100%</b></span>
+        </div>
+
+        <!-- Fila 1: 2 botones -->
+        <div class="buttons">
+            <button class="one" id="salud">Baño</button>
+            <button class="two" id="felicidad">Jugar</button>
+        </div>
+
+        <!-- Botón central largo -->
+        <div class="btn-center-wrap">
+        </div>
+
+        <!-- Fila 2: 2 botones -->
+        <div class="buttons2">
+            <button id="btnDormir">Dormir</button>
+            <button class="four4" id="hambre">Comer</button>
+        </div>
+
+    </div>
+
+    <script src="./js/tomoteto.js"></script>
+</body>
+</html>
