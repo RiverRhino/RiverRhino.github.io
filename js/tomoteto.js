@@ -102,6 +102,7 @@ btnDormir.addEventListener("click", function () {
     durmiendo = true;
     comiendo = false;
     cagando = false;
+    mostrarJuego.style.display = "none";
     tetoDurmiendo();
 
 });
@@ -110,6 +111,7 @@ hambre.addEventListener("click", function () {
     durmiendo = false;
     comiendo = true;
     cagando = false;
+    mostrarJuego.style.display = "none";
     tetoComiendo();
 });
 
@@ -117,6 +119,7 @@ bathroom.addEventListener("click", function () {
     durmiendo = false;
     comiendo = false;
     cagando = true;
+    mostrarJuego.style.display = "none";
     tetoBano();
 });
 
