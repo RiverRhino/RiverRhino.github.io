@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Ti — Dedicatoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --purple-deep:    #1a0a2e;
+    --purple-mid:     #2d1057;
+    --purple-accent:  #7c3aed;
+    --purple-light:   #a78bfa;
+    --purple-pale:    #ede9fe;
+    --gold:           #f5c842;
+    --rose:           #f472b6;
+    --white:          #faf7ff;
+    --text-soft:      #c4b5fd;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--purple-deep);
+    color: var(--white);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── Partículas de fondo ─────────────────────────────── */
+  #particles {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--purple-light);
+    border-radius: 50%;
+    animation: twinkle var(--d, 4s) ease-in-out infinite alternate;
+    opacity: var(--o, 0.4);
+  }
+  @keyframes twinkle {
+    from { opacity: var(--o, 0.2); transform: scale(1); }
+    to   { opacity: calc(var(--o, 0.2) * 3); transform: scale(1.6); }
+  }
+
+  /* ── Reproductor de audio flotante ──────────────────── */
+  #audio-player {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(45, 16, 87, 0.85);
+    border: 1px solid rgba(167, 139, 250, 0.35);
+    backdrop-filter: blur(18px);
+    border-radius: 50px;
+    padding: 10px 18px;
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.4);
+    transition: all 0.3s ease;
+  }
+  #audio-player:hover { box-shadow: 0 12px 42px rgba(124, 58, 237, 0.6); }
+
+  #play-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, var(--purple-accent), var(--rose));
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  #play-btn:hover { transform: scale(1.1); }
+
+  #audio-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .audio-wave {
+    display: flex; gap: 3px; align-items: center; height: 20px;
+  }
+  .audio-wave span {
+    display: block;
+    width: 3px;
+    background: var(--purple-light);
+    border-radius: 2px;
+    animation: wave 1.2s ease-in-out infinite alternate;
+    opacity: 0.3;
+  }
+  .audio-wave span:nth-child(1) { height: 6px;  animation-delay: 0s; }
+  .audio-wave span:nth-child(2) { height: 14px; animation-delay: 0.15s; }
+  .audio-wave span:nth-child(3) { height: 10px; animation-delay: 0.3s; }
+  .audio-wave span:nth-child(4) { height: 18px; animation-delay: 0.45s; }
+  .audio-wave span:nth-child(5) { height: 8px;  animation-delay: 0.6s; }
+  .audio-wave.playing span { opacity: 1; }
+  @keyframes wave {
+    from { transform: scaleY(0.4); }
+    to   { transform: scaleY(1.2); }
+  }
+
+  #volume-wrap {
+    display: flex; align-items: center; gap: 6px;
+  }
+  #volume-icon { font-size: 13px; color: var(--text-soft); }
+  #volume-slider {
+    -webkit-appearance: none;
+    width: 60px; height: 3px;
+    border-radius: 2px;
+    background: rgba(167,139,250,0.3);
+    outline: none;
+    cursor: pointer;
+  }
+  #volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    cursor: pointer;
+  }
+
+  /* ── SECCIONES ───────────────────────────────────────── */
+  section {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 40px;
+    overflow: hidden;
+  }
+
+  /* separadores ornamentales */
+  section::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, rgba(167,139,250,0.5), transparent);
+  }
+  section:last-child::after { display: none; }
+
+  /* ── Hero ─────────────────────────────────────────────── */
+  #hero {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124,58,237,0.35), transparent),
+      radial-gradient(ellipse 60% 50% at 80% 120%, rgba(244,114,182,0.2), transparent),
+      var(--purple-deep);
+    text-align: center;
+  }
+
+  .hero-badge {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.3s forwards;
+  }
+
+  h1.main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.2rem, 9vw, 7.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--white) 30%, var(--purple-light) 70%, var(--rose) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+    margin-bottom: 32px;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    font-style: italic;
+    color: var(--text-soft);
+    max-width: 520px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 1s 0.8s forwards;
+    margin-bottom: 40px;
+  }
+
+  .scroll-hint {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(167,139,250,0.5);
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards, bounce 2s 2.5s ease-in-out infinite;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .scroll-hint::after {
+    content: '↓';
+    font-size: 18px;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(6px); }
+  }
+
+  /* ── Secciones de fecha ───────────────────────────────── */
+  .fecha-section {
+    position: relative;
+  }
+
+  /* fondo único para cada sección */
+  .fecha-section:nth-child(odd) {
+    background:
+      radial-gradient(ellipse 70% 50% at 20% 50%, rgba(124,58,237,0.18), transparent),
+      var(--purple-deep);
+  }
+  .fecha-section:nth-child(even) {
+    background:
+      radial-gradient(ellipse 70% 50% at 80% 50%, rgba(244,114,182,0.12), transparent),
+      linear-gradient(180deg, var(--purple-deep), #220d45);
+  }
+
+  .section-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    max-width: 1100px;
+    width: 100%;
+  }
+  .fecha-section:nth-child(even) .section-inner {
+    direction: rtl;
+  }
+  .fecha-section:nth-child(even) .section-inner > * {
+    direction: ltr;
+  }
+
+  /* date label */
+  .date-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .date-tag::before {
+    content: '';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--white), var(--purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-text {
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    line-height: 1.9;
+    color: rgba(196, 181, 253, 0.85);
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  /* decorative quote mark */
+  .quote-deco {
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    line-height: 0;
+    color: var(--purple-accent);
+    opacity: 0.15;
+    position: absolute;
+    top: 60px;
+    pointer-events: none;
+  }
+
+  /* ── GALERÍA ──────────────────────────────────────────── */
+  #galeria {
+    background:
+      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(124,58,237,0.25), transparent),
+      var(--purple-deep);
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .galeria-header {
+    text-align: center;
+  }
+  .galeria-header .date-tag { justify-content: center; }
+  .galeria-header .date-tag::before { display: none; }
+  .galeria-header .section-title { font-size: clamp(2.4rem, 5vw, 3.8rem); }
+
+  /* Grid de fotos */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 16px;
+    max-width: 1000px;
+    width: 100%;
+  }
+
+  /* celdas especiales */
+  .photo-grid .big   { grid-column: span 2; grid-row: span 2; }
+  .photo-grid .tall  { grid-row: span 2; }
+  .photo-grid .wide  { grid-column: span 2; }
+
+  .photo-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(45, 16, 87, 0.6);
+    border: 1px solid rgba(167,139,250,0.15);
+    cursor: pointer;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .photo-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 20px 50px rgba(124,58,237,0.4);
+    border-color: rgba(167,139,250,0.4);
+  }
+
+  .photo-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .photo-card:hover img { transform: scale(1.04); }
+
+  /* overlay de caption */
+  .photo-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,10,46,0.85) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+  }
+  .photo-card:hover .photo-overlay { opacity: 1; }
+  .photo-caption {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--text-soft);
+    letter-spacing: 0.05em;
+  }
+
+  /* placeholder cuando no hay foto */
+  .photo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%; height: 100%;
+    min-height: 200px;
+    color: rgba(167,139,250,0.4);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .photo-placeholder:hover { color: rgba(167,139,250,0.7); }
+  .photo-placeholder svg { width: 36px; opacity: 0.5; }
+
+  /* input file oculto */
+  .file-input { display: none; }
+
+  /* ── Botones de añadir ────────────────────────────────── */
+  .add-photo-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border-radius: 50px;
+    border: 1px solid rgba(167,139,250,0.4);
+    background: rgba(124,58,237,0.15);
+    color: var(--purple-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+  }
+  .add-photo-btn:hover {
+    background: rgba(124,58,237,0.35);
+    border-color: var(--purple-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(124,58,237,0.3);
+  }
+
+  /* ── Cierre ───────────────────────────────────────────── */
+  #cierre {
+    background:
+      radial-gradient(ellipse 80% 80% at 50% 100%, rgba(124,58,237,0.3), transparent),
+      var(--purple-deep);
+    text-align: center;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .cierre-ornament {
+    font-size: 3rem;
+    opacity: 0.5;
+    letter-spacing: 0.3em;
+  }
+
+  .firma {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-style: italic;
+    background: linear-gradient(135deg, var(--rose), var(--purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── ANIMACIONES SCROLL ───────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── LIGHTBOX ─────────────────────────────────────────── */
+  #lightbox {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10, 4, 22, 0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: 88vw; max-height: 88vh;
+    border-radius: 12px;
+    box-shadow: 0 0 60px rgba(124,58,237,0.5);
+  }
+  #lightbox-close {
+    position: fixed; top: 24px; right: 28px;
+    font-size: 28px; color: var(--text-soft);
+    cursor: pointer; background: none; border: none;
+    transition: color 0.2s;
+  }
+  #lightbox-close:hover { color: var(--white); }
+
+  /* ── Divider ornamental ───────────────────────────────── */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 10px 0;
+    color: var(--purple-accent);
+    opacity: 0.5;
+    font-size: 1.2rem;
+  }
+  .ornament::before, .ornament::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--purple-accent), transparent);
+  }
+
+  /* ── Responsive ───────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .section-inner { grid-template-columns: 1fr; gap: 32px; direction: ltr !important; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    .photo-grid .big { grid-column: span 2; }
+    section { padding: 70px 24px; }
+    #audio-player { bottom: 16px; right: 16px; padding: 8px 14px; }
+    #volume-wrap { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Partículas ──────────────────────────────────────── -->
+<div id="particles"></div>
+
+<!-- ── Audio flotante ─────────────────────────────────── -->
+<div id="audio-player">
+  <button id="play-btn" title="Reproducir/Pausar">▶</button>
+  <div class="audio-wave" id="audio-wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <span id="audio-label">Carlos Rivera - Eres Tú (Mamá)</span>
+  <div id="volume-wrap">
+    <span id="volume-icon">♪</span>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.6">
+  </div>
+  <label style="cursor:pointer; color: var(--text-soft); font-size:12px;" title="Subir canción">
+    
+    <input type="file" id="audio-file" acncept="audio/*" style="display:none">
+  </label>
+</div>
+<audio id="bg-audio" src="./Carlos Rivera - Eres Tú (Mamá).m4a" loop autoplay></audio>
+
+<!-- ── Lightbox ───────────────────────────────────────── -->
+<div id="lightbox">
+  <button id="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="Foto">
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  SECCIÓN HERO                                        -->
+<!-- ════════════════════════════════════════════════════ -->
+<section id="hero">
+  <p class="hero-badge">✦ Una dedicatoria para ti ✦</p>
+  <h1 class="main-title">Para ti,<br>mama.</h1>
+  <h1 class="main-title">Gracias por todo</h1>
+  <p class="hero-subtitle">
+    Muchas veces no decimos con palabras lo que sentimos, pero
+    sabes que con las acciones, demostramos nuestro amor por ti. 
+  </p>
+  <div class="ornament">❋</div>
+  <p class="scroll-hint">Desplázate</p>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  SECCIÓN 1                                           -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="fecha-section">
+  <span class="quote-deco">"</span>
+  <div class="section-inner">
+    <div class="reveal-left">
+      <h2 class="section-title">Dias festivos</h2>
+      <div class="ornament" style="font-size:0.8rem;">— — —</div>
+      <p class="section-text">
+         mamA FELIZ NAVIDAD - Yosgar
+         Pasar las epocas de festejo contigo, hacen que los momentos sean inolvidables, entre el caos para hacer las cosas, las platicas que hacemos
+         la musica, andar de aca para alla, luego tomarnos la foto, son momentos que nunca olvidare y se que siempre estaran presentes en mi corazon 
+         y mi mente.
+      </p>
+    </div>
+    <div class="reveal-right">
+      <div class="photo-card" style="min-height:340px;" onclick="openLightboxCard(this)">
+        <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+            <path d="M4 16l4-4 4 4 4-6 4 6M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1z"/>
+          </svg>
+          <img src="./img2345.jpeg">
+        </div>
+        <div class="photo-overlay"><span class="photo-caption">Diciembre 2025</span></div>
+        <input type="file" class="file-input" accept="image/*">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  SECCIÓN 2                                           -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="fecha-section">
+  <span class="quote-deco" style="right:5%">"</span>
+  <div class="section-inner">
+    <div class="reveal-left">
+      <h2 class="section-title">Bailables</h2>
+      <div class="ornament" style="font-size:0.8rem;">— — —</div>
+      <p class="section-text">
+        Siempre estas presente en cada festejo, desde cuando griatabas cuando pasamos a bailar o para las obras, siempre buscando el lugar para poder ver mejor, gritar y grabar con mejor angulo.
+        Recuerdo cada uno, cuando hacias los trajes y durabas toda la noche ahi, tambien el como eres atenta para cada uno de las cosas, no se te pierde ningun detalle, siempre nos traes de aca para alla
+        sabemos que lo haces por nuestro bien y todo es por que seamos mejor.
+      </p>
+    </div>
+    <div class="reveal-right">
+      <div class="photo-card" style="min-height:340px;" onclick="openLightboxCard(this)">
+        <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+          </svg>
+          <img src="./WhatsApp Unknown 2026-05-10 at 8.42.43 PM/503108816_23970006582636045_3540985577081256501_n.jpg">
+        </div>
+        <div class="photo-overlay"><span class="photo-caption">Marzo 2024</span></div>
+        <input type="file" class="file-input" accept="image/*">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  SECCIÓN 3                                           -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="fecha-section">
+  <span class="quote-deco">"</span>
+  <div class="section-inner">
+    <div class="reveal-left">
+      <h2 class="section-title">Graduaciones</h2>
+      <div class="ornament" style="font-size:0.8rem;">— — —</div>
+      <p class="section-text">
+        Al terminar un ciclo, tener un logro mas, siempre estas a nuestro lado, apoyando, haciendo que las cosas sean mejores y mas llevadoras. Sabemos que hay dias donde no te sentias bien y aun asi, 
+        siempre intentas ayudarnos para todo. Sabemos que todo es complicado en esta vida, pero contigo todo se hace mas divertido y sencillo, aparte de como nos ayudas, tambien siempre seremos tus manos que
+        te apoyaran en cualquier situacion que estes y necesites.
+      </p>
+    </div>
+    <div class="reveal-right">
+      <div class="photo-card" style="min-height:340px;" onclick="openLightboxCard(this)">
+        <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+          <img src="./WhatsApp Unknown 2026-05-10 at 8.42.43 PM/grad.jpg">
+        </div>
+        <div class="photo-overlay"><span class="photo-caption">Junio 2024</span></div>
+        <input type="file" class="file-input" accept="image/*">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  GALERÍA                                             -->
+<!-- ════════════════════════════════════════════════════ -->
+<section id="galeria">
+  <div class="galeria-header reveal">
+    <p class="date-tag" style="justify-content:center;">✦ Recopilación de momentos</p>
+    <h2 class="section-title">Nuestros recuerdos</h2>
+    <p class="section-text" style="text-align:center; max-width:480px;">
+      Cada foto es un segundo robado al tiempo, un instante que decidimos guardar para siempre.
+    </p>
+  </div>
+
+  <div class="photo-grid reveal" id="photo-grid">
+    <div class="photo-card big" onclick="openLightboxCard(this)">
+      <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+        <img src="./WhatsApp Unknown 2026-05-10 at 8.42.43 PM/2.jpg">
+      </div>
+      <div class="photo-overlay"><span class="photo-caption"></span></div>
+      <input type="file" class="file-input" accept="image/*">
+    </div>
+
+    <div class="photo-card" onclick="openLightboxCard(this)">
+      <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+      <img src="./WhatsApp Unknown 2026-05-10 at 8.42.43 PM/8.jpg">
+      </div>
+      
+      <div class="photo-overlay"><span class="photo-caption"></span></div>
+    </div>
+
+    <div class="photo-card tall" onclick="openLightboxCard(this)">
+      <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+        <img src="./WhatsApp Unknown 2026-05-10 at 8.42.43 PM/5.jpg">
+      </div>
+      <div class="photo-overlay"><span class="photo-caption"></span></div>
+      <input type="file" class="file-input" accept="image/*">
+    </div>
+
+    <div class="photo-card" onclick="openLightboxCard(this)">
+      <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+        <img src="./WhatsApp Unknown 2026-05-10 at 8.42.43 PM/10.jpg">
+      </div>
+      <div class="photo-overlay"><span class="photo-caption"></span></div>
+      <input type="file" class="file-input" accept="image/*">
+    </div>
+
+    <div class="photo-card" onclick="openLightboxCard(this)">
+      <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+        <img src="./WhatsApp Unknown 2026-05-10 at 8.42.43 PM/pastel.jpg">
+      </div>
+      <div class="photo-overlay"><span class="photo-caption"></span></div>
+      <input type="file" class="file-input" accept="image/*">
+    </div>
+
+    <div class="photo-card wide" onclick="openLightboxCard(this)">
+      <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+        <img src="./WhatsApp Unknown 2026-05-10 at 8.42.43 PM/23.jpg">
+      </div>
+    </div>
+
+
+     <div class="photo-card" onclick="openLightboxCard(this)">
+      <div class="photo-placeholder" onclick="event.stopPropagation(); this.closest('.photo-card').querySelector('.file-input').click()">
+      <img src="./WhatsApp Unknown 2026-05-10 at 8.42.43 PM/43.jpeg">
+      </div>
+      
+      <div class="photo-overlay"><span class="photo-caption"></span></div>
+    </div>
+
+
+  
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  SECCIÓN CIERRE                                      -->
+<!-- ════════════════════════════════════════════════════ -->
+<section id="cierre">
+  <p class="cierre-ornament reveal">✦ ✦ ✦</p>
+  <div class="reveal" style="text-align:center; max-width:600px;">
+    <p class="date-tag" style="justify-content:center; margin-bottom:20px;">✦ Hoy y siempre</p>
+    <h2 class="section-title" style="font-size: clamp(2.4rem, 5vw, 4rem); margin-bottom:30px;">
+      Gracias Mamá por todo, te amamos ❤️
+    </h2>
+    <p class="section-text" style="text-align:center; font-size:1.2rem; line-height:2;">
+      Siempre te amaremos, gracias por cada momento que nos has regalado y hemos estado juntos. Sabemos que a tu lado, es todo mas sencillo
+      donde si necesitas algo puedes siempre contar con nosotros, como nosotros contamos contigo. Cada momento que estoy a tu lado, 
+      solo recordamos lo afortunados que somos de tener como nuestra Mamá, somos afortunados de estar a tu lado.
+      A un con tus enojos, sabemos que lo haces por nuestro bien y siempre estaras ahi, te amamos.
+    </p>
+  </div>
+  <div class="ornament reveal" style="max-width:300px; width:100%; opacity:0.4;">❋</div>
+  <p class="firma reveal">Con todo nuestro cariño y amor ♡, GRACIAS</p>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  SCRIPTS                                             -->
+<!-- ════════════════════════════════════════════════════ -->
+<script>
+/* ── Partículas ───────────────────────────────────────── */
+(function(){
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --d:${3+Math.random()*5}s;
+      --o:${0.15+Math.random()*0.5};
+      width:${Math.random()<0.2?3:2}px;
+      height:${Math.random()<0.2?3:2}px;
+      animation-delay:${Math.random()*5}s;
+    `;
+    container.appendChild(s);
+  }
+})();
+
+/* ── Audio ────────────────────────────────────────────── */
+const audio     = document.getElementById('bg-audio');
+const playBtn   = document.getElementById('play-btn');
+const audioFile = document.getElementById('audio-file');
+const audioLbl  = document.getElementById('audio-label');
+const wave      = document.getElementById('audio-wave');
+const volSlider = document.getElementById('volume-slider');
+
+audio.volume = 0.6;
+let playing = false;
+
+function togglePlay() {
+  if (!audio.src) return;
+  if (playing) {
+    audio.pause(); playBtn.textContent = '▶';
+    wave.classList.remove('playing');
+  } else {
+    audio.play(); playBtn.textContent = '⏸';
+    wave.classList.add('playing');
+  }
+  playing = !playing;
+}
+
+playBtn.addEventListener('click', togglePlay);
+
+audioFile.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  audio.src = URL.createObjectURL(file);
+  audioLbl.textContent = file.name.replace(/\.[^.]+$/, '');
+  audio.play();
+  playBtn.textContent = '⏸';
+  wave.classList.add('playing');
+  playing = true;
+});
+
+volSlider.addEventListener('input', () => { audio.volume = volSlider.value; });
+
+/* ── Scroll reveal ────────────────────────────────────── */
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((en, i) => {
+    if (en.isIntersecting) {
+      setTimeout(() => en.target.classList.add('visible'), i * 80);
+      io.unobserve(en.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => io.observe(el));
+
+/* ── Carga de fotos individuales ──────────────────────── */
+document.querySelectorAll('.photo-card .file-input').forEach(input => {
+  input.addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+    const card = this.closest('.photo-card');
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Limpia placeholder
+      const ph = card.querySelector('.photo-placeholder');
+      if (ph) ph.remove();
+      // Agrega imagen
+      let img = card.querySelector('img');
+      if (!img) {
+        img = document.createElement('img');
+        card.insertBefore(img, card.querySelector('.photo-overlay'));
+      }
+      img.src = e.target.result;
+      img.alt = 'Recuerdo';
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+/* ── Carga masiva de fotos ────────────────────────────── */
+document.getElementById('bulk-upload').addEventListener('change', function() {
+  const grid = document.getElementById('photo-grid');
+  Array.from(this.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Busca slot vacío
+      let placed = false;
+      grid.querySelectorAll('.photo-placeholder').forEach(ph => {
+        if (placed) return;
+        const card = ph.closest('.photo-card');
+        ph.remove();
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = 'Recuerdo';
+        card.insertBefore(img, card.querySelector('.photo-overlay'));
+        placed = true;
+      });
+      // Si no hay slots vacíos, crea nueva tarjeta
+      if (!placed) {
+        const card = document.createElement('div');
+        card.className = 'photo-card';
+        card.onclick = () => openLightboxCard(card);
+        const img = document.createElement('img');
+        img.src = e.target.result; img.alt = 'Recuerdo';
+        const ov = document.createElement('div');
+        ov.className = 'photo-overlay';
+        ov.innerHTML = '<span class="photo-caption">Recuerdo</span>';
+        card.appendChild(img);
+        card.appendChild(ov);
+        grid.appendChild(card);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+/* ── Lightbox ─────────────────────────────────────────── */
+const lightbox   = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+
+function openLightboxCard(card) {
+  const img = card.querySelector('img');
+  if (!img) return;
+  lightboxImg.src = img.src;
+  lightbox.classList.add('open');
+}
+
+document.getElementById('lightbox-close').addEventListener('click', () => {
+  lightbox.classList.remove('open');
+});
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) lightbox.classList.remove('open');
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') lightbox.classList.remove('open');
+});
+</script>
+</body>
+</html>
