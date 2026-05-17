@@ -62,7 +62,7 @@
     "border-radius:10px",
     "overflow:hidden",
     "z-index:9999",
-    "border:6px solid #610a0a",
+    "border:6px solid #bd1313",
     "background:#000"
   ].join(";");
 
