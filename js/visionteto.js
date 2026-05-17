@@ -144,6 +144,23 @@
     return hand[8].y < hand[6].y - 0.04;
   }
 
+  function pulgarLevantado(hand){
+    return hand[4].x < hand[2].x - 0.05;
+  }
+
+  let pulgarCooldown = false;
+
+  function dispararPulgar(){
+    if(pulgarCooldown) return;
+    pulgarCooldown = true;
+
+    const btnReiniciar = document.getElementById("btnReiniciar");
+    btnReiniciar.click();
+    
+    setTimeout(() => {pulgarCooldown = false;},800);
+
+  }
+
   // ── 7. Disparar salto con cooldown ───────────────────────────────
   let saltoCooldown = false;
 
@@ -153,9 +170,7 @@
     console.log("[Vision] SALTO!");
 
     // Evento de teclado (lo recibe el listener del juego)
-    document.dispatchEvent(
-      new KeyboardEvent("keydown", { keyCode: 32, code: "Space", bubbles: true })
-    );
+    document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: 32, code: "Space", bubbles: true }));
     // Llamada directa como respaldo
     if (typeof Saltar === "function") Saltar();
 
@@ -189,8 +204,10 @@
       if (results.landmarks && results.landmarks.length > 0) {
         const hand = results.landmarks[0];
         const levantado = indiceEstaLevantado(hand);
+        const pulgar = pulgarLevantado(hand);
         dibujarMano(hand, levantado);
         if (levantado) dispararSalto();
+        if(pulgar) dispararPulgar();
       }
     }
 
