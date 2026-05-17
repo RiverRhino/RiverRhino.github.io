@@ -1,166 +1,211 @@
 // ── visionteto.js ──────────────────────────────────────────────────
-// - Dibuja landmarks y conexiones de la mano sobre un canvas overlay
-// - Detecta dedo índice levantado → simula tecla Space (salto del dino)
 
 (async () => {
 
-  const { FilesetResolver, HandLandmarker, DrawingUtils } = await import(
-    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs"
-  );
+  // ── 1. Cargar tasks-vision ───────────────────────────────────────
+  let FilesetResolver, HandLandmarker;
+  try {
+    const mod = await import(
+      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs"
+    );
+    FilesetResolver = mod.FilesetResolver;
+    HandLandmarker  = mod.HandLandmarker;
+    console.log("[Vision] modulo cargado OK");
+  } catch (e) {
+    console.error("[Vision] ERROR cargando modulo:", e);
+    return;
+  }
 
-  // ── 1. Inicializar HandLandmarker ────────────────────────────────
-  const vision = await FilesetResolver.forVisionTasks(
-    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"
-  );
+  // ── 2. Inicializar HandLandmarker ────────────────────────────────
+  let handLandmarker;
+  try {
+    const vision = await FilesetResolver.forVisionTasks(
+      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"
+    );
+    handLandmarker = await HandLandmarker.createFromOptions(vision, {
+      baseOptions: {
+        modelAssetPath:
+          "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+        delegate: "GPU"
+      },
+      runningMode: "VIDEO",
+      numHands: 1
+    });
+    console.log("[Vision] HandLandmarker listo");
+  } catch (e) {
+    console.error("[Vision] ERROR creando HandLandmarker:", e);
+    return;
+  }
 
-  const handLandmarker = await HandLandmarker.createFromOptions(vision, {
-    baseOptions: {
-      modelAssetPath:
-        "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
-      delegate: "GPU"
-    },
-    runningMode: "VIDEO",
-    numHands: 1
-  });
-
-  // ── 2. Cámara ────────────────────────────────────────────────────
+  // ── 3. Cámara ────────────────────────────────────────────────────
   const video = document.getElementById("video");
-
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
       video: { width: 640, height: 480 }
     });
     video.srcObject = stream;
     await video.play();
+    console.log("[Vision] Camara activa");
   } catch (e) {
-    console.error("Sin acceso a cámara:", e.message);
+    console.error("[Vision] ERROR camara:", e.message);
     return;
   }
 
-  // ── 3. Canvas overlay encima del video ───────────────────────────
-  // Creamos un <canvas> del mismo tamaño que el video y lo ponemos
-  // encima con position:fixed igual que el video.
+  // ── 4. Wrapper + canvas overlay ──────────────────────────────────
+  const wrapper = document.createElement("div");
+  wrapper.style.cssText = [
+    "position:fixed",
+    "bottom:8px",
+    "right:8px",
+    "width:240px",
+    "height:180px",
+    "border-radius:10px",
+    "overflow:hidden",
+    "z-index:9999",
+    "border:2px solid #00e5ff",
+    "background:#000"
+  ].join(";");
+
+  // El video ocupa todo el wrapper, espejado
+  video.style.cssText = [
+    "position:absolute",
+    "top:0",
+    "left:0",
+    "width:100%",
+    "height:100%",
+    "object-fit:cover",
+    "transform:scaleX(-1)"
+  ].join(";");
+
+  // Canvas encima del video
   const overlay = document.createElement("canvas");
   overlay.width  = 640;
   overlay.height = 480;
+  overlay.style.cssText = [
+    "position:absolute",
+    "top:0",
+    "left:0",
+    "width:100%",
+    "height:100%",
+    "pointer-events:none",
+    "transform:scaleX(-1)"
+  ].join(";");
 
-  const W = "220px";
-  const H = "165px";
-
-  video.style.position     = "fixed";
-  video.style.bottom       = "8px";
-  video.style.right        = "8px";
-  video.style.width        = W;
-  video.style.height       = H;
-  video.style.borderRadius = "10px";
-  video.style.zIndex       = "99";
-
-  overlay.style.position     = "fixed";
-  overlay.style.bottom       = "8px";
-  overlay.style.right        = "8px";
-  overlay.style.width        = W;
-  overlay.style.height       = H;
-  overlay.style.borderRadius = "10px";
-  overlay.style.zIndex       = "100";
-  overlay.style.pointerEvents = "none"; // no bloquea clics ni teclado
-  document.body.appendChild(overlay);
+  // Insertar wrapper donde estaba el video
+  video.parentNode.insertBefore(wrapper, video);
+  wrapper.appendChild(video);
+  wrapper.appendChild(overlay);
 
   const ctx = overlay.getContext("2d");
-  const drawUtils = new DrawingUtils(ctx);
 
-  // ── 4. Control de salto con cooldown ────────────────────────────
-  // Evita disparar el salto en cada frame mientras el dedo sigue arriba.
+  // ── 5. Conexiones de la mano (pares de índices de landmarks) ─────
+  const CONNECTIONS = [
+    [0,1],[1,2],[2,3],[3,4],
+    [0,5],[5,6],[6,7],[7,8],
+    [0,9],[9,10],[10,11],[11,12],
+    [0,13],[13,14],[14,15],[15,16],
+    [0,17],[17,18],[18,19],[19,20],
+    [5,9],[9,13],[13,17]
+  ];
+
+  function dibujarMano(lms, levantado) {
+    const W = overlay.width;
+    const H = overlay.height;
+
+    // Líneas
+    ctx.strokeStyle = "#00e5ff";
+    ctx.lineWidth = 3;
+    for (const [a, b] of CONNECTIONS) {
+      ctx.beginPath();
+      ctx.moveTo(lms[a].x * W, lms[a].y * H);
+      ctx.lineTo(lms[b].x * W, lms[b].y * H);
+      ctx.stroke();
+    }
+
+    // Puntos
+    for (let i = 0; i < lms.length; i++) {
+      const x = lms[i].x * W;
+      const y = lms[i].y * H;
+      const esPunta = i === 8;
+
+      ctx.beginPath();
+      ctx.arc(x, y, esPunta ? 10 : 5, 0, Math.PI * 2);
+      ctx.fillStyle = esPunta ? (levantado ? "#00e676" : "#ff4081") : "#fff";
+      ctx.strokeStyle = "#00e5ff";
+      ctx.lineWidth = 2;
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  // ── 6. Gesto: índice levantado ────────────────────────────────────
+  // landmark 8 = punta del índice, 6 = nudillo PIP
+  function indiceEstaLevantado(hand) {
+    return hand[8].y < hand[6].y - 0.04;
+  }
+
+  // ── 7. Disparar salto con cooldown ───────────────────────────────
   let saltoCooldown = false;
 
   function dispararSalto() {
     if (saltoCooldown) return;
     saltoCooldown = true;
+    console.log("[Vision] SALTO!");
 
-    // Simula keydown Space → lo recibe el listener del juego
+    // Evento de teclado (lo recibe el listener del juego)
     document.dispatchEvent(
       new KeyboardEvent("keydown", { keyCode: 32, code: "Space", bubbles: true })
     );
-
     // Llamada directa como respaldo
     if (typeof Saltar === "function") Saltar();
 
-    // 700 ms de pausa antes de permitir otro salto
     setTimeout(() => { saltoCooldown = false; }, 700);
   }
 
-  // ── 5. Lógica: índice levantado ──────────────────────────────────
-  // Landmark 8 = punta del índice, 6 = articulación PIP del índice.
-  // "Levantado" = la punta está al menos 4% de alto de pantalla
-  // por encima del nudillo intermedio.
-  function indiceEstaLevantado(hand) {
-    return hand[8].y < hand[6].y - 0.04;
-  }
-
-  // ── 6. Render loop ───────────────────────────────────────────────
+  // ── 8. Loop de detección ─────────────────────────────────────────
   let lastVideoTime = -1;
+  let frameCount = 0;
 
   function renderLoop() {
-    if (video.currentTime !== lastVideoTime) {
+    frameCount++;
+    if (frameCount % 60 === 0) {
+      console.log("[Vision] frame", frameCount, "| videoTime:", video.currentTime.toFixed(2));
+    }
+
+    if (video.readyState >= 2 && video.currentTime !== lastVideoTime) {
       lastVideoTime = video.currentTime;
 
-      const results = handLandmarker.detectForVideo(video, performance.now());
-
-      ctx.save();
-      ctx.clearRect(0, 0, overlay.width, overlay.height);
-
-      // Espejo horizontal para que la mano coincida con lo que el
-      // usuario ve (como en un espejo).
-      ctx.scale(-1, 1);
-      ctx.translate(-overlay.width, 0);
-
-      if (results.landmarks && results.landmarks.length > 0) {
-        for (const hand of results.landmarks) {
-
-          // Conexiones (huesos de la mano)
-          drawUtils.drawConnectors(
-            hand,
-            HandLandmarker.HAND_CONNECTIONS,
-            { color: "#00e5ff", lineWidth: 3 }
-          );
-
-          // Articulaciones
-          drawUtils.drawLandmarks(hand, {
-            color: "#ff4081",
-            fillColor: "#ffffff",
-            lineWidth: 1,
-            radius: 4
-          });
-
-          // Punta del índice resaltada: verde si levantado, rosa si no
-          const tip = hand[8];
-          const levantado = indiceEstaLevantado(hand);
-          ctx.beginPath();
-          ctx.arc(
-            tip.x * overlay.width,
-            tip.y * overlay.height,
-            9, 0, Math.PI * 2
-          );
-          ctx.fillStyle = levantado ? "#00e676" : "#ff4081";
-          ctx.strokeStyle = "#ffffff";
-          ctx.lineWidth = 2;
-          ctx.fill();
-          ctx.stroke();
-        }
-
-        // Disparar salto si el índice de la primera mano está levantado
-        if (indiceEstaLevantado(results.landmarks[0])) {
-          dispararSalto();
-        }
+      let results;
+      try {
+        results = handLandmarker.detectForVideo(video, performance.now());
+      } catch (err) {
+        console.error("[Vision] detectForVideo error:", err);
+        requestAnimationFrame(renderLoop);
+        return;
       }
 
-      ctx.restore();
+      ctx.clearRect(0, 0, overlay.width, overlay.height);
+
+      if (results.landmarks && results.landmarks.length > 0) {
+        const hand = results.landmarks[0];
+        const levantado = indiceEstaLevantado(hand);
+        dibujarMano(hand, levantado);
+        if (levantado) dispararSalto();
+      }
     }
 
     requestAnimationFrame(renderLoop);
   }
 
-  video.addEventListener("loadeddata", () => {
+  // Iniciar cuando el video tenga frames
+  if (video.readyState >= 2) {
+    console.log("[Vision] video ya listo, arrancando loop");
     renderLoop();
-  });
+  } else {
+    video.addEventListener("loadeddata", () => {
+      console.log("[Vision] loadeddata, arrancando loop");
+      renderLoop();
+    });
+  }
 
 })();

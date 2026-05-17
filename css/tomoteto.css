@@ -134,10 +134,7 @@ h1 {
     transform: scale(0.95);
 }
 
-#contenedor{
-    visibility: hidden;
-    display: none;
-}
+
 
 #btnReiniciar {
     margin-top: 16px;
@@ -151,7 +148,7 @@ h1 {
     letter-spacing: 1px;
     box-shadow: 0 4px 14px rgba(184, 28, 61, 0.6);
     transition: transform 0.1s, box-shadow 0.1s;
-    visibility: hidden;
+
 }
 
 .contenedor {
