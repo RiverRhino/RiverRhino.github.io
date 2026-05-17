@@ -62,7 +62,7 @@
     "border-radius:10px",
     "overflow:hidden",
     "z-index:9999",
-    "border:2px solid #00e5ff",
+    "border:6px solid #610a0a",
     "background:#000"
   ].join(";");
 
@@ -113,7 +113,7 @@
     const H = overlay.height;
 
     // Líneas
-    ctx.strokeStyle = "#00e5ff";
+    ctx.strokeStyle = "#fc0303c0";
     ctx.lineWidth = 3;
     for (const [a, b] of CONNECTIONS) {
       ctx.beginPath();
@@ -130,8 +130,8 @@
 
       ctx.beginPath();
       ctx.arc(x, y, esPunta ? 10 : 5, 0, Math.PI * 2);
-      ctx.fillStyle = esPunta ? (levantado ? "#00e676" : "#ff4081") : "#fff";
-      ctx.strokeStyle = "#00e5ff";
+      ctx.fillStyle = esPunta ? (levantado ? "#3cff00" : "#791436") : "#4d4d4dc7";
+      ctx.strokeStyle = "#610202";
       ctx.lineWidth = 2;
       ctx.fill();
       ctx.stroke();
