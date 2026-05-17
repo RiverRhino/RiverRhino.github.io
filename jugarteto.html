@@ -53,6 +53,9 @@
     </div>
     <button id="btnReiniciar">Reiniciar</button>
 
+    <video id="video" width="640" height="480" autoplay playsinline muted style="position:fixed; bottom:8px; right:8px; width:160px; border-radius:8px; opacity:0.8;"></video>
+
+
     <script>
 
 //****** GAME LOOP ********/
@@ -351,8 +354,9 @@ function reiniciarJuego() {
 let puntuacionGuardada = localStorage.getItem("punt");
 console.log("Puntuaciojn guardada: " + puntuacionGuardada);
     </script>
-
+    <script src="./js/visionteto.js"></script>
     <script src="./js/tomoteto.js"></script>
+    
 </body>
 
 </html>
