@@ -226,3 +226,13 @@
   }
 
 })();
+
+const juego = document.getElementById("apagado");
+const dibujoTeto = document.querySelector(".fotocontenedor");
+
+document.addEventListener("DOMContentLoaded", function(){
+  setTimeout(function(){
+    juego.style.display = "block";
+    dibujoTeto.style.display = "none";
+  },10000);
+})
