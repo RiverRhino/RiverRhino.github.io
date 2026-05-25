@@ -3,62 +3,321 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Voxel Map OSM</title>
 
-<script src="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.js"></script>
-<link href="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-body{
-      margin:0;
-    }
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Press Start 2P', cursive;
+  background: #222;
+}
 
-    #map{
-      width:100vw;
-      height:100vh;
-    }
+#map {
+  width: 100vw;
+  height: 100vh;
+  image-rendering: pixelated;
+  filter: contrast(1.1) saturate(.8);
+}
+
+.panel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(0,0,0,.85);
+  border: 4px solid #555;
+  color: white;
+  padding: 15px;
+  min-width: 160px;
+}
+
+.panel-title {
+  font-size: 11px;
+  margin-bottom: 10px;
+  color: #7CFC00;
+  letter-spacing: 1px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  padding: 10px 8px;
+  border: 2px solid #888;
+  background: #7a4f24;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #96652f;
+  border-color: #aaa;
+}
+
+/* Indicador de carga */
+#loading {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(0,0,0,.85);
+  border: 3px solid #555;
+  color: #7CFC00;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  padding: 10px 16px;
+  display: none;
+}
+
+/* Leyenda */
+#leyenda {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: rgba(0,0,0,.85);
+  border: 4px solid #555;
+  color: white;
+  padding: 12px;
+  font-size: 7px;
+  line-height: 2;
+}
+
+#leyenda .ley-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+#leyenda img {
+  image-rendering: pixelated;
+  width: 18px;
+  height: 18px;
+}
+
+/* Popup estilo pixel */
+.leaflet-popup-content-wrapper {
+  background: #222;
+  border: 3px solid #555;
+  border-radius: 0;
+  color: white;
+  box-shadow: 3px 3px 0 #000;
+}
+
+.leaflet-popup-tip {
+  background: #555;
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+}
 </style>
 </head>
 
 <body>
 
+<div id="loading">⏳ CARGANDO MAPA...</div>
+
+<div id="leyenda" style="display:none">
+  <div style="margin-bottom:8px;color:#7CFC00">CATEGORÍAS</div>
+  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/3075/3075977.png"> Restaurante</div>
+  <div class="ley-row"><img src="https://preview.redd.it/origin-of-the-teto-baguette-v0-n0vimtc22ltf1.jpg?width=640&crop=smart&auto=webp&s=21beb10380e02d8f972e44c5fa47ca958b3694e9"> Café</div>
+  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/3448/3448326.png"> Bar</div>
+  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/2206/2206368.png"> Museo</div>
+  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/235/235889.png"> Hotel</div>
+  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/2382/2382461.png"> Hospital</div>
+  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/854/854894.png"> Parque</div>
+  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/2103/2103658.png"> Histórico</div>
+  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/684/684908.png"> Otro</div>
+</div>
+
 <div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-   const map = new maplibregl.Map({
 
-  container: 'map',
+// ── Mapa ──────────────────────────────────────────────────────────
+const map = L.map('map', { zoomControl: false }).setView([32.6245, -115.4523], 14);
 
-  style:
-  'https://demotiles.maplibre.org/style.json',
+const normalLayer = L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  { attribution: '© OpenStreetMap' }
+);
+const darkLayer = L.tileLayer(
+  'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
+  { attribution: '© Stadia Maps' }
+);
+normalLayer.addTo(map);
 
-  center: [-115.4523, 32.6245],
-
-  zoom: 4
-
+// ── Jugador ───────────────────────────────────────────────────────
+const playerIcon = L.icon({
+  iconUrl: 'https://i.pinimg.com/originals/80/23/9d/80239d4ac2c183b7f35586a425dd324f.png',
+  iconSize: [48, 48],
+  iconAnchor: [24, 48],
+  popupAnchor: [0, -50]
 });
+L.marker([32.6245, -115.4523], { icon: playerIcon })
+  .bindPopup('<b style="font-size:9px">📍 TÚ ESTÁS AQUÍ</b>')
+  .addTo(map);
 
-/* cambiar agua a rojo */
-map.on('load', () => {
+// ── Iconos por categoría ──────────────────────────────────────────
+const iconoURLs = {
+  restaurant: 'https://cdn-icons-png.flaticon.com/32/3075/3075977.png',
+  cafe:       'https://pbs.twimg.com/media/GjnTdKDXAAA0C7v.jpg',
+  bar:        'https://cdn-icons-png.flaticon.com/32/3448/3448326.png',
+  museum:     'https://cdn-icons-png.flaticon.com/32/2206/2206368.png',
+  hotel:      'https://cdn-icons-png.flaticon.com/32/235/235889.png',
+  motel:      'https://cdn-icons-png.flaticon.com/32/235/235889.png',
+  hospital:   'https://cdn-icons-png.flaticon.com/32/2382/2382461.png',
+  pharmacy:   'https://cdn-icons-png.flaticon.com/32/2382/2382461.png',
+  school:     'https://cdn-icons-png.flaticon.com/32/2602/2602414.png',
+  bank:       'https://cdn-icons-png.flaticon.com/32/2830/2830284.png',
+  park:       'https://cdn-icons-png.flaticon.com/32/854/854894.png',
+  historic:   'https://cdn-icons-png.flaticon.com/32/2103/2103658.png',
+  attraction: 'https://cdn-icons-png.flaticon.com/32/2103/2103658.png',
+  viewpoint:  'https://cdn-icons-png.flaticon.com/32/2103/2103658.png',
+  default:    'https://cdn-icons-png.flaticon.com/32/684/684908.png',
+};
 
-    map.getStyle().layers.forEach(layer => {
-    console.log(layer.id);
+// Cache de objetos L.icon para no recrearlos cada vez
+const iconCache = {};
+
+function crearIcono(tipo) {
+  const key = iconoURLs[tipo] ? tipo : 'default';
+  if (iconCache[key]) return iconCache[key];
+
+  iconCache[key] = L.divIcon({
+    html: `<div style="
+      width:36px;height:36px;
+      background:#1a1a1a;
+      border:3px solid #666;
+      box-shadow:3px 3px 0 #000;
+      display:flex;align-items:center;justify-content:center;
+      image-rendering:pixelated;
+    ">
+      <img src="${iconoURLs[key]}" width="24" height="24"
+           style="image-rendering:pixelated;display:block;">
+    </div>`,
+    className: '',
+    iconSize: [36, 36],
+    iconAnchor: [18, 36],
+    popupAnchor: [0, -40]
   });
 
-  map.setPaintProperty(
-    'coastline',
-    'line-color',
-    '#ff0000'
-  );
-  map.setPaintProperty(
-    'background',
-    'background-color',
-    '#ff0000'
-  );
+  return iconCache[key];
+}
 
+// ── Estado ────────────────────────────────────────────────────────
+let marcadoresPOI = [];
+let cargando = false;
+const loadingEl = document.getElementById('loading');
+
+// ── Carga de POIs ─────────────────────────────────────────────────
+async function cargarPOIs() {
+  if (cargando) return;
+  cargando = true;
+  loadingEl.style.display = 'block';
+
+  // Limpiar marcadores anteriores
+  marcadoresPOI.forEach(m => map.removeLayer(m));
+  marcadoresPOI = [];
+
+  const b = map.getBounds();
+  const bbox = `${b.getSouth()},${b.getWest()},${b.getNorth()},${b.getEast()}`;
+
+  const query = `
+    [out:json][timeout:25];
+    (
+      node[tourism](${bbox});
+      node[amenity=restaurant](${bbox});
+      node[amenity=cafe](${bbox});
+      node[amenity=bar](${bbox});
+      node[amenity=hospital](${bbox});
+      node[amenity=pharmacy](${bbox});
+      node[amenity=school](${bbox});
+      node[amenity=bank](${bbox});
+      node[historic](${bbox});
+      node[leisure=park](${bbox});
+    );
+    out body;
+  `;
+
+  try {
+    const res = await fetch('https://overpass-api.de/api/interpreter', {
+      method: 'POST',
+      body: query
+    });
+    const data = await res.json();
+
+    data.elements.forEach(poi => {
+      if (!poi.lat || !poi.lon) return;
+
+      const nombre = poi.tags.name || 'Sin nombre';
+      const tipo = poi.tags.tourism
+        || poi.tags.amenity
+        || poi.tags.historic
+        || poi.tags.leisure
+        || 'default';
+
+      const marker = L.marker([poi.lat, poi.lon], { icon: crearIcono(tipo) })
+        .bindPopup(`
+          <b style="font-family:'Press Start 2P',sans-serif;font-size:8px;color:#7CFC00">
+            ${nombre}
+          </b>
+          <br>
+          <span style="font-family:'Press Start 2P',sans-serif;font-size:7px;color:#aaa">
+            ${tipo.toUpperCase()}
+          </span>
+        `);
+
+      marker.addTo(map);
+      marcadoresPOI.push(marker);
+    });
+
+  } catch (e) {
+    console.error('Error cargando POIs:', e);
+  }
+
+  cargando = false;
+  loadingEl.style.display = 'none';
+}
+
+// Carga inicial + debounce al mover
+cargarPOIs();
+
+let timer;
+map.on('moveend', () => {
+  clearTimeout(timer);
+  timer = setTimeout(cargarPOIs, 800);
 });
+
+// ── Botones ───────────────────────────────────────────────────────
+let dark = false;
+document.getElementById('btnBioma').addEventListener('click', () => {
+  dark = !dark;
+  if (dark) {
+    map.removeLayer(normalLayer);
+    darkLayer.addTo(map);
+  } else {
+    map.removeLayer(darkLayer);
+    normalLayer.addTo(map);
+  }
+});
+
+let leyendaVisible = false;
+document.getElementById('btnLeyenda').addEventListener('click', () => {
+  leyendaVisible = !leyendaVisible;
+  document.getElementById('leyenda').style.display = leyendaVisible ? 'block' : 'none';
+});
+
 </script>
-
-
 </body>
 </html>
