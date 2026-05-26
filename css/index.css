@@ -1,13 +1,12 @@
 body
 {
-    background-image: linear-gradient(to top, #2d7e67 0%, #8aa7b8 100%);
-    text-align: center;
+    text-align: left;
 }
 
 #Titulo
 {
-    color:white;
-    text-align: center;
+    color:rgb(0, 0, 0);
+    text-align:left;
 }
 
 #Presentacion
