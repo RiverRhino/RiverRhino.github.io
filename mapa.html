@@ -128,8 +128,8 @@ button:hover {
 
 <div id="leyenda" style="display:block">
   <div style="font-size:15px;margin-bottom:8px;color:#ff0000">Categoria</div>
-  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/3075/3075977.png"> Restaurante</div>
-  <div class="ley-row"><img src="https://preview.redd.it/origin-of-the-teto-baguette-v0-n0vimtc22ltf1.jpg?width=640&crop=smart&auto=webp&s=21beb10380e02d8f972e44c5fa47ca958b3694e9"> Café</div>
+  <div class="ley-row"><img src="https://pbs.twimg.com/media/GZvlAwaagAABbPx.jpg"> Restaurante</div>
+  <div class="ley-row"><img src="https://pbs.twimg.com/media/GjnTdKDXAAA0C7v.jpg"> Café Teto</div>
   <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/3448/3448326.png"> Bar</div>
   <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/2206/2206368.png"> Museo</div>
   <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/235/235889.png"> Hotel</div>
@@ -143,6 +143,8 @@ button:hover {
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
+
+
 
 // ── Mapa ──────────────────────────────────────────────────────────
 const map = L.map('map', { zoomControl: false }).setView([32.6245, -115.4523], 14);
@@ -160,17 +162,39 @@ normalLayer.addTo(map);
 // ── Jugador ───────────────────────────────────────────────────────
 const playerIcon = L.icon({
   iconUrl: 'https://i.pinimg.com/originals/80/23/9d/80239d4ac2c183b7f35586a425dd324f.png',
-  iconSize: [48, 48],
+  iconSize: [100, 100],
   iconAnchor: [24, 48],
   popupAnchor: [0, -50]
 });
-L.marker([32.6245, -115.4523], { icon: playerIcon })
-  .bindPopup('<b style="font-size:9px">📍 TÚ ESTÁS AQUÍ</b>')
-  .addTo(map);
+
+
+
+let playerMarker;
+
+ if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(function(position) {
+        const latitud = position.coords.latitude;
+        const longitud = position.coords.longitude;
+        if (playerMarker) {
+            playerMarker.setLatLng([latitud, longitud]);
+        } else {
+            // Si el marcador NO existe (es la primera vez), lo creamos y lo añadimos al mapa
+            playerMarker = L.marker([latitud, longitud], { icon: playerIcon })
+              .bindPopup('<b style="font-size:9px">📍 TÚ ESTÁS AQUÍ</b>')
+              .addTo(map);
+        }
+        map.setView([latitud, longitud]);
+      }, function(error) {
+        console.error("Error al obtener la ubicación: " + error.message);
+    });
+} else {
+    console.log("La geolocalización no es soportada por este navegador.");
+}
+
 
 // ── Iconos por categoría ──────────────────────────────────────────
 const iconoURLs = {
-  restaurant: 'https://cdn-icons-png.flaticon.com/32/3075/3075977.png',
+  restaurant: 'https://pbs.twimg.com/media/GZvlAwaagAABbPx.jpg',
   cafe:       'https://pbs.twimg.com/media/GjnTdKDXAAA0C7v.jpg',
   bar:        'https://cdn-icons-png.flaticon.com/32/3448/3448326.png',
   museum:     'https://cdn-icons-png.flaticon.com/32/2206/2206368.png',
@@ -199,12 +223,13 @@ function crearIcono(tipo) {
       width:36px;height:36px;
       background:#1a1a1a;
       border:3px solid #666;
+      border-radius:4px;
       box-shadow:3px 3px 0 #000;
       display:flex;align-items:center;justify-content:center;
       image-rendering:pixelated;
     ">
       <img src="${iconoURLs[key]}" width="50" height="50"
-           style="image-rendering:pixelated;display:block;">
+           style="image-rendering:pixelated;display:block;border-radius:5px;">
     </div>`,
     className: '',
     iconSize: [40, 40],
