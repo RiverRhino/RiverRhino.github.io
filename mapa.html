@@ -162,7 +162,14 @@ normalLayer.addTo(map);
 // ── Jugador ───────────────────────────────────────────────────────
 const playerIcon = L.icon({
   iconUrl: 'https://i.pinimg.com/originals/80/23/9d/80239d4ac2c183b7f35586a425dd324f.png',
-  iconSize: [100, 100],
+  iconSize: [40, 40],
+  iconAnchor: [24, 48],
+  popupAnchor: [0, -50]
+});
+
+const casaChurroIcon = L.icon({
+  iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLgwwPM1BugLqVrvkg7Z-WZmJBm8_ifg-CRQ&s',
+  iconSize: [40, 40],
   iconAnchor: [24, 48],
   popupAnchor: [0, -50]
 });
@@ -180,7 +187,7 @@ let playerMarker;
         } else {
             // Si el marcador NO existe (es la primera vez), lo creamos y lo añadimos al mapa
             playerMarker = L.marker([latitud, longitud], { icon: playerIcon })
-              .bindPopup('<b style="font-size:9px">📍 TÚ ESTÁS AQUÍ</b>')
+              .bindPopup('<b style="font-size:9px">Teto esta aqui</b>')
               .addTo(map);
         }
         map.setView([latitud, longitud]);
@@ -190,6 +197,12 @@ let playerMarker;
 } else {
     console.log("La geolocalización no es soportada por este navegador.");
 }
+
+//Marcador de la casa del churro
+
+L.marker([32.56, -115.48], { icon: casaChurroIcon })
+  .bindPopup('<b style="font-size:9px">Casa del Churro</b>')
+  .addTo(map);
 
 
 // ── Iconos por categoría ──────────────────────────────────────────
@@ -232,9 +245,9 @@ function crearIcono(tipo) {
            style="image-rendering:pixelated;display:block;border-radius:5px;">
     </div>`,
     className: '',
-    iconSize: [40, 40],
-    iconAnchor: [40, 36],
-    popupAnchor: [0, -40]
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -30]
   });
 
   return iconCache[key];
@@ -324,18 +337,7 @@ map.on('moveend', () => {
   timer = setTimeout(cargarPOIs, 800);
 });
 
-// ── Botones ───────────────────────────────────────────────────────
-let dark = false;
-document.getElementById('btnBioma').addEventListener('click', () => {
-  dark = !dark;
-  if (dark) {
-    map.removeLayer(normalLayer);
-    darkLayer.addTo(map);
-  } else {
-    map.removeLayer(darkLayer);
-    normalLayer.addTo(map);
-  }
-});
+
 
 let leyendaVisible = false;
 document.getElementById('btnLeyenda').addEventListener('click', () => {
