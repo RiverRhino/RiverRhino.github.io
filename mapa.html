@@ -190,7 +190,6 @@ let playerMarker;
               .bindPopup('<b style="font-size:9px">Teto esta aqui</b>')
               .addTo(map);
         }
-        map.setView([latitud, longitud]);
       }, function(error) {
         console.error("Error al obtener la ubicación: " + error.message);
     });
