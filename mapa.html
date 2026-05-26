@@ -13,7 +13,7 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: 'Press Start 2P', cursive;
-  background: #222;
+  background: #cf0000;
 }
 
 #map {
@@ -29,7 +29,7 @@ body {
   left: 20px;
   z-index: 1000;
   background: rgba(0,0,0,.85);
-  border: 4px solid #555;
+  border: 4px solid #7a0000;
   color: white;
   padding: 15px;
   min-width: 160px;
@@ -49,7 +49,7 @@ button {
   font-family: 'Press Start 2P', cursive;
   font-size: 8px;
   padding: 10px 8px;
-  border: 2px solid #888;
+  border: 2px solid #e70000;
   background: #7a4f24;
   color: white;
   cursor: pointer;
@@ -68,7 +68,7 @@ button:hover {
   transform: translateX(-50%);
   z-index: 1000;
   background: rgba(0,0,0,.85);
-  border: 3px solid #555;
+  border: 3px solid #940707;
   color: #7CFC00;
   font-family: 'Press Start 2P', cursive;
   font-size: 8px;
@@ -83,9 +83,9 @@ button:hover {
   right: 20px;
   z-index: 1000;
   background: rgba(0,0,0,.85);
-  border: 4px solid #555;
+  border: 4px solid #9e0808;
   color: white;
-  padding: 12px;
+  padding: 30px;
   font-size: 7px;
   line-height: 2;
 }
@@ -105,15 +105,15 @@ button:hover {
 
 /* Popup estilo pixel */
 .leaflet-popup-content-wrapper {
-  background: #222;
-  border: 3px solid #555;
+  background: #e60000e5;
+  border: 3px solid #bb0303;
   border-radius: 0;
   color: white;
   box-shadow: 3px 3px 0 #000;
 }
 
 .leaflet-popup-tip {
-  background: #555;
+  background: #f10000;
 }
 
 .leaflet-popup-content {
@@ -126,8 +126,8 @@ button:hover {
 
 <div id="loading">⏳ CARGANDO MAPA...</div>
 
-<div id="leyenda" style="display:none">
-  <div style="margin-bottom:8px;color:#7CFC00">CATEGORÍAS</div>
+<div id="leyenda" style="display:block">
+  <div style="font-size:15px;margin-bottom:8px;color:#ff0000">Categoria</div>
   <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/3075/3075977.png"> Restaurante</div>
   <div class="ley-row"><img src="https://preview.redd.it/origin-of-the-teto-baguette-v0-n0vimtc22ltf1.jpg?width=640&crop=smart&auto=webp&s=21beb10380e02d8f972e44c5fa47ca958b3694e9"> Café</div>
   <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/3448/3448326.png"> Bar</div>
@@ -203,12 +203,12 @@ function crearIcono(tipo) {
       display:flex;align-items:center;justify-content:center;
       image-rendering:pixelated;
     ">
-      <img src="${iconoURLs[key]}" width="24" height="24"
+      <img src="${iconoURLs[key]}" width="50" height="50"
            style="image-rendering:pixelated;display:block;">
     </div>`,
     className: '',
-    iconSize: [36, 36],
-    iconAnchor: [18, 36],
+    iconSize: [40, 40],
+    iconAnchor: [40, 36],
     popupAnchor: [0, -40]
   });
 
