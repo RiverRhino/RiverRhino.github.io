@@ -199,9 +199,18 @@ let playerMarker;
 
 //Marcador de la casa del churro
 
-L.marker([32.56, -115.48], { icon: casaChurroIcon })
-  .bindPopup('<b style="font-size:9px">Casa del Churro</b>')
-  .addTo(map);
+// DESPUÉS — anclado cerca de Mexicali, tamaño de barrio
+var videoUrl = './casachurro.mp4',
+    videoBounds = [
+      [32.640, -115.480],  // esquina noreste
+      [32.600, -115.440]   // esquina suroeste
+    ];
+var videoLayer = L.videoOverlay(videoUrl, videoBounds, {
+  opacity: 0.8,
+  autoplay: true,
+  muted: true,
+  loop: true
+}).addTo(map);
 
 
 // ── Iconos por categoría ──────────────────────────────────────────
