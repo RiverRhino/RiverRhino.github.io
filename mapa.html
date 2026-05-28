@@ -246,10 +246,10 @@ button:hover {
 
 <body>
 
-<div id="loading">⏳ CARGANDO MAPA...</div>
+<div id="loading">⏳ Generando terreno...</div>
 
 <button id="categoriaBtn">
-  <img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/menu--v1.png" alt="menu"/>
+  <img width="40" height="40" src="https://img.icons8.com/ios/50/FFFFFF/menu--v1.png" alt="menu"/>
 </button>
 
 <div id="leyenda" style="display:none">
@@ -286,7 +286,6 @@ button:hover {
     </div>
     <div class="modal-footer">
       <button onclick="closeOverlay()">Cerrar</button>
-      <button class="btn-primary" id="modal-link-btn" onclick="abrirLink()">Ver más</button>
     </div>
   </div>
 </div>
@@ -300,9 +299,10 @@ document.getElementById('categoriaBtn').addEventListener('click', () => {
 });
 
 // ── Mapa ───────────────────────────────────────────────────────────
-const map = L.map('map', { zoomControl: false }).setView([32.6245, -115.4523], 14);
+const map = L.map('map', { zoomControl: true }).setView([32.6245, -115.4523], 14);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  noWrap: true,
   attribution: '© OpenStreetMap'
 }).addTo(map);
 
@@ -349,8 +349,8 @@ const MARKER_MODELS = {
     size: [40, 40],
     popup: {
       title: 'Casa del Churro',
-      cat:   'Restaurante',
-      desc:  'El lugar favorito del barrio para desayunar.',
+      cat:   'Propia',
+      desc:  'Aqui vive el churro, el mas famoso de Churrolandia.',
       img:   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLgwwPM1BugLqVrvkg7Z-WZmJBm8_ifg-CRQ&s',
       link:  '',
     }
@@ -360,8 +360,8 @@ const MARKER_MODELS = {
     size: [40, 40],
     popup: {
       title: 'Casa de Letty',
-      cat:   'Hogar',
-      desc:  'El punto de reunión de siempre.',
+      cat:   'Propia',
+      desc:  'La esposa del churro.',
       img:   'https://periodicocorreo.com.mx/__export/sites/correo/img/2022/08/12/destruccion-de-oxxo-en-Guanajuato-820365497.jpg',
       link:  '',
     }
