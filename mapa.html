@@ -144,16 +144,19 @@ button:hover {
   <div style="font-size:15px;margin-bottom:8px;color:#ff0000">Categoria</div>
   <div class="ley-row"><img src="https://pbs.twimg.com/media/GZvlAwaagAABbPx.jpg"> Restaurante</div>
   <div class="ley-row"><img src="https://pbs.twimg.com/media/GjnTdKDXAAA0C7v.jpg"> Café Teto</div>
-  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/3448/3448326.png"> Bar</div>
-  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/2206/2206368.png"> Museo</div>
-  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/235/235889.png"> Hotel</div>
-  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/2382/2382461.png"> Hospital</div>
-  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/854/854894.png"> Parque</div>
-  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/2103/2103658.png"> Histórico</div>
-  <div class="ley-row"><img src="https://cdn-icons-png.flaticon.com/32/684/684908.png"> Otro</div>
+  <div class="ley-row"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz3OvSdpqrlsghf9oHIM2J2dE-edzVoBaQ8A&s"> Bar</div>
+  <div class="ley-row"><img src="https://www.dondeir.com/wp-content/uploads/2024/05/vocaloid-exposicion-cdmx.jpg"> Museo</div>
+  <div class="ley-row"><img src="https://i.pinimg.com/236x/e1/1b/0a/e11b0a9e77d9a1b405cc119d806424cf.jpg"> Hotel</div>
+  <div class="ley-row"><img src="https://preview.redd.it/why-do-yall-call-this-teto-dr-kidori-v0-dm5b7fgbtv2f1.jpeg?auto=webp&s=96c454d243c914a9707218c50275e0aad4f1f95b"> Hospital</div>
+  <div class="ley-row"><img src="https://preview.redd.it/highschool-teto-v0-tz6md2by5jhf1.png?width=1300&format=png&auto=webp&s=4555235838e1046f37f7402bad664930c82cda84">Escuela</div>
+  <div class="ley-row"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbl1hwNUCk2XfGoFEOD5Ks4_iGspSNjaqbYw&s"> Histórico</div>
+  <div class="ley-row"><img src="https://preview.redd.it/any-guide-on-what-to-do-when-your-teto-plush-started-talking-v0-g890tf0bp8df1.png?auto=webp&s=20d8409b87280f54ed1965e3e4a9ba6303b2eac1">Banco</div>
 </div>
 
 <div id="map"></div>
+
+
+</div>
 
 
 <script>
@@ -208,6 +211,7 @@ const casaLettyIcon = L.icon({
   popupAnchor: [0, -50]
 });
 
+
 L.marker([32.620, -115.480], { icon: casaChurroIcon })
   .bindPopup('<b style="font-size:9px">Casa del Churro</b>')
   .addTo(map);
@@ -215,8 +219,6 @@ L.marker([32.620, -115.480], { icon: casaChurroIcon })
   L.marker([32.63530003199846, -115.44225505368144], { icon: casaLettyIcon })
   .bindPopup('<b style="font-size:9px">Casa de Letty</b>')
   .addTo(map);
-
-
 
 let playerMarker;
 
@@ -261,19 +263,13 @@ let playerMarker;
 const iconoURLs = {
   restaurant: 'https://pbs.twimg.com/media/GZvlAwaagAABbPx.jpg',
   cafe:       'https://pbs.twimg.com/media/GjnTdKDXAAA0C7v.jpg',
-  bar:        'https://cdn-icons-png.flaticon.com/32/3448/3448326.png',
-  museum:     'https://cdn-icons-png.flaticon.com/32/2206/2206368.png',
-  hotel:      'https://cdn-icons-png.flaticon.com/32/235/235889.png',
-  motel:      'https://cdn-icons-png.flaticon.com/32/235/235889.png',
-  hospital:   'https://cdn-icons-png.flaticon.com/32/2382/2382461.png',
-  pharmacy:   'https://cdn-icons-png.flaticon.com/32/2382/2382461.png',
-  school:     'https://cdn-icons-png.flaticon.com/32/2602/2602414.png',
-  bank:       'https://cdn-icons-png.flaticon.com/32/2830/2830284.png',
-  park:       'https://cdn-icons-png.flaticon.com/32/854/854894.png',
-  historic:   'https://cdn-icons-png.flaticon.com/32/2103/2103658.png',
-  attraction: 'https://cdn-icons-png.flaticon.com/32/2103/2103658.png',
-  viewpoint:  'https://cdn-icons-png.flaticon.com/32/2103/2103658.png',
-  default:    'https://cdn-icons-png.flaticon.com/32/684/684908.png',
+  bar:        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz3OvSdpqrlsghf9oHIM2J2dE-edzVoBaQ8A&s',
+  museum:     'https://www.dondeir.com/wp-content/uploads/2024/05/vocaloid-exposicion-cdmx.jpg',
+  hotel:      'https://i.pinimg.com/236x/e1/1b/0a/e11b0a9e77d9a1b405cc119d806424cf.jpg',
+  hospital:   'https://preview.redd.it/why-do-yall-call-this-teto-dr-kidori-v0-dm5b7fgbtv2f1.jpeg?auto=webp&s=96c454d243c914a9707218c50275e0aad4f1f95b',
+  school:     'https://preview.redd.it/highschool-teto-v0-tz6md2by5jhf1.png?width=1300&format=png&auto=webp&s=4555235838e1046f37f7402bad664930c82cda84',
+  bank:       'https://preview.redd.it/any-guide-on-what-to-do-when-your-teto-plush-started-talking-v0-g890tf0bp8df1.png?auto=webp&s=20d8409b87280f54ed1965e3e4a9ba6303b2eac1',
+  park:       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbl1hwNUCk2XfGoFEOD5Ks4_iGspSNjaqbYw&s',
 };
 
 // Cache de objetos L.icon para no recrearlos cada vez
@@ -326,15 +322,12 @@ async function cargarPOIs() {
   const query = `
     [out:json][timeout:25];
     (
-      node[tourism](${bbox});
       node[amenity=restaurant](${bbox});
       node[amenity=cafe](${bbox});
       node[amenity=bar](${bbox});
       node[amenity=hospital](${bbox});
-      node[amenity=pharmacy](${bbox});
       node[amenity=school](${bbox});
       node[amenity=bank](${bbox});
-      node[historic](${bbox});
       node[leisure=park](${bbox});
     );
     out body;
@@ -389,12 +382,40 @@ map.on('moveend', () => {
   timer = setTimeout(cargarPOIs, 800);
 });
 
+function openOverlay(data){
+  document.getElementById('model-name').textContent = data.name;
+  document.getElementById('model-description').textContent = data.description;  
+  document.getElementById('modal-cat').textContent  = data.cat;
+
+const media = document.getElementById('modal-media');
+  media.innerHTML = data.img
+    ? `<img class="modal-img" src="${data.img}">`
+    : `<div class="modal-img-placeholder">📍</div>`;
+  document.getElementById('overlay').classList.add('open');
+
+}
+
+marker.on('click', () => openOverlay(model.popup));
+
+// Cerrar con ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeOverlay();
+});
 
 let leyendaVisible = false;
 document.getElementById('btnLeyenda').addEventListener('click', () => {
   leyendaVisible = !leyendaVisible;
   document.getElementById('leyenda').style.display = leyendaVisible ? 'block' : 'none';
 });
+
+MARKER_MODELS['casaChurroIcon'] = {
+  popup: {
+    title: 'Casa del Churro',
+    cat:   'Restaurante',
+    desc:  'Churros artesanales desde 1995',
+    img:   'https://tu-imagen.jpg',  // opcional
+  }
+};
 
 </script>
 </body>
