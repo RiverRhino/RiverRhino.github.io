@@ -8,6 +8,11 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <style>
 body {
   margin: 0;
@@ -141,7 +146,7 @@ button:hover {
 
 <div id="map"></div>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <script>
 
 
@@ -158,6 +163,7 @@ const darkLayer = L.tileLayer(
   { attribution: '© Stadia Maps' }
 );
 normalLayer.addTo(map);
+
 
 // ── Jugador ───────────────────────────────────────────────────────
 const playerIcon = L.icon({
@@ -200,17 +206,19 @@ let playerMarker;
 //Marcador de la casa del churro
 
 // DESPUÉS — anclado cerca de Mexicali, tamaño de barrio
-var videoUrl = './casachurro.mp4',
-    videoBounds = [
-      [32.640, -115.480],  // esquina noreste
-      [32.600, -115.440]   // esquina suroeste
-    ];
-var videoLayer = L.videoOverlay(videoUrl, videoBounds, {
-  opacity: 0.8,
-  autoplay: true,
-  muted: true,
-  loop: true
-}).addTo(map);
+//var videoUrl = './casachurro.mp4',
+//    videoBounds = [
+ //     [32.620, -115.480],  // esquina noreste
+ //     [32.600, -115.490]   // esquina suroeste
+  //  ];
+//var videoLayer = L.videoOverlay(videoUrl, videoBounds, {
+  //opacity: 0.8,
+  //width: 50,
+  //height: 50,
+  //autoplay: true,
+  //muted: true,
+  //loop: true
+//}).addTo(map);
 
 
 // ── Iconos por categoría ──────────────────────────────────────────
@@ -345,7 +353,13 @@ map.on('moveend', () => {
   timer = setTimeout(cargarPOIs, 800);
 });
 
-
+//Agregar interactividad a el mapa
+L.Routing.control({
+  waypoints: [
+    L.latLng(32.6245, -115.4523),   // Centro Mexicali
+    L.latLng(32.6100, -115.4700)    // Otro punto en Mexicali
+  ]
+}).addTo(map);
 
 let leyendaVisible = false;
 document.getElementById('btnLeyenda').addEventListener('click', () => {
