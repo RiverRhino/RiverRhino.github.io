@@ -7,11 +7,9 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
 <style>
 body {
@@ -28,28 +26,7 @@ body {
   filter: contrast(1.1) saturate(.8);
 }
 
-.panel {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-  background: rgba(0,0,0,.85);
-  border: 4px solid #7a0000;
-  color: white;
-  padding: 15px;
-  min-width: 160px;
-}
-
-.panel-title {
-  font-size: 11px;
-  margin-bottom: 10px;
-  color: #7CFC00;
-  letter-spacing: 1px;
-}
-
 button {
-  display: block;
-  width: 100%;
   font-family: 'Press Start 2P', cursive;
   font-size: 8px;
   border: 2px solid #020202;
@@ -64,7 +41,6 @@ button:hover {
   border-color: #aaa;
 }
 
-/* Indicador de carga */
 #loading {
   position: absolute;
   bottom: 20px;
@@ -80,7 +56,6 @@ button:hover {
   display: none;
 }
 
-/* Leyenda */
 #leyenda {
   position: absolute;
   bottom: 20px;
@@ -105,9 +80,9 @@ button:hover {
   image-rendering: pixelated;
   width: 18px;
   height: 18px;
+  object-fit: cover;
 }
 
-/* Popup estilo pixel */
 .leaflet-popup-content-wrapper {
   background: #3a0202e5;
   border: 3px solid #bb0303;
@@ -116,13 +91,8 @@ button:hover {
   box-shadow: 3px 3px 0 #000;
 }
 
-.leaflet-popup-tip {
-  background: #000000;
-}
-
-.leaflet-popup-content {
-  margin: 10px 14px;
-}
+.leaflet-popup-tip { background: #000000; }
+.leaflet-popup-content { margin: 10px 14px; }
 
 #categoriaBtn {
   position: absolute;
@@ -130,8 +100,147 @@ button:hover {
   right: 10px;
   z-index: 1000;
   width: auto;
-} 
+  padding: 6px 10px;
+}
 
+/* ── Overlay / Modal ── */
+#overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: #0d0d0d;
+  border: 4px solid #8b0000;
+  width: 300px;
+  position: relative;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.modal-top-bar {
+  background: #8b0000;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#modal-bar-title {
+  font-size: 7px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+#modal-close-btn {
+  background: #ff2222;
+  border: 2px solid #fff;
+  color: #fff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+#modal-close-btn:hover { background: #cc0000; }
+
+.modal-img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+  image-rendering: pixelated;
+  filter: contrast(1.1) saturate(0.85);
+  border-bottom: 3px solid #8b0000;
+}
+
+.modal-img-placeholder {
+  width: 100%;
+  height: 130px;
+  background: #1a1a1a;
+  border-bottom: 3px solid #8b0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+.modal-body { padding: 14px; }
+
+#modal-cat {
+  font-size: 6px;
+  color: #8b0000;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+#modal-name {
+  font-size: 9px;
+  color: #7CFC00;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+#modal-desc {
+  font-size: 7px;
+  color: #bbb;
+  line-height: 1.9;
+  border-left: 3px solid #8b0000;
+  padding-left: 8px;
+}
+
+.modal-footer {
+  border-top: 2px solid #222;
+  padding: 10px 14px;
+  display: flex;
+  gap: 8px;
+}
+
+.modal-footer button {
+  font-size: 6px;
+  padding: 6px 10px;
+  flex: 1;
+  display: block;
+  width: auto;
+}
+
+.modal-footer .btn-primary {
+  border-color: #7CFC00;
+  color: #7CFC00;
+  background: #1a1a1a;
+}
+
+.modal-footer .btn-primary:hover {
+  background: #7CFC00;
+  color: #000;
+  border-color: #7CFC00;
+}
+
+/* Esquinas pixel */
+.pixel-corner {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ff2222;
+}
+.pc-tl { top: -1px; left: -1px; }
+.pc-tr { top: -1px; right: -1px; }
+.pc-bl { bottom: -1px; left: -1px; }
+.pc-br { bottom: -1px; right: -1px; }
 </style>
 </head>
 
@@ -139,7 +248,10 @@ button:hover {
 
 <div id="loading">⏳ CARGANDO MAPA...</div>
 
-<button id="categoriaBtn"><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/menu--v1.png" alt="menu--v1"/></button>
+<button id="categoriaBtn">
+  <img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/menu--v1.png" alt="menu"/>
+</button>
+
 <div id="leyenda" style="display:none">
   <div style="font-size:15px;margin-bottom:8px;color:#ff0000">Categoria</div>
   <div class="ley-row"><img src="https://pbs.twimg.com/media/GZvlAwaagAABbPx.jpg"> Restaurante</div>
@@ -148,118 +260,175 @@ button:hover {
   <div class="ley-row"><img src="https://www.dondeir.com/wp-content/uploads/2024/05/vocaloid-exposicion-cdmx.jpg"> Museo</div>
   <div class="ley-row"><img src="https://i.pinimg.com/236x/e1/1b/0a/e11b0a9e77d9a1b405cc119d806424cf.jpg"> Hotel</div>
   <div class="ley-row"><img src="https://preview.redd.it/why-do-yall-call-this-teto-dr-kidori-v0-dm5b7fgbtv2f1.jpeg?auto=webp&s=96c454d243c914a9707218c50275e0aad4f1f95b"> Hospital</div>
-  <div class="ley-row"><img src="https://preview.redd.it/highschool-teto-v0-tz6md2by5jhf1.png?width=1300&format=png&auto=webp&s=4555235838e1046f37f7402bad664930c82cda84">Escuela</div>
+  <div class="ley-row"><img src="https://preview.redd.it/highschool-teto-v0-tz6md2by5jhf1.png?width=1300&format=png&auto=webp&s=4555235838e1046f37f7402bad664930c82cda84"> Escuela</div>
   <div class="ley-row"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbl1hwNUCk2XfGoFEOD5Ks4_iGspSNjaqbYw&s"> Histórico</div>
-  <div class="ley-row"><img src="https://preview.redd.it/any-guide-on-what-to-do-when-your-teto-plush-started-talking-v0-g890tf0bp8df1.png?auto=webp&s=20d8409b87280f54ed1965e3e4a9ba6303b2eac1">Banco</div>
+  <div class="ley-row"><img src="https://preview.redd.it/any-guide-on-what-to-do-when-your-teto-plush-started-talking-v0-g890tf0bp8df1.png?auto=webp&s=20d8409b87280f54ed1965e3e4a9ba6303b2eac1"> Banco</div>
 </div>
 
 <div id="map"></div>
 
-
+<!-- ── Modal overlay ── -->
+<div id="overlay">
+  <div class="modal">
+    <div class="pixel-corner pc-tl"></div>
+    <div class="pixel-corner pc-tr"></div>
+    <div class="pixel-corner pc-bl"></div>
+    <div class="pixel-corner pc-br"></div>
+    <div class="modal-top-bar">
+      <span id="modal-bar-title">INFO</span>
+      <button id="modal-close-btn" onclick="closeOverlay()">X</button>
+    </div>
+    <div id="modal-media"></div>
+    <div class="modal-body">
+      <div id="modal-cat">Categoría</div>
+      <div id="modal-name">Nombre</div>
+      <div id="modal-desc">Descripción</div>
+    </div>
+    <div class="modal-footer">
+      <button onclick="closeOverlay()">Cerrar</button>
+      <button class="btn-primary" id="modal-link-btn" onclick="abrirLink()">Ver más</button>
+    </div>
+  </div>
 </div>
-
 
 <script>
 
-//Boton
-
-let btnCategoria = document.getElementById('categoriaBtn');
-btnCategoria.addEventListener('click', () => {
+// ── Botón leyenda ──────────────────────────────────────────────────
+document.getElementById('categoriaBtn').addEventListener('click', () => {
   const leyenda = document.getElementById('leyenda');
-  if (leyenda.style.display === 'none') {
-    leyenda.style.display = 'block';
-  } else {
-    leyenda.style.display = 'none';
-  }
+  leyenda.style.display = leyenda.style.display === 'none' ? 'block' : 'none';
 });
 
-
-
-// ── Mapa ──────────────────────────────────────────────────────────
+// ── Mapa ───────────────────────────────────────────────────────────
 const map = L.map('map', { zoomControl: false }).setView([32.6245, -115.4523], 14);
 
-const normalLayer = L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  { attribution: '© OpenStreetMap' }
-);
-const darkLayer = L.tileLayer(
-  'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
-  { attribution: '© Stadia Maps' }
-);
-normalLayer.addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap'
+}).addTo(map);
 
+// ── Overlay: abrir y cerrar ────────────────────────────────────────
+let modalLinkUrl = '';
 
-// ── Jugador ───────────────────────────────────────────────────────
-const playerIcon = L.icon({
-  iconUrl: 'https://i.pinimg.com/originals/80/23/9d/80239d4ac2c183b7f35586a425dd324f.png',
-  iconSize: [40, 40],
-  iconAnchor: [24, 48],
-  popupAnchor: [0, -50]
-});
+function openOverlay(data) {
+  document.getElementById('modal-bar-title').textContent = (data.title || 'INFO').toUpperCase().slice(0, 18);
+  document.getElementById('modal-name').textContent      = data.title       || 'Sin nombre';
+  document.getElementById('modal-cat').textContent       = (data.cat        || '').toUpperCase();
+  document.getElementById('modal-desc').textContent      = data.desc        || '';
+  modalLinkUrl = data.link || '';
 
-const casaChurroIcon = L.icon({
-  iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLgwwPM1BugLqVrvkg7Z-WZmJBm8_ifg-CRQ&s',
-  iconSize: [40, 40],
-  iconAnchor: [24, 48],
-  popupAnchor: [0, -50]
-});
+  const media = document.getElementById('modal-media');
+  media.innerHTML = data.img
+    ? `<img class="modal-img" src="${data.img}" onerror="this.parentNode.innerHTML='<div class=modal-img-placeholder>📍</div>'">`
+    : `<div class="modal-img-placeholder">📍</div>`;
 
-const casaLettyIcon = L.icon({
-  iconUrl: 'https://periodicocorreo.com.mx/__export/sites/correo/img/2022/08/12/destruccion-de-oxxo-en-Guanajuato-820365497.jpg',
-  iconSize: [40, 40],
-  iconAnchor: [24, 48],
-  popupAnchor: [0, -50]
-});
-
-
-L.marker([32.620, -115.480], { icon: casaChurroIcon })
-  .bindPopup('<b style="font-size:9px">Casa del Churro</b>')
-  .addTo(map);
-
-  L.marker([32.63530003199846, -115.44225505368144], { icon: casaLettyIcon })
-  .bindPopup('<b style="font-size:9px">Casa de Letty</b>')
-  .addTo(map);
-
-let playerMarker;
-
- if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(function(position) {
-        const latitud = position.coords.latitude;
-        const longitud = position.coords.longitude;
-        if (playerMarker) {
-            playerMarker.setLatLng([latitud, longitud]);
-        } else {
-            // Si el marcador NO existe (es la primera vez), lo creamos y lo añadimos al mapa
-            playerMarker = L.marker([latitud, longitud], { icon: playerIcon })
-              .bindPopup('<b style="font-size:9px">Estas aqui</b>')
-              .addTo(map);
-        }
-      }, function(error) {
-        console.error("Error al obtener la ubicación: " + error.message);
-    });
-} else {
-    console.log("La geolocalización no es soportada por este navegador.");
+  document.getElementById('overlay').classList.add('open');
 }
 
-//Marcador de la casa del churro
+function closeOverlay() {
+  document.getElementById('overlay').classList.remove('open');
+}
 
-// DESPUÉS — anclado cerca de Mexicali, tamaño de barrio
-//var videoUrl = './casachurro.mp4',
-//    videoBounds = [
- //     [32.620, -115.480],  // esquina noreste
- //     [32.600, -115.490]   // esquina suroeste
-  //  ];
-//var videoLayer = L.videoOverlay(videoUrl, videoBounds, {
-  //opacity: 0.8,
-  //width: 50,
-  //height: 50,
-  //autoplay: true,
-  //muted: true,
-  //loop: true
-//}).addTo(map);
+function abrirLink() {
+  if (modalLinkUrl) window.open(modalLinkUrl, '_blank');
+}
 
+// Cerrar al hacer clic en el fondo oscuro
+document.getElementById('overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeOverlay();
+});
 
-// ── Iconos por categoría ──────────────────────────────────────────
+// Cerrar con ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeOverlay();
+});
+
+// ── Modelos de markers personalizados ─────────────────────────────
+const MARKER_MODELS = {
+  'casa-churro': {
+    iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLgwwPM1BugLqVrvkg7Z-WZmJBm8_ifg-CRQ&s',
+    size: [40, 40],
+    popup: {
+      title: 'Casa del Churro',
+      cat:   'Restaurante',
+      desc:  'El lugar favorito del barrio para desayunar.',
+      img:   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLgwwPM1BugLqVrvkg7Z-WZmJBm8_ifg-CRQ&s',
+      link:  '',
+    }
+  },
+  'casa-letty': {
+    iconUrl: 'https://periodicocorreo.com.mx/__export/sites/correo/img/2022/08/12/destruccion-de-oxxo-en-Guanajuato-820365497.jpg',
+    size: [40, 40],
+    popup: {
+      title: 'Casa de Letty',
+      cat:   'Hogar',
+      desc:  'El punto de reunión de siempre.',
+      img:   'https://periodicocorreo.com.mx/__export/sites/correo/img/2022/08/12/destruccion-de-oxxo-en-Guanajuato-820365497.jpg',
+      link:  '',
+    }
+  },
+};
+
+// ── Factory: crea icono desde modelo ──────────────────────────────
+function buildIcon(model) {
+  const [w, h] = model.size || [40, 40];
+  const inner = model.iconUrl
+    ? `<img src="${model.iconUrl}" width="${w}" height="${h}" style="object-fit:cover;border-radius:3px;image-rendering:pixelated;">`
+    : `<span style="font-size:${w * 0.5}px">${model.emoji || '📍'}</span>`;
+
+  return L.divIcon({
+    html: `<div style="
+      width:${w}px;height:${h}px;
+      background:#1a1a1a;
+      border:3px solid #666;
+      border-radius:4px;
+      box-shadow:3px 3px 0 #000;
+      display:flex;align-items:center;justify-content:center;
+      overflow:hidden;
+    ">${inner}</div>`,
+    className: '',
+    iconSize: [w, h],
+    iconAnchor: [w / 2, h],
+    popupAnchor: [0, -h],
+  });
+}
+
+// ── Agrega un marker del modelo al mapa ───────────────────────────
+function addMarker(modelId, lat, lng) {
+  const model = MARKER_MODELS[modelId];
+  if (!model) return;
+  const marker = L.marker([lat, lng], { icon: buildIcon(model) });
+  marker.on('click', () => openOverlay(model.popup));
+  marker.addTo(map);
+  return marker;
+}
+
+// ── Markers personalizados ────────────────────────────────────────
+addMarker('casa-churro', 32.620, -115.480);
+addMarker('casa-letty',  32.63530003199846, -115.44225505368144);
+
+// ── Jugador (geolocalización) ─────────────────────────────────────
+const playerIcon = L.icon({
+  iconUrl:   'https://i.pinimg.com/originals/80/23/9d/80239d4ac2c183b7f35586a425dd324f.png',
+  iconSize:  [40, 40],
+  iconAnchor:[24, 48],
+  popupAnchor:[0, -50]
+});
+
+let playerMarker;
+if (navigator.geolocation) {
+  navigator.geolocation.watchPosition(function(pos) {
+    const { latitude: lat, longitude: lng } = pos.coords;
+    if (playerMarker) {
+      playerMarker.setLatLng([lat, lng]);
+    } else {
+      playerMarker = L.marker([lat, lng], { icon: playerIcon })
+        .bindPopup('<b style="font-size:9px">Estás aquí</b>')
+        .addTo(map);
+    }
+  }, err => console.error('Geolocalización:', err.message));
+}
+
+// ── Iconos POI por categoría ──────────────────────────────────────
 const iconoURLs = {
   restaurant: 'https://pbs.twimg.com/media/GZvlAwaagAABbPx.jpg',
   cafe:       'https://pbs.twimg.com/media/GjnTdKDXAAA0C7v.jpg',
@@ -270,15 +439,14 @@ const iconoURLs = {
   school:     'https://preview.redd.it/highschool-teto-v0-tz6md2by5jhf1.png?width=1300&format=png&auto=webp&s=4555235838e1046f37f7402bad664930c82cda84',
   bank:       'https://preview.redd.it/any-guide-on-what-to-do-when-your-teto-plush-started-talking-v0-g890tf0bp8df1.png?auto=webp&s=20d8409b87280f54ed1965e3e4a9ba6303b2eac1',
   park:       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbl1hwNUCk2XfGoFEOD5Ks4_iGspSNjaqbYw&s',
+  default:    'https://cdn-icons-png.flaticon.com/32/684/684908.png',
 };
 
-// Cache de objetos L.icon para no recrearlos cada vez
 const iconCache = {};
 
 function crearIcono(tipo) {
   const key = iconoURLs[tipo] ? tipo : 'default';
   if (iconCache[key]) return iconCache[key];
-
   iconCache[key] = L.divIcon({
     html: `<div style="
       width:36px;height:36px;
@@ -287,36 +455,33 @@ function crearIcono(tipo) {
       border-radius:4px;
       box-shadow:3px 3px 0 #000;
       display:flex;align-items:center;justify-content:center;
-      image-rendering:pixelated;
+      overflow:hidden;
     ">
-      <img src="${iconoURLs[key]}" width="50" height="50"
-           style="image-rendering:pixelated;display:block;border-radius:5px;">
+      <img src="${iconoURLs[key]}" width="34" height="34"
+           style="image-rendering:pixelated;display:block;object-fit:cover;border-radius:3px;">
     </div>`,
     className: '',
-    iconSize: [30, 30],
-    iconAnchor: [15, 30],
-    popupAnchor: [0, -30]
+    iconSize:   [36, 36],
+    iconAnchor: [18, 36],
+    popupAnchor:[0, -36]
   });
-
   return iconCache[key];
 }
 
-// ── Estado ────────────────────────────────────────────────────────
+// ── Carga de POIs desde Overpass ──────────────────────────────────
 let marcadoresPOI = [];
 let cargando = false;
 const loadingEl = document.getElementById('loading');
 
-// ── Carga de POIs ─────────────────────────────────────────────────
 async function cargarPOIs() {
   if (cargando) return;
   cargando = true;
   loadingEl.style.display = 'block';
 
-  // Limpiar marcadores anteriores
   marcadoresPOI.forEach(m => map.removeLayer(m));
   marcadoresPOI = [];
 
-  const b = map.getBounds();
+  const b    = map.getBounds();
   const bbox = `${b.getSouth()},${b.getWest()},${b.getNorth()},${b.getEast()}`;
 
   const query = `
@@ -334,33 +499,24 @@ async function cargarPOIs() {
   `;
 
   try {
-    const res = await fetch('https://overpass-api.de/api/interpreter', {
-      method: 'POST',
-      body: query
-    });
+    const res  = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query });
     const data = await res.json();
 
     data.elements.forEach(poi => {
       if (!poi.lat || !poi.lon) return;
 
       const nombre = poi.tags.name || 'Sin nombre';
-      const tipo = poi.tags.tourism
-        || poi.tags.amenity
-        || poi.tags.historic
-        || poi.tags.leisure
-        || 'default';
+      const tipo   = poi.tags.amenity || poi.tags.leisure || poi.tags.tourism || 'default';
 
-      const marker = L.marker([poi.lat, poi.lon], { icon: crearIcono(tipo) })
-        .bindPopup(`
-          <b style="font-family:'Press Start 2P',sans-serif;font-size:8px;color:#7CFC00">
-            ${nombre}
-          </b>
-          <br>
-          <span style="font-family:'Press Start 2P',sans-serif;font-size:7px;color:#aaa">
-            ${tipo.toUpperCase()}
-          </span>
-        `);
+      const poiData = {
+        title: nombre,
+        cat:   tipo,
+        desc:  `${tipo.charAt(0).toUpperCase() + tipo.slice(1)} en Mexicali`,
+        img:   '',
+      };
 
+      const marker = L.marker([poi.lat, poi.lon], { icon: crearIcono(tipo) });
+      marker.on('click', () => openOverlay(poiData));
       marker.addTo(map);
       marcadoresPOI.push(marker);
     });
@@ -373,7 +529,6 @@ async function cargarPOIs() {
   loadingEl.style.display = 'none';
 }
 
-// Carga inicial + debounce al mover
 cargarPOIs();
 
 let timer;
@@ -381,41 +536,6 @@ map.on('moveend', () => {
   clearTimeout(timer);
   timer = setTimeout(cargarPOIs, 800);
 });
-
-function openOverlay(data){
-  document.getElementById('model-name').textContent = data.name;
-  document.getElementById('model-description').textContent = data.description;  
-  document.getElementById('modal-cat').textContent  = data.cat;
-
-const media = document.getElementById('modal-media');
-  media.innerHTML = data.img
-    ? `<img class="modal-img" src="${data.img}">`
-    : `<div class="modal-img-placeholder">📍</div>`;
-  document.getElementById('overlay').classList.add('open');
-
-}
-
-marker.on('click', () => openOverlay(model.popup));
-
-// Cerrar con ESC
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeOverlay();
-});
-
-let leyendaVisible = false;
-document.getElementById('btnLeyenda').addEventListener('click', () => {
-  leyendaVisible = !leyendaVisible;
-  document.getElementById('leyenda').style.display = leyendaVisible ? 'block' : 'none';
-});
-
-MARKER_MODELS['casaChurroIcon'] = {
-  popup: {
-    title: 'Casa del Churro',
-    cat:   'Restaurante',
-    desc:  'Churros artesanales desde 1995',
-    img:   'https://tu-imagen.jpg',  // opcional
-  }
-};
 
 </script>
 </body>
