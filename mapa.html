@@ -159,7 +159,7 @@ button:hover {
 
 .modal-img {
   width: 100%;
-  height: 130px;
+  height: 180px;
   object-fit: cover;
   display: block;
   image-rendering: pixelated;
@@ -169,7 +169,7 @@ button:hover {
 
 .modal-img-placeholder {
   width: 100%;
-  height: 130px;
+  height: 180px;
   background: #1a1a1a;
   border-bottom: 3px solid #8b0000;
   display: flex;
@@ -181,7 +181,7 @@ button:hover {
 .modal-body { padding: 14px; }
 
 #modal-cat {
-  font-size: 6px;
+  font-size: 10px;
   color: #8b0000;
   letter-spacing: 2px;
   margin-bottom: 6px;
@@ -189,7 +189,7 @@ button:hover {
 }
 
 #modal-name {
-  font-size: 9px;
+  font-size: 20px;
   color: #7CFC00;
   margin-bottom: 10px;
   line-height: 1.6;
@@ -350,7 +350,7 @@ const MARKER_MODELS = {
     popup: {
       title: 'Casa del Churro',
       cat:   'Propia',
-      desc:  'Aqui vive el churro, el mas famoso de Churrolandia.',
+      desc:  'Aqui vive el churro. Mendigo churro esta en todas partes w',
       img:   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLgwwPM1BugLqVrvkg7Z-WZmJBm8_ifg-CRQ&s',
       link:  '',
     }
@@ -361,11 +361,23 @@ const MARKER_MODELS = {
     popup: {
       title: 'Casa de Letty',
       cat:   'Propia',
-      desc:  'La esposa del churro.',
+      desc:  'La esposa del churro. Todo esto empezo por una señora del oxxo que nos quiso correr por andar metiendonos a un refrigerador para sentirse una caguama pero nos saco de ahi y queria llamar a la policia bru',
       img:   'https://periodicocorreo.com.mx/__export/sites/correo/img/2022/08/12/destruccion-de-oxxo-en-Guanajuato-820365497.jpg',
       link:  '',
     }
   },
+  'casa-kasaneteto': {
+    iconUrl: 'https://preview.redd.it/any-guide-on-what-to-do-when-your-teto-plush-started-talking-v0-g890tf0bp8df1.png?auto=webp&s=20d8409b87280f54ed1965e3e4a9ba6303b2eac1',
+    size: [40, 40],
+    popup: {
+      title: 'Casa de Kasaneteto',
+      cat:   'Propia',
+      desc:  'La casa de kasaneteto, la mascota del churro. Es un lugar muy tranquilo donde el kasaneteto puede descansar y estar lejos de los peligros del mundo exterior.',
+      img:   'https://http2.mlstatic.com/D_NQ_NP_741270-CBT107797078278_032026-O.webpf1.png?auto=webp&s=20d8409b87280f54ed1965e3e4a9ba6303b2eac1',
+      link:  '',
+    }
+},
+
 };
 
 // ── Factory: crea icono desde modelo ──────────────────────────────
@@ -405,6 +417,7 @@ function addMarker(modelId, lat, lng) {
 // ── Markers personalizados ────────────────────────────────────────
 addMarker('casa-churro', 32.620, -115.480);
 addMarker('casa-letty',  32.63530003199846, -115.44225505368144);
+addMarker('casa-kasaneteto',  24.023985745720612, -98.99091725289493);
 
 // ── Jugador (geolocalización) ─────────────────────────────────────
 const playerIcon = L.icon({
