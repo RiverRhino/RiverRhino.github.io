@@ -1,75 +1,154 @@
 @import url('https://fonts.googleapis.com/css2?family=TASA+Explorer:wght@400..800&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: "TASA Explorer", sans-serif;
 }
 
-
-body{
-    background-color: rgb(87, 8, 63);
-    color: white;
-}
-
-h1{
-    font-size: 60px;
-    font-family: "TASA Explorer", sans-serif;
-    font-optical-sizing: auto;
-}
-
-ul,ol{
-    list-style: none;
-}
-
-.nav > li{
-    float: left;
-}
-
-.nav li a{
-    background-color: #242424;
-    color: #fff;
+a{
     text-decoration: none;
-    font-family: "TASA Explorer", sans-serif;
+    color: inherit;
+}
+
+body {
+    background-color: #56044d;
+    color: white;
+    display: flex;          /* sidebar + main lado a lado */
+    min-height: 100vh;
+}
+
+/* ── SIDEBAR ─────────────────────────────── */
+.sidebar {
+    background-color:#960016;
+    width: max-content;
+    min-height: 100vh;      /* ocupa toda la altura */
+    position: sticky;       /* se queda fijo al hacer scroll */
+    top: 0;
+    align-self: flex-start;
+    border-radius: 0 16px 16px 0;
+    padding: 1.5rem 1rem;
+    z-index: 100;
+}
+
+.sidebar:hover .sidebar_element {
+    grid-template-columns: 40px 1fr;
+}
+
+.sidebar_list {
+    list-style: none;
+    padding: 0;
+    min-height: calc(100vh - 3rem);
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.sidebar_element {
+    padding: .8rem 1.3rem;
+    border-radius: 10px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 40px 0fr;
+    transition: .3s ease-in-out;
+    color: black;
+    fill: black;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar_element:not(.sidebar_element--logo):hover {
+    background-color: #E88A38;
+    color: white;
+    fill: white;
+    cursor: pointer;
+}
+
+.sidebar_element--logo {
+    margin-bottom: 1.5rem;
+}
+
+.sidebar_icon {
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+    justify-self: center;
+    flex-shrink: 0;
+}
+
+.sidebar_icon--logo {
+    width: 36px;
+    height: 36px;
+}
+
+.sidebar_hide {
+    overflow: hidden;
+    padding-left: .8rem;
+}
+
+.sidebar_text {
+    font-size: .95rem;
+    font-weight: 600;
+}
+
+.sidebar_text--logo {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+/* ── MAIN CONTENT ────────────────────────── */
+.main {
+    flex: 1;                /* ocupa el espacio restante */
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 2rem 3rem;
+}
+
+/* ── HEADER ──────────────────────────────── */
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+h1 {
+    font-size: 60px;
     font-optical-sizing: auto;
-    padding: 10px 12px;
-    display: block;
 }
 
-.nav li ul{
-    display: none;
-    position: absolute;
-    min-width: 140px;
-}
-
-.nav li:hover > ul{
-    display: block;
-}
-
-.nav li ul li{
-    position: relative;
-}
-
-.nav li ul li ul{
-    right: -140px;
-    top:0px;
-}
-
-.menu{
-    display: flex;
-    justify-content:flex-start;
-    background-color: #242424;
-}
-
-.header{
-    display: flex;
-    justify-content:space-around;
-}
-
-.content{
+/* ── SECCIONES ───────────────────────────── */
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
     user-select: none;
+    text-align: center;
 }
 
+.content h2,
+.content h3 {
+    font-size: 1.8rem;
+}
+
+.content p {
+    max-width: 680px;
+    line-height: 1.7;
+}
+
+/* ── REDES SOCIALES ──────────────────────── */
+.redes_container {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.redes_container a img {
+    transition: transform .2s ease;
+}
+
+.redes_container a img:hover {
+    transform: scale(1.15);
+}

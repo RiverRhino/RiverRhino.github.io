@@ -4,60 +4,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/indexp.css">
-    <title>Bienvenido</title>
+    <title>Somea</title>
 </head>
 <body>
-    <div class="header">
-        <h1>Somea</h1>
-        <img src="./imagenes/tortugabailando.gif" width="120px">
+
+    <aside class="sidebar">
+        <ul class="sidebar_list">
+            <!-- Logo / Título -->
+            <li class="sidebar_element sidebar_element--logo">
+                <img class="sidebar_icon sidebar_icon--logo" src="./imagenes/WhatsApp_Image_2025-06-18_at_9.21.55_PM-removebg-preview.png" alt="logo">
+                <div class="sidebar_hide">
+                    <p class="sidebar_text sidebar_text--logo">Somea</p>
+                </div>
+            </li>
+
+            <!-- Inicio -->
+            <li class="sidebar_element" onclick="scrollToSection('inicio')">
+                <img width="40" height="45" src="https://img.icons8.com/ios/50/baguette.png" alt="baguette"/>
+                <div class="sidebar_hide">
+                    <p class="sidebar_text">Inicio</p>
+                </div>
+            </li>
+
+            <!-- Sobre mí -->
+            <li class="sidebar_element" onclick="scrollToSection('sobre-mi')">
+                <img width="40" height="45" src="https://img.icons8.com/wired/64/hatsune-miku.png" alt="hatsune-miku"/>
+                <div class="sidebar_hide">
+                    <p class="sidebar_text">Sobre mí</p>
+                </div>
+            </li>
+
+			<a href="./proyectos.html">
+			<li class="sidebar_element">
+                <img width="40" height="45" src="https://img.icons8.com/ios/30/project.png" alt="project"/>
+                <div class="sidebar_hide">
+                    <p class="sidebar_text">Proyectos</p>
+                </div>
+            </li>
+			</a>
+
+        </ul>
+    </aside>
+
+    <div class="main">
+
+        <!-- Header -->
+        <div class="header" id="inicio">
+            <h1 id="titulo"></h1>
+            <img src="./imagenes/tortugabailando.gif" width="120px">
+        </div>
+
+        <!-- Sobre mí -->
+        <div>
+            <h2>Sobre mi</h2>
+            <p>Hola a todos, en este pagina solo mostrare cosas random que vaya haciendo, siempre me ha gustado tener una pagina web mas que nada por hobbie y quien sabe, capaz si lees esto te gustara algo que tenga por aqui.</p>
+            <img alt="kasaneturtle" title="kasane teto turtle" loading="lazy" src="./imagenes/WhatsApp_Image_2025-06-18_at_9.21.55_PM-removebg-preview.png" width="150px">
+        </div>
+
+        <!-- Intereses -->
+        <div>
+            <h2>Intereses</h2>
+            <h3>Tortugas</h3>
+            <p>Con anterioridad habia tenido cierto gustos con las tortugas, llegue a tener una que se llamaba thomas de hecho, si no mal recuerdo, pero me la quisieron intercambiar por un pez y la persona nunca lo hizo. Eso la verdad si me aguito, pero fue hace tiempo
+               ya despues logre conseguir traer a algunas a mi casa de cierta manera. Actualmente tengo 2 tortugas que las quiero mucho, el Armando y Tostada, ya tienen unos 3 o 4 años conmigo por lo que ya tienen su buen tiempo, he aprendido bastante de ellas, son bastante desastrozas, no se quedan quietas
+               y no son tan lentas a como uno espera de una tortuga, muchas veces uno piensa que estaran quietas y no, derrepente estan en otro lugar.
+            </p>
+            <img src="./imagenes/5ff15f00b95237acf8fd6bc6b6c284fe.png" width="150px">
+        </div>
+
+		<div>
+			<h3>Esto nace de...</h3>
+			<p>La verdad solo hago esto como un hobbie, ojala en un futuro pueda ser monetizado pero me volvi a inspirar en esto de programar, habia perdido las ganas de saber que se sentia tener que escribir codigo
+				y de ahi poder sacar cosas increibles.
+			</p>
+		</div>
+
+        <!-- Redes sociales -->
+        <div class="content" id="redes">
+            <h3>Redes sociales</h3>
+            <div class="redes_container">
+                <a href="https://www.youtube.com/@somea"><img src="./imagenes/rs/youtube.png" width="40px"></a>
+                <a href="https://instagram.com/__somea_"><img src="./imagenes/rs/instagram.png" width="40px"></a>
+                <a href="https://www.tiktok.com/@s0mea?lang=en"><img src="./imagenes/rs/tik-tok.png" width="40px"></a>
+            </div>
+        </div>
+
     </div>
-    <div class="menu">
-    <ul class="nav">
-				<li><a href="">Inicio</a></li>
-				<li><a href="">Proyectos</a>
-					<ul>
-						<li><a href="./Versiones/Version 2.0/moonindex.html">MoonRxos</a></li>
-						<li><a href="">Teto en camara</a></li>
-						<li><a href="./Tetorun.html">TetoCarrera</a></li>
-						<li><a href="">Submenu4</a></li>
-							<ul>
-								<li><a href="">Submenu1</a></li>
-								<li><a href="">Submenu2</a></li>
-								<li><a href="">Submenu3</a></li>
-								<li><a href="">Submenu4</a></li>
-							</ul>
-					</ul>
-				</li>
-				<li><a href="./dibujos.html">Dibujos</a>
-					<ul>
-					</ul>
-				</li>
-				<li><a href="./terminos y condiciones.html">Terminos y condiciones</a></li>
-			</ul>
-    </div>
-    <div class="content">
-		<h2>Sobre mi</h2>
-		<p>Hola a todos, en este pagina solo mostrare cosas random que vaya haciendo, siempre me ha gustado tener una pagina web mas que nada por hobbie y quien sabe, capaz si lees esto te gustara algo que tenga por aqui.</p>
-		<img alt="kasaneturtle" title="kasane teto turtle" loading="lazy" src="./imagenes/WhatsApp_Image_2025-06-18_at_9.21.55_PM-removebg-preview.png" width="150px">	
-	</div>
-	<div>
-		<h2>Intereses</h2>
-		<p>Tortugas</p>
 
-		<p>Con anterioridad habia tenido cierto gustos con las tortugas, llegue a tener una que se llamaba thomas de hecho, si no mal recuerdo, pero me la quisieron intercambiar por un pez y la persona nunca lo hizo. Eso la verdad si me aguito, pero fue hace tiempo
-	       ya despues logre conseguir traer a algunas a mi casa de cierta manera. Actualmente tengo 2 tortugas que las quiero mucho, el Armando y Tostada, ya tienen unos 3 o 4 años conmigo por lo que ya tienen su buen tiempo, he aprendido bastante de ellas, son bastante desastrozas, no se quedan quietas
-		   y  no son tan lentas a como uno espera de una tortuga, muchas veces uno piensa que estaran quietas y no, derrepente estan en otro lugar.
-		</p>
+    <script>
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
 
-		<img src="./imagenes/5ff15f00b95237acf8fd6bc6b6c284fe.png" width="150px">
+		var i=0;
+		var txt = 'Bienvenido';
+		var speed = 120;
 
-	</div>
-	<div>
-		<h3>Redes sociales</h3>
-		<a href="https://www.youtube.com/@somea"><img src="./imagenes/rs/youtube.png" width="40px"></a>
+		function typeWriter() {
 		
-		<a href="https://instagram.com/__somea_"><img src="./imagenes/rs/instagram.png" width="40px"></a>
-		<a href="https://www.tiktok.com/@s0mea?lang=en"><img src="./imagenes/rs/tik-tok.png" width="40px"></a>
-	</div>
+		if (i < txt.length) {
+			document.getElementById("titulo").innerHTML += txt.charAt(i);
+			i++;
+			setTimeout(typeWriter, speed);
+		}
+		}
+		typeWriter();
+
+    </script>
+
 </body>
 </html>
