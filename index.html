@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/indexp.css">
+    <title>Bienvenido</title>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <ul class="sidebar_list">
+
+            <!-- Logo / Título -->
+            <li class="sidebar_element sidebar_element--logo">
+                <img class="sidebar_icon sidebar_icon--logo" src="./imagenes/tortugabailando.gif" alt="logo">
+                <div class="sidebar_hide">
+                    <p class="sidebar_text sidebar_text--logo">Somea</p>
+                </div>
+            </li>
+
+            <!-- Inicio -->
+            <li class="sidebar_element" onclick="scrollToSection('inicio')">
+                <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <div class="sidebar_hide">
+                    <p class="sidebar_text">Inicio</p>
+                </div>
+            </li>
+
+            <!-- Sobre mí -->
+            <li class="sidebar_element" onclick="scrollToSection('sobre-mi')">
+                <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                </svg>
+                <div class="sidebar_hide">
+                    <p class="sidebar_text">Sobre mí</p>
+                </div>
+            </li>
+
+            <!-- Intereses -->
+            <li class="sidebar_element" onclick="scrollToSection('intereses')">
+                <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <div class="sidebar_hide">
+                    <p class="sidebar_text">Intereses</p>
+                </div>
+            </li>
+
+            <!-- Redes sociales -->
+            <li class="sidebar_element" onclick="scrollToSection('redes')">
+                <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                </svg>
+                <div class="sidebar_hide">
+                    <p class="sidebar_text">Redes</p>
+                </div>
+            </li>
+
+        </ul>
+    </aside>
+
+    <div class="main">
+
+        <!-- Header -->
+        <div class="header" id="inicio">
+            <h1>Somea</h1>
+            <img src="./imagenes/tortugabailando.gif" width="120px">
+        </div>
+
+        <!-- Sobre mí -->
+        <div class="content" id="sobre-mi">
+            <h2>Sobre mi</h2>
+            <p>Hola a todos, en este pagina solo mostrare cosas random que vaya haciendo, siempre me ha gustado tener una pagina web mas que nada por hobbie y quien sabe, capaz si lees esto te gustara algo que tenga por aqui.</p>
+            <img alt="kasaneturtle" title="kasane teto turtle" loading="lazy" src="./imagenes/WhatsApp_Image_2025-06-18_at_9.21.55_PM-removebg-preview.png" width="150px">
+        </div>
+
+        <!-- Intereses -->
+        <div class="content" id="intereses">
+            <h2>Intereses</h2>
+            <h3>Tortugas</h3>
+            <p>Con anterioridad habia tenido cierto gustos con las tortugas, llegue a tener una que se llamaba thomas de hecho, si no mal recuerdo, pero me la quisieron intercambiar por un pez y la persona nunca lo hizo. Eso la verdad si me aguito, pero fue hace tiempo
+               ya despues logre conseguir traer a algunas a mi casa de cierta manera. Actualmente tengo 2 tortugas que las quiero mucho, el Armando y Tostada, ya tienen unos 3 o 4 años conmigo por lo que ya tienen su buen tiempo, he aprendido bastante de ellas, son bastante desastrozas, no se quedan quietas
+               y no son tan lentas a como uno espera de una tortuga, muchas veces uno piensa que estaran quietas y no, derrepente estan en otro lugar.
+            </p>
+            <img src="./imagenes/5ff15f00b95237acf8fd6bc6b6c284fe.png" width="150px">
+        </div>
+
+        <!-- Redes sociales -->
+        <div class="content" id="redes">
+            <h3>Redes sociales</h3>
+            <div class="redes_container">
+                <a href="https://www.youtube.com/@somea"><img src="./imagenes/rs/youtube.png" width="40px"></a>
+                <a href="https://instagram.com/__somea_"><img src="./imagenes/rs/instagram.png" width="40px"></a>
+                <a href="https://www.tiktok.com/@s0mea?lang=en"><img src="./imagenes/rs/tik-tok.png" width="40px"></a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
