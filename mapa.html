@@ -334,15 +334,16 @@ button:hover {
   });
 
   // EXPONER LA FUNCIÓN AL OBJETO WINDOW PARA QUE map.js PUEDA USARLA
-  window.guardarMarcadorFirebase = async function(title, cat, desc, lat, lng) {
+  window.guardarMarcadorFirebase = async function(title, cat, imgURL, desc, lat, lng) {
     try {
       await addDoc(collection(db, "markers"), {
         title: title,
         cat: cat,
         desc: desc,
+        img: imgURL,
         lat: lat,
         lng: lng,
-        uid: auth.currentUser?.uid || "anonimo",
+        uid: auth.currentUser.uid,
         createdAt: Date.now()
       });
       console.log("Marcador guardado en Firebase con éxito.");
@@ -367,7 +368,7 @@ button:hover {
                title: markerData.title,
                cat: markerData.cat,
                desc: markerData.desc,
-               img: '' 
+               img: markerData.img || '' 
              });
            });
         }

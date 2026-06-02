@@ -46,8 +46,13 @@ function openCreatorModal() {
     Lat: ${pendingLatLng.lat.toFixed(5)}<br>Lng: ${pendingLatLng.lng.toFixed(5)}<br><br>
     <h3>Nombre del lugar:</h3>
     <input type="text" id="input-name" placeholder="Ej: Casa del Churro" style="width:80%;padding:6px;margin-bottom:10px;"><br>
+    
+    <h3>Url de la imagen (Opcional)</h3>
+    <input type="text" id="input-img" placeholder="Ej: https://example.com/image.jpg" style="width:80%;padding:6px;margin-bottom:10px;"><br>
+    
     <h3>Descripción:</h3>
     <textarea id="input-desc" placeholder="Escribe una descripción..." style="width:80%;height:80px;padding:6px;"></textarea><br>
+    
     <button id="saveBtn" style="padding:6px 12px;margin-top:10px;">Guardar</button>
     </div>`;
     document.getElementById('overlay').
@@ -56,6 +61,7 @@ classList.add('open');
 document.getElementById('saveBtn').addEventListener('click', async () => {
     const title = document.getElementById('input-name').value;
     const desc = document.getElementById('input-desc').value;
+    const imgD = document.getElementById('input-img').value;
     const cat = "Propia"; // O puedes agregar un <select> en tu HTML para elegir la categoría
 
     if (!title) {
@@ -68,7 +74,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
         // Cambiamos el texto del botón para dar feedback
         document.getElementById('saveBtn').textContent = "Guardando...";
         
-        await window.guardarMarcadorFirebase(title, cat, desc, pendingLatLng.lat, pendingLatLng.lng);
+        await window.guardarMarcadorFirebase(title, cat, desc, imgD, pendingLatLng.lat, pendingLatLng.lng);
         closeOverlay();
     } else {
         console.error("La función de Firebase no está disponible.");
