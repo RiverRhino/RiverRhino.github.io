@@ -50,7 +50,7 @@ function openCreatorModal() {
     <h3>Url de la imagen (Opcional)</h3>
     <input type="text" id="input-img" placeholder="Ej: https://example.com/image.jpg" style="width:80%;padding:6px;margin-bottom:10px;"><br>
     
-h3>URL Ícono (Para el mapa):</h3>
+    <h3>URL Ícono (Para el mapa):</h3>
     <input type="text" id="input-icon" placeholder="https://..." style="width:80%;padding:4px;margin-bottom:5px;"><br>
 
     <h3>Descripción:</h3>
