@@ -106,13 +106,16 @@ button:hover {
   padding: 6px 10px;
 }
 
-#btnMarcador{
+#AvisoMarcador{
   position: absolute;
   top: 10px;
   right: 90px;
   z-index: 1000;
   width: auto;
   padding: 6px 10px;
+  font-size: 6px;
+  background: #974c4c;
+  color: white;
 }
 
 /* ── Overlay / Modal ── */
@@ -301,7 +304,7 @@ button:hover {
     </div>
   </div>
 </div>
-<button id="btnMarcador">Agregar marcador</button>
+<p id="AvisoMarcador">Da click en el mapa agregar marcador</p>
 <script src="./js/map.js"></script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
@@ -332,13 +335,14 @@ button:hover {
   });
 
   // EXPONER LA FUNCIÓN AL OBJETO WINDOW PARA QUE map.js PUEDA USARLA
-  window.guardarMarcadorFirebase = async function(title, cat, desc, imgUrl, lat, lng) {
+  window.guardarMarcadorFirebase = async function(title, cat, desc, imgUrl, iconUrl, lat, lng) {
     try {
       await addDoc(collection(db, "markers"), {
         title: title,
         cat: cat,
         desc: desc,
         img: imgUrl,
+        iconUrl: iconUrl, // Puedes usar la misma imagen para el ícono o agregar otro campo en tu formulario para esto
         lat: lat,
         lng: lng,
         uid: auth.currentUser.uid,
@@ -359,7 +363,21 @@ button:hover {
         // Aquí agregas el marcador directamente al mapa de Leaflet
         // Usamos el icono default que ya tienes en map.js (asegúrate de que addMarker esté adaptado o usa L.marker)
         if (window.L && window.map) {
-           const marker = window.L.marker([markerData.lat, markerData.lng]).addTo(window.map);
+          let opcionesMarker = {};
+          if (markerData.iconUrl && window.buildIcon) {
+           
+            const modeloIcon = {
+              iconUrl: markerData.iconUrl,
+              iconSize: [32, 32],
+              iconAnchor: [16, 32],
+              popupAnchor: [0, -32]
+            }
+
+            opcionesMarker = {icon: window.buildIcon(modeloIcon)}
+
+          };
+           
+            const marker = window.L.marker([markerData.lat, markerData.lng], opcionesMarker).addTo(window.map);
            marker.on('click', () => {
              // Reutiliza tu función openOverlay de map.js
              window.openOverlay({

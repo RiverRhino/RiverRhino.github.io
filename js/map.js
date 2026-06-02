@@ -50,6 +50,9 @@ function openCreatorModal() {
     <h3>Url de la imagen (Opcional)</h3>
     <input type="text" id="input-img" placeholder="Ej: https://example.com/image.jpg" style="width:80%;padding:6px;margin-bottom:10px;"><br>
     
+h3>URL Ícono (Para el mapa):</h3>
+    <input type="text" id="input-icon" placeholder="https://..." style="width:80%;padding:4px;margin-bottom:5px;"><br>
+
     <h3>Descripción:</h3>
     <textarea id="input-desc" placeholder="Escribe una descripción..." style="width:80%;height:80px;padding:6px;"></textarea><br>
     
@@ -62,6 +65,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     const title = document.getElementById('input-name').value;
     const desc = document.getElementById('input-desc').value;
     const imgUrl = document.getElementById('input-img').value;
+    const iconUrl = document.getElementById('input-icon').value;
     const cat = "Propia"; // O puedes agregar un <select> en tu HTML para elegir la categoría
 
     if (!title) {
@@ -74,7 +78,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
         // Cambiamos el texto del botón para dar feedback
         document.getElementById('saveBtn').textContent = "Guardando...";
         
-        await window.guardarMarcadorFirebase(title, cat, desc, imgUrl, pendingLatLng.lat, pendingLatLng.lng);
+        await window.guardarMarcadorFirebase(title, cat, desc, imgUrl, iconUrl, pendingLatLng.lat, pendingLatLng.lng);
         closeOverlay();
     } else {
         console.error("La función de Firebase no está disponible.");
@@ -164,6 +168,8 @@ function buildIcon(model) {
     popupAnchor: [0, -h],
   });
 }
+
+window.buildIcon = buildIcon; // Exponer globalmente para poder usarlo al crear markers desde Firebase
 
 // ── Agrega un marker del modelo al mapa ───────────────────────────
 function addMarker(modelId, lat, lng) {
