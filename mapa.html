@@ -264,8 +264,6 @@ button:hover {
   <img width="40" height="40" src="https://img.icons8.com/ios/50/FFFFFF/menu--v1.png" alt="menu"/>
 </button>
 
-
-
 <div id="leyenda" style="display:none">
   <div style="font-size:15px;margin-bottom:8px;color:#ff0000">Categoria</div>
   <div class="ley-row"><img src="https://pbs.twimg.com/media/GZvlAwaagAABbPx.jpg"> Restaurante</div>
@@ -368,7 +366,8 @@ button:hover {
                title: markerData.title,
                cat: markerData.cat,
                desc: markerData.desc,
-               img: markerData.img || '' 
+               img: markerData.img,
+               link : markerData.link || '' 
              });
            });
         }

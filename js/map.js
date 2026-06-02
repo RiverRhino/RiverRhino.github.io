@@ -61,7 +61,7 @@ classList.add('open');
 document.getElementById('saveBtn').addEventListener('click', async () => {
     const title = document.getElementById('input-name').value;
     const desc = document.getElementById('input-desc').value;
-    const imgD = document.getElementById('input-img').value;
+    const img = document.getElementById('input-img').value;
     const cat = "Propia"; // O puedes agregar un <select> en tu HTML para elegir la categoría
 
     if (!title) {
@@ -74,7 +74,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
         // Cambiamos el texto del botón para dar feedback
         document.getElementById('saveBtn').textContent = "Guardando...";
         
-        await window.guardarMarcadorFirebase(title, cat, desc, imgD, pendingLatLng.lat, pendingLatLng.lng);
+        await window.guardarMarcadorFirebase(title, cat, img, desc, pendingLatLng.lat, pendingLatLng.lng);
         closeOverlay();
     } else {
         console.error("La función de Firebase no está disponible.");
