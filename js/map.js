@@ -42,7 +42,7 @@ function openCreatorModal() {
   document.getElementById('modal-desc').textContent      = '';
   modalLinkUrl = '';
     const media = document.getElementById('modal-media');
-    media.innerHTML = `<div style="font-size:12px;color:#666;text-align:center;margin-top:20px;">
+    media.innerHTML = `<div style="font-size:8px;color:#666;text-align:center;margin-top:16px;">
     Lat: ${pendingLatLng.lat.toFixed(5)}<br>Lng: ${pendingLatLng.lng.toFixed(5)}<br><br>
     <h3>Nombre del lugar:</h3>
     <input type="text" id="input-name" placeholder="Ej: Casa del Churro" style="width:80%;padding:6px;margin-bottom:10px;"><br>
