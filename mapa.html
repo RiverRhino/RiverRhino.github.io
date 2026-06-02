@@ -332,7 +332,7 @@ button:hover {
   });
 
   // EXPONER LA FUNCIÓN AL OBJETO WINDOW PARA QUE map.js PUEDA USARLA
-  window.guardarMarcadorFirebase = async function(title, cat, imgURL, desc, lat, lng) {
+  window.guardarMarcadorFirebase = async function(title, cat, desc, imgUrl, lat, lng) {
     try {
       await addDoc(collection(db, "markers"), {
         title: title,
