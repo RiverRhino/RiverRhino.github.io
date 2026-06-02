@@ -53,6 +53,8 @@ function openCreatorModal() {
     <h3>URL Ícono (Para el mapa):</h3>
     <input type="text" id="input-icon" placeholder="https://..." style="width:80%;padding:4px;margin-bottom:5px;"><br>
 
+    <h2>Pollo</h2>
+
     <h3>Descripción:</h3>
     <textarea id="input-desc" placeholder="Escribe una descripción..." style="width:80%;height:80px;padding:6px;"></textarea><br>
     
