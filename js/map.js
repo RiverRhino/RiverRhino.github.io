@@ -171,15 +171,47 @@ function buildIcon(model) {
 
 window.buildIcon = buildIcon; // Exponer globalmente para poder usarlo al crear markers desde Firebase
 
+let routingControl = null;
+
 // ── Agrega un marker del modelo al mapa ───────────────────────────
 function addMarker(modelId, lat, lng) {
   const model = MARKER_MODELS[modelId];
   if (!model) return;
   const marker = L.marker([lat, lng], { icon: buildIcon(model) });
-  marker.on('click', () => openOverlay(model.popup));
+  marker.on('click', () => {
+    openOverlay(model.popup);
+    window.trazarRuta(lat, lng);
+  });
   marker.addTo(map);
   return marker;
 }
+
+window.trazarRuta = function(destLat, destLng) {
+    if (!playerMarker) {
+        alert("No se ha detectado tu ubicación aún.");
+        return;
+
+    }
+    const origen = playerMarker.getLatLng();
+
+    if (routingControl) {
+        map.removeControl(routingControl);
+    }
+
+    routingControl = L.Routing.control({
+    waypoints: [
+      L.latLng(origen.lat, origen.lng),   // Punto A: Tu ubicación actual
+      L.latLng(destLat, destLng)          // Punto B: El marcador seleccionado
+    ],
+    lineOptions: {
+      styles: [{ color: '#7CFC00', weight: 6, opacity: 0.85 }] // Estilo verde neón acorde a tu paleta
+    },
+    addWaypoints: false,       // Deshabilita que el usuario pueda alterar la ruta arrastrándola
+    routeWhileDragging: false, 
+    show: false,               // Oculta el panel blanco con instrucciones de texto para cuidar la interfaz
+    createMarker: function() { return null; } // Evita que Leaflet dibuje pines azules extraños sobre tus iconos personalizados
+  }).addTo(map);
+};
 
 // ── Markers personalizados ────────────────────────────────────────
 addMarker('casa-churro', 32.620, -115.480);

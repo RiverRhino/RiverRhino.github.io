@@ -386,6 +386,11 @@ button:hover {
                desc: markerData.desc,
                img: markerData.img || ''
              });
+
+             if(window.trazarRuta){
+                window.trazarRuta(markerData.lat, markerData.lng);
+             }
+
            });
         }
       }
