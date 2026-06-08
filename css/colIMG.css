@@ -132,6 +132,10 @@ main {
   height: 500px;
 }
 
+#search-input{
+  width: 300px;
+}
+
 .art-card {
   position: absolute;
   inset: 0;
@@ -793,4 +797,8 @@ p {
   .sidebar_text {
     font-size: 0.45rem;
   }
+
+  #search-input{
+  width: 150px;
+}
 }
