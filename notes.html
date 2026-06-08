@@ -142,11 +142,6 @@
     let currentCard = null;
     const cardteto = document.getElementById('card-stack');
 
-    cardteto.addEventListener('dblclick', () => {
-      if (posts.length === 0 || idx >= posts.length) return;
-      openPreview(posts[idx]);
-    });
-
     // ── fetch ──
     async function loadPosts(tag) {
       document.getElementById('loading-msg').style.display = 'block';
@@ -178,7 +173,7 @@
       }
     }
 
-    prev.addEventListener('click', () => {
+   cardteto.addEventListener('dblclick', () => {
       if (posts.length === 0 || idx >= posts.length) return;
       openPreview(posts[idx]);
     });
