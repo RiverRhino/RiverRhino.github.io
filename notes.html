@@ -12,7 +12,7 @@
 
   <header>
     <div class="logo">★Mira imagenes una por una★</div>
-    <p>Al buscar, intenta que los espacios este separados por guiones "kasane_teto"</p>
+    <p id="help-text" style="display:none">Al buscar una imagen intenta poner espacios entre las palabras, si no, ve a ayuda en el menu</p>
     <div class="filter-row">
       <input type="text" id="search-input" class="filter-btn" placeholder="BUSCAR... (ej: 'vocaloid')"
         onkeydown="if(event.key === 'Enter') switchChar(this.value, this)">
@@ -62,6 +62,9 @@
       <button class="modal-close" onclick="closePreview()">✕ CERRAR</button>
     </div>
   </div>
+
+  <img src="./imagenes/tetoplush.png" id="tetopeluche">
+
 
   <script>
     let posts = [];
@@ -366,6 +369,13 @@
       currentTag = tag;
       loadPosts(tag);
     }
+
+    let txt = document.getElementById('help-text');
+
+    let pleuche = document.getElementById('tetopeluche');
+    pleuche.addEventListener('click', () => {
+      txt.style.display = txt.style.display === 'none' ? 'block' : 'none';
+    });
 
     // ── init ──
     updateColCount();

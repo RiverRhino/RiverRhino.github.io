@@ -515,3 +515,43 @@ p {
 .modal-close:hover {
   background: rgba(237, 33, 0, 0.12);
 }
+
+#help-text {
+    display: none; /* Inicia oculto */
+    position: fixed;
+    bottom: 120px; /* Ajusta según la altura de tu peluche */
+    right: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 15px;
+    border: 2px solid #ff77aa;
+    color: #333;
+    font-family: sans-serif;
+    font-size: 14px;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+/* El "triangulito" del globo */
+#help-text::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 30px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: #ff77aa transparent;
+}
+#tetopeluche {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 80px; /* Ajusta a tu gusto */
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#tetopeluche:hover {
+    transform: scale(1.1);
+}
