@@ -433,9 +433,7 @@
 <header>
   <div class="logo">★ SOMEA FANART ★</div>
   <div class="filter-row">
-    <button class="filter-btn active-miku active" onclick="switchChar('hatsune_miku', this)">MIKU</button>
-    <button class="filter-btn" onclick="switchChar('kasane_teto', this)">TETO</button>
-    <button class="filter-btn" onclick="switchChar('hatsune_miku kasane_teto', this)">AMBAS</button>
+    <input type="text" id="search-input" class="filter-btn" placeholder="BUSCAR... (ej: 'vocaloid')" onkeydown="if(event.key === 'Enter') switchChar(this.value, this)">
   </div>
 </header>
 
