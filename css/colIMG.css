@@ -21,7 +21,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  min-height: 80vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: row;   /* sidebar + main en fila */
   align-items: flex-start;
@@ -50,7 +50,7 @@ header {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  gap: 9px;
+  gap: 12px;
 }
 
 .logo {
@@ -121,14 +121,14 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1rem;
+  gap: 3rem;
+  padding: 2rem 3rem;
 }
 
 /* ── card stack ── */
 #card-stack {
   position: relative;
-  width: 40%;
+  width: 100%;
   height: 420px;
 }
 
@@ -334,14 +334,12 @@ p {
   max-width: 480px;
   padding: 0 20px 20px;
   position: relative;
-  z-index: 2;
+  z-index: 5;
   display: none;
   margin: 0 auto;          /* centra dentro del main */
 }
 
-#collection-panel.open { 
-  display: block; 
-}
+#collection-panel.open { display: block; }
 
 .collection-header {
   display: flex;
@@ -635,4 +633,163 @@ p {
 .sidebar_text--logo {
     font-size: 1.2rem;
     font-weight: 800;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — móvil (max 768px)
+   Sidebar lateral → barra inferior fija
+   ═══════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Body vuelve a columna, deja espacio abajo para la navbar */
+  body {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 70px; /* espacio para la barra inferior */
+  }
+
+  /* ── Sidebar se convierte en barra inferior ── */
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;             /* cancela el sticky vertical */
+    min-height: unset;
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 0.5rem 1rem;
+    z-index: 200;
+  }
+
+  .sidebar_list {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    min-height: unset;
+    gap: 0;
+  }
+
+  /* Oculta el logo en móvil (no cabe en barra horizontal) */
+  .sidebar_element--logo {
+    display: none;
+  }
+
+  /* Elementos en columna: icono arriba, texto abajo */
+  .sidebar_element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.6rem;
+    gap: 3px;
+    grid-template-columns: unset;
+    white-space: nowrap;
+  }
+
+  /* Fuerza que el texto sea siempre visible en móvil */
+  .sidebar:hover .sidebar_element {
+    grid-template-columns: unset;
+  }
+
+  .sidebar_hide {
+    overflow: visible;
+    padding-left: 0;
+  }
+
+  .sidebar_text {
+    font-size: 0.55rem;
+    font-weight: 600;
+  }
+
+  .sidebar_icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* ── Main ocupa todo el ancho ── */
+  main {
+    width: 100%;
+    padding: 1rem;
+    gap: 1.2rem;
+  }
+
+  /* ── Header apilado en columna ── */
+  header {
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    padding: 16px 16px 0;
+    gap: 10px;
+  }
+
+  /* Input de búsqueda más ancho */
+  .filter-btn {
+    width: 100%;
+    max-width: 320px;
+    font-size: 6px;
+  }
+
+  /* ── Card stack más compacto ── */
+  #card-stack {
+    height: 360px;
+  }
+
+  /* ── Botones de acción más grandes (táctil) ── */
+  .action-btn {
+    padding: 14px 24px;
+    font-size: 9px;
+  }
+
+  .btn-icon { font-size: 18px; }
+
+  /* ── Colección panel full width ── */
+  #collection-panel {
+    max-width: 100%;
+    padding: 0 12px 12px;
+  }
+
+  #collection-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+
+  /* ── Modal más cómodo en pantalla chica ── */
+  .modal-inner {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .modal-inner img {
+    max-height: 55vh;
+  }
+
+  /* ── Peluche Teto más pequeño en móvil ── */
+  #tetopeluche {
+    width: 60px;
+    bottom: 75px; /* que no tape la navbar */
+  }
+
+  #help-text {
+    bottom: 145px;
+    right: 10px;
+    width: 180px;
+    font-size: 12px;
+  }
+}
+
+/* Pantallas muy pequeñas (menos de 380px) */
+@media (max-width: 380px) {
+  #card-stack {
+    height: 300px;
+  }
+
+  .action-btn {
+    padding: 10px 16px;
+    font-size: 7px;
+  }
+
+  .sidebar_text {
+    font-size: 0.45rem;
+  }
 }
