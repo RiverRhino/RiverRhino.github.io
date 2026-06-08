@@ -3,435 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Somea — Fan Art Swipe</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=M+PLUS+Rounded+1c:wght@400;700&display=swap');
-
-  :root {
-    --bg: #0e0b1a;
-    --surface: #1a1530;
-    --card: #221e38;
-    --purple-bright: #b388ff;
-    --purple-mid: #7c4dff;
-    --purple-dark: #4a148c;
-    --pink: #f48fb1;
-    --teal: #80cbc4;
-    --text: #e8e0ff;
-    --text-muted: #9e8fc7;
-    --border: rgba(179, 136, 255, 0.2);
-    --like: #80cbc4;
-    --nope: #f48fb1;
-    --pixel: 2px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'M PLUS Rounded 1c', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-  }
-
-  /* pixel grid background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(124, 77, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124, 77, 255, 0.04) 1px, transparent 1px);
-    background-size: 32px 32px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  header {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 480px;
-    padding: 20px 20px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .logo {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 11px;
-    color: var(--purple-bright);
-    letter-spacing: 2px;
-    text-shadow: 0 0 16px rgba(179,136,255,0.5);
-  }
-
-  .filter-row {
-    display: flex;
-    gap: 8px;
-  }
-
-  .filter-btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    padding: 8px 14px;
-    border: var(--pixel) solid var(--border);
-    background: var(--surface);
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    image-rendering: pixelated;
-    position: relative;
-  }
-
-  .filter-btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border: var(--pixel) solid transparent;
-  }
-
-  .filter-btn:hover {
-    color: var(--purple-bright);
-    border-color: var(--purple-bright);
-    background: rgba(124, 77, 255, 0.1);
-  }
-
-  .filter-btn.active {
-    color: var(--bg);
-    background: var(--purple-bright);
-    border-color: var(--purple-bright);
-    text-shadow: none;
-  }
-
-  .filter-btn.active-miku {
-    background: var(--teal);
-    border-color: var(--teal);
-    color: var(--bg);
-  }
-
-  .filter-btn.active-teto {
-    background: var(--pink);
-    border-color: var(--pink);
-    color: var(--bg);
-  }
-
-  /* ── main area ── */
-  main {
-    position: relative;
-    z-index: 5;
-    width: 100%;
-    max-width: 480px;
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  /* ── card stack ── */
-  #card-stack {
-    position: relative;
-    width: 100%;
-    height: 420px;
-  }
-
-  .art-card {
-    position: absolute;
-    inset: 0;
-    background: var(--card);
-    border: var(--pixel) solid var(--border);
-    overflow: hidden;
-    cursor: grab;
-    user-select: none;
-    transform-origin: bottom center;
-    transition: box-shadow 0.2s;
-  }
-
-  .art-card:active { cursor: grabbing; }
-
-  .art-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
-  }
-
-  .art-card .card-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 16px;
-    background: linear-gradient(transparent, rgba(14,11,26,0.92));
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .card-artist {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    color: var(--purple-bright);
-  }
-
-  .card-tags {
-    font-size: 11px;
-    color: var(--text-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* swipe indicators */
-  .stamp {
-    position: absolute;
-    top: 28px;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 14px;
-    padding: 8px 14px;
-    border: 3px solid;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.1s;
-    z-index: 20;
-    transform: rotate(-12deg);
-  }
-
-  .stamp-like {
-    left: 20px;
-    color: var(--like);
-    border-color: var(--like);
-    transform: rotate(-12deg);
-    text-shadow: 0 0 10px rgba(128,203,196,0.6);
-  }
-
-  .stamp-nope {
-    right: 20px;
-    color: var(--nope);
-    border-color: var(--nope);
-    transform: rotate(12deg);
-    text-shadow: 0 0 10px rgba(244,143,177,0.6);
-  }
-
-  /* behind cards (stack preview) */
-  .behind-card {
-    position: absolute;
-    inset: 0;
-    background: var(--card);
-    border: var(--pixel) solid var(--border);
-    transform: scale(0.95) translateY(8px);
-    z-index: -1;
-    opacity: 0.5;
-  }
-
-  .behind-card-2 {
-    transform: scale(0.9) translateY(16px);
-    z-index: -2;
-    opacity: 0.3;
-  }
-
-  /* ── action buttons ── */
-  .actions {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-
-  .action-btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    padding: 12px 20px;
-    border: var(--pixel) solid;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .btn-nope {
-    color: var(--nope);
-    border-color: var(--nope);
-  }
-
-  .btn-nope:hover {
-    background: rgba(244,143,177,0.12);
-    box-shadow: 0 0 16px rgba(244,143,177,0.3);
-  }
-
-  .btn-like {
-    color: var(--like);
-    border-color: var(--like);
-  }
-
-  .btn-like:hover {
-    background: rgba(128,203,196,0.12);
-    box-shadow: 0 0 16px rgba(128,203,196,0.3);
-  }
-
-  .btn-icon { font-size: 16px; }
-
-  /* ── collection panel ── */
-  .collection-toggle {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    padding: 8px 16px;
-    border: var(--pixel) solid var(--border);
-    background: var(--surface);
-    color: var(--text-muted);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.15s;
-  }
-
-  .collection-toggle:hover {
-    color: var(--purple-bright);
-    border-color: var(--purple-bright);
-  }
-
-  .collection-count {
-    background: var(--purple-bright);
-    color: var(--bg);
-    padding: 2px 6px;
-    font-size: 7px;
-  }
-
-  #collection-panel {
-    width: 100%;
-    max-width: 480px;
-    padding: 0 20px 20px;
-    position: relative;
-    z-index: 5;
-    display: none;
-  }
-
-  #collection-panel.open { display: block; }
-
-  .collection-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 0 10px;
-    border-bottom: var(--pixel) solid var(--border);
-    margin-bottom: 12px;
-  }
-
-  .collection-title {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    color: var(--purple-bright);
-  }
-
-  .btn-clear {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 6px;
-    color: var(--nope);
-    background: none;
-    border: none;
-    cursor: pointer;
-    opacity: 0.7;
-  }
-
-  .btn-clear:hover { opacity: 1; }
-
-  #collection-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-  }
-
-  .col-thumb {
-    aspect-ratio: 1;
-    background: var(--surface);
-    border: var(--pixel) solid var(--border);
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: border-color 0.15s;
-  }
-
-  .col-thumb:hover { border-color: var(--purple-bright); }
-
-  .col-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .col-thumb .remove-btn {
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    background: rgba(244,143,177,0.9);
-    color: var(--bg);
-    border: none;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 6px;
-    padding: 2px 4px;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.15s;
-  }
-
-  .col-thumb:hover .remove-btn { opacity: 1; }
-
-  /* ── loading / empty states ── */
-  .state-msg {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    color: var(--text-muted);
-    text-align: center;
-    padding: 40px 0;
-    line-height: 2.2;
-  }
-
-  .empty-collection {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    color: var(--text-muted);
-    text-align: center;
-    padding: 20px 0;
-    line-height: 2;
-  }
-
-  /* pixel scanline effect on card */
-  .art-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 3px,
-      rgba(0,0,0,0.04) 3px,
-      rgba(0,0,0,0.04) 4px
-    );
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  .counter {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    color: var(--text-muted);
-    text-align: center;
-  }
-</style>
+<link rel="stylesheet" href="colIMG.css">
+<title>Swipe Img</title>
 </head>
 <body>
 
 <header>
-  <div class="logo">★ SOMEA FANART ★</div>
+  <div class="logo">★Mira imagenes una por una★</div>
+  <p>Al buscar, intenta que los espacios este separados por guiones "kasane_teto"</p>
   <div class="filter-row">
     <input type="text" id="search-input" class="filter-btn" placeholder="BUSCAR... (ej: 'vocaloid')" onkeydown="if(event.key === 'Enter') switchChar(this.value, this)">
   </div>
@@ -441,7 +20,7 @@
   <div id="card-stack">
     <div class="behind-card-2"></div>
     <div class="behind-card"></div>
-    <div id="loading-msg" class="state-msg">CARGANDO...<br>pls wait ♪</div>
+    <div id="loading-msg" class="state-msg">Cargando...<br>pls wait ♪</div>
   </div>
 
   <div class="counter" id="counter"></div>
@@ -456,15 +35,15 @@
   </div>
 
   <button class="collection-toggle" onclick="toggleCollection()">
-    ★ MI COLECCIÓN
+    ★ Mi coleccion
     <span class="collection-count" id="col-count">0</span>
   </button>
 </main>
 
 <div id="collection-panel">
   <div class="collection-header">
-    <span class="collection-title">GUARDADAS</span>
-    <button class="btn-clear" onclick="clearCollection()">LIMPIAR TODO</button>
+    <span class="collection-title">Guardadas</span>
+    <button class="btn-clear" onclick="clearCollection()">Borrar todo</button>
   </div>
   <div id="collection-grid"></div>
 </div>
@@ -485,7 +64,7 @@
 
     const params = new URLSearchParams({
       tags: `${tag} rating:general`,
-      limit: 40,
+      limit: 101,
       page: Math.ceil(Math.random() * 3),
     });
 
@@ -500,7 +79,7 @@
       idx = 0;
       document.getElementById('loading-msg').style.display = 'none';
       if (posts.length === 0) {
-        showMsg('NO HAY RESULTADOS\nprueba otro filtro');
+        showMsg('Intenta otro filtro');
       } else {
         showCard();
       }
