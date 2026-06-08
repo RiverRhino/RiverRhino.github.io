@@ -281,7 +281,7 @@
       card.style.transform = `translateX(${xOut}px) rotate(${dir === 'like' ? 20 : -20}deg)`;
       card.style.opacity = '0';
 
-      if (dir === 'like') saveToCollection(post);
+      if (dir == 'like') saveToCollection(post);
 
       setTimeout(() => {
         card.remove();
