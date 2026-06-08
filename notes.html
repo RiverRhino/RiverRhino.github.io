@@ -11,77 +11,84 @@
 <body>
 
   <aside class="sidebar">
-        <ul class="sidebar_list">
+    <ul class="sidebar_list">
 
-            <!-- Logo / Título -->
-            <li class="sidebar_element sidebar_element--logo">
-                <img class="sidebar_icon sidebar_icon--logo" src="./imagenes/tortugabailando.gif" alt="logo">
-                <div class="sidebar_hide">
-                    <p class="sidebar_text sidebar_text--logo">Somea</p>
-                </div>
-            </li>
+      <!-- Logo / Título -->
+      <li class="sidebar_element sidebar_element--logo">
+        <img class="sidebar_icon sidebar_icon--logo" src="./imagenes/tortugabailando.gif" alt="logo">
+        <div class="sidebar_hide">
+          <p class="sidebar_text sidebar_text--logo">Somea</p>
+        </div>
+      </li>
 
-            <!-- Inicio -->
-            <li class="sidebar_element" onclick="scrollToSection('inicio')">
-                <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                </svg>
-                <div class="sidebar_hide">
-                    <p class="sidebar_text">Inicio</p>
-                </div>
-            </li>
+      <!-- Inicio -->
+      <li class="sidebar_element" onclick="scrollToSection('inicio')">
+        <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </svg>
+        <div class="sidebar_hide">
+          <a href="./index.html">
+            <p class="sidebar_text">Inicio</p>
+          </a>
+        </div>
+      </li>
 
-            <!-- Sobre mí -->
-            <li class="sidebar_element" onclick="scrollToSection('sobre-mi')">
-                <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
-                </svg>
-                <div class="sidebar_hide">
-                    <p class="sidebar_text">Sobre mí</p>
-                </div>
-            </li>
+      <!-- Sobre mí -->
+      <a href="./proyectos.html">
+        <li class="sidebar_element">
+          <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+          </svg>
+          <div class="sidebar_hide">
+            <p class="sidebar_text">Proyectos</p>
+          </div>
+        </li>
+      </a>
 
-            <!-- Intereses -->
-             <a href="./proyectos.html">
-            <li class="sidebar_element">
-                <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
-                <div class="sidebar_hide">
-                    <p class="sidebar_text">Proyectos</p>
-                </div>
-            </li>
-        </a>
+      <!-- Intereses -->
+      <li class="sidebar_element">
+        <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        <div class="sidebar_hide">
+          <p class="sidebar_text">Proyectos</p>
+        </div>
+      </li>
 
-            <!-- Redes sociales -->
-            <li class="sidebar_element" onclick="scrollToSection('redes')">
-                <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
-                </svg>
-                <div class="sidebar_hide">
-                    <p class="sidebar_text">Redes</p>
-                </div>
-            </li>
 
-        </ul>
-    </aside>
+      <!-- Redes sociales -->
+      <li class="sidebar_element" onclick="scrollToSection('redes')">
+        <svg class="sidebar_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z" />
+        </svg>
+        <div class="sidebar_hide">
+          <p class="sidebar_text">Redes</p>
+        </div>
+      </li>
 
-<main>
+    </ul>
+  </aside>
 
-  <header>
+  <main>
 
-    <!-- <div class="logo">★Mira imagenes una por una★</div> -->
-    <p id="help-text" style="display:none">Al buscar una imagen intenta poner espacios entre las palabras, si no, ve a ayuda en el menu</p>
-    <div class="filter-row">
-      <p>Busca un personaje s</p>
-      <button onclick="downloadImage(posts[idx].large_file_url)">Descargar imagen</button>
-      <input type="text" id="search-input" class="filter-btn" placeholder="BUSCAR... (ej: 'vocaloid')"
-        onkeydown="if(event.key === 'Enter') switchChar(this.value, this)">
-    </div>
-    <button id="previwebtn">Ver en grande</button>
-  </header>
+    <header>
 
-  
+      <!-- <div class="logo">★Mira imagenes una por una★</div> -->
+      <p id="help-text" style="display:none">Al buscar una imagen intenta poner espacios entre las palabras, si no, ve a
+        ayuda en el menu</p>
+      <div class="filter-row">
+        <p>Busca un personaje s</p>
+        <button onclick="downloadImage(posts[idx].large_file_url)">Descargar imagen</button>
+        <input type="text" id="search-input" class="filter-btn" placeholder="BUSCAR... (ej: 'vocaloid')"
+          onkeydown="if(event.key === 'Enter') switchChar(this.value, this)">
+      </div>
+      <button id="previwebtn">Ver en grande</button>
+    </header>
+
+
     <div id="card-stack">
       <div class="behind-card-2"></div>
       <div class="behind-card"></div>
@@ -214,7 +221,7 @@
       const card = document.createElement('div');
       card.className = 'art-card';
       card.id = 'current-card';
-    
+
 
       const img = document.createElement('img');
       img.src = post.large_file_url || post.preview_file_url;
@@ -244,7 +251,7 @@
       stampNope.textContent = 'SKIP';
 
       overlay.append(artist, tags);
-      
+
       card.append(img, overlay, stampLike, stampNope);
 
       const stack = document.getElementById('card-stack');
@@ -268,19 +275,20 @@
     // ── drag logic ──
     function setupDrag(card, post) {
       let velX = 0;
+      let dragging = false;
+      let localStartX = 0;
 
       const onStart = (e) => {
-        isDragging = true;
+        dragging = true;
         const pt = e.touches ? e.touches[0] : e;
-        startX = pt.clientX;
-        startY = pt.clientY;
+        localStartX = pt.clientX;
         card.style.transition = 'none';
       };
 
       const onMove = (e) => {
-        if (!isDragging) return;
+        if (!dragging) return;
         const pt = e.touches ? e.touches[0] : e;
-        const dx = pt.clientX - startX;
+        const dx = pt.clientX - localStartX;
         const dy = pt.clientY - startY;
         const rotate = dx * 0.08;
 
@@ -305,8 +313,8 @@
       };
 
       const onEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
+        if (!dragging) return;
+        dragging = false;
 
         if (velX > 80) {
           animateOut(card, 'like', post);
@@ -337,12 +345,13 @@
     }
 
     function animateOut(card, dir, post) {
-      const xOut = dir === 'like' ? 600 : -600;
+      const xOut = dir === 'like' ? 600 : -600;  // ← número, no el string dir
+
       card.style.transition = 'transform 0.38s ease-in, opacity 0.38s';
       card.style.transform = `translateX(${xOut}px) rotate(${dir === 'like' ? 20 : -20}deg)`;
       card.style.opacity = '0';
 
-      if (dir == 'like') saveToCollection(post);
+      if (dir === 'like') saveToCollection(post);  // ← solo una vez, afuera del if anterior
 
       setTimeout(() => {
         card.remove();
@@ -441,18 +450,18 @@
 
     function downloadImage(large_file_url) {
       fetch(large_file_url)
-      .then(resp => resp.blob())
-      .then(blob => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = large_file_url.split('/').pop();
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      })
-      .catch(() => alert('Error al descargar la imagen'));
+        .then(resp => resp.blob())
+        .then(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = large_file_url.split('/').pop();
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        })
+        .catch(() => alert('Error al descargar la imagen'));
     }
 
 

@@ -128,8 +128,8 @@ main {
 /* ── card stack ── */
 #card-stack {
   position: relative;
-  width: 40%;
-  height: 420px;
+  width: 60%;
+  height: 500px;
 }
 
 .art-card {
