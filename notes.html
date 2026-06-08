@@ -1,331 +1,376 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="colIMG.css">
-<title>Swipe Img</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="colIMG.css">
+  <title>Swipe Img</title>
 </head>
+
 <body>
 
-<header>
-  <div class="logo">★Mira imagenes una por una★</div>
-  <p>Al buscar, intenta que los espacios este separados por guiones "kasane_teto"</p>
-  <div class="filter-row">
-    <input type="text" id="search-input" class="filter-btn" placeholder="BUSCAR... (ej: 'vocaloid')" onkeydown="if(event.key === 'Enter') switchChar(this.value, this)">
-  </div>
-</header>
+  <header>
+    <div class="logo">★Mira imagenes una por una★</div>
+    <p>Al buscar, intenta que los espacios este separados por guiones "kasane_teto"</p>
+    <div class="filter-row">
+      <input type="text" id="search-input" class="filter-btn" placeholder="BUSCAR... (ej: 'vocaloid')"
+        onkeydown="if(event.key === 'Enter') switchChar(this.value, this)">
+    </div>
+    <button id="previwebtn">Abrir imagen</button>
+  </header>
 
-<main>
-  <div id="card-stack">
-    <div class="behind-card-2"></div>
-    <div class="behind-card"></div>
-    <div id="loading-msg" class="state-msg">Cargando...<br>pls wait ♪</div>
-  </div>
+  <main>
+    <div id="card-stack">
+      <div class="behind-card-2"></div>
+      <div class="behind-card"></div>
+      <div id="loading-msg" class="state-msg">Cargando...<br>pls wait ♪</div>
+    </div>
 
-  <div class="counter" id="counter"></div>
+    <div class="counter" id="counter"></div>
 
-  <div class="actions">
-    <button class="action-btn btn-nope" onclick="swipe('nope')">
-      <span class="btn-icon">✕</span> SKIP
+    <div class="actions">
+      <button class="action-btn btn-nope" onclick="swipe('nope')">
+        <span class="btn-icon">✕</span> SKIP
+      </button>
+      <button class="action-btn btn-like" onclick="swipe('like')">
+        SAVE <span class="btn-icon">♥</span>
+      </button>
+    </div>
+
+    <button class="collection-toggle" onclick="toggleCollection()">
+      ★ Mi coleccion
+      <span class="collection-count" id="col-count">0</span>
     </button>
-    <button class="action-btn btn-like" onclick="swipe('like')">
-      SAVE <span class="btn-icon">♥</span>
-    </button>
+  </main>
+
+  <div id="collection-panel">
+    <div class="collection-header">
+      <span class="collection-title">Guardadas</span>
+      <button class="btn-clear" onclick="clearCollection()">Borrar todo</button>
+    </div>
+    <div id="collection-grid"></div>
   </div>
 
-  <button class="collection-toggle" onclick="toggleCollection()">
-    ★ Mi coleccion
-    <span class="collection-count" id="col-count">0</span>
-  </button>
-</main>
-
-<div id="collection-panel">
-  <div class="collection-header">
-    <span class="collection-title">Guardadas</span>
-    <button class="btn-clear" onclick="clearCollection()">Borrar todo</button>
+  <div id="preview-modal" onclick="closePreview()">
+    <div class="modal-inner" onclick="event.stopPropagation()">
+      <img id="preview-img" src="" alt="">
+      <div class="modal-info">
+        <span id="preview-artist"></span>
+        <a id="preview-link" href="" target="_blank">ver en danbooru ↗</a>
+      </div>
+      <button class="modal-close" onclick="closePreview()">✕ CERRAR</button>
+    </div>
   </div>
-  <div id="collection-grid"></div>
-</div>
 
-<script>
-  let posts = [];
-  let idx = 0;
-  let currentTag = 'hatsune_miku';
-  let collection = JSON.parse(localStorage.getItem('somea-collection') || '[]');
-  let isDragging = false;
-  let startX = 0, startY = 0;
-  let currentCard = null;
+  <script>
+    let posts = [];
+    let idx = 0;
+    let currentTag = 'hatsune_miku';
+    let collection = JSON.parse(localStorage.getItem('somea-collection') || '[]');
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let currentCard = null;
+    let prev = document.getElementById('previwebtn');
 
-  // ── fetch ──
-  async function loadPosts(tag) {
-    document.getElementById('loading-msg').style.display = 'block';
-    removeCurrentCard();
 
-    const params = new URLSearchParams({
-      tags: `${tag} rating:general`,
-      limit: 101,
-      page: Math.ceil(Math.random() * 3),
+
+    // ── fetch ──
+    async function loadPosts(tag) {
+      document.getElementById('loading-msg').style.display = 'block';
+      removeCurrentCard();
+
+      const params = new URLSearchParams({
+        tags: `${tag} rating:general`,
+        limit: 101,
+        page: Math.ceil(Math.random() * 3),
+      });
+
+      try {
+        const res = await fetch(`https://danbooru.donmai.us/posts.json?${params}`);
+        const data = await res.json();
+        posts = data.filter(p =>
+          p.preview_file_url &&
+          p.large_file_url &&
+          !['zip', 'webm', 'mp4'].includes(p.file_ext)
+        );
+        idx = 0;
+        document.getElementById('loading-msg').style.display = 'none';
+        if (posts.length === 0) {
+          showMsg('Intenta otro filtro');
+        } else {
+          showCard();
+        }
+      } catch (e) {
+        showMsg('ERROR DE RED\nrevisa tu conexión');
+      }
+    }
+
+    prev.addEventListener('click', () => {
+      if (posts.length === 0 || idx >= posts.length) return;
+      openPreview(posts[idx]);
     });
 
-    try {
-      const res = await fetch(`https://danbooru.donmai.us/posts.json?${params}`);
-      const data = await res.json();
-      posts = data.filter(p =>
-        p.preview_file_url &&
-        p.large_file_url &&
-        !['zip', 'webm', 'mp4'].includes(p.file_ext)
-      );
-      idx = 0;
-      document.getElementById('loading-msg').style.display = 'none';
-      if (posts.length === 0) {
-        showMsg('Intenta otro filtro');
-      } else {
-        showCard();
-      }
-    } catch(e) {
-      showMsg('ERROR DE RED\nrevisa tu conexión');
-    }
-  }
-
-  function showMsg(text) {
-    const el = document.getElementById('loading-msg');
-    el.textContent = text;
-    el.style.display = 'block';
-  }
-
-  // ── render card ──
-  function showCard() {
-    removeCurrentCard();
-
-    if (idx >= posts.length) {
-      loadPosts(currentTag);
-      return;
+    function openPreview(post) {
+      document.getElementById('preview-img').src = post.large_file_url || post.preview_file_url;
+      document.getElementById('preview-artist').textContent = post.tag_string_artist?.split(' ')[0] || 'unknown';
+      document.getElementById('preview-link').href = `https://danbooru.donmai.us/posts/${post.id}`;
+      document.getElementById('preview-modal').classList.add('open');
     }
 
-    const post = posts[idx];
-    updateCounter();
+    function closePreview() {
+      document.getElementById('preview-modal').classList.remove('open');
+      document.getElementById('preview-img').src = '';
+    }
 
-    const card = document.createElement('div');
-    card.className = 'art-card';
-    card.id = 'current-card';
 
-    const img = document.createElement('img');
-    img.src = post.large_file_url || post.preview_file_url;
-    img.loading = 'lazy';
-    img.alt = '';
-    img.onerror = () => { idx++; showCard(); };
-
-    const overlay = document.createElement('div');
-    overlay.className = 'card-overlay';
-
-    const artist = document.createElement('div');
-    artist.className = 'card-artist';
-    artist.textContent = post.tag_string_artist?.split(' ')[0] || 'unknown artist';
-
-    const tags = document.createElement('div');
-    tags.className = 'card-tags';
-    tags.textContent = post.tag_string_character?.replaceAll('_', ' ') || '';
-
-    const stampLike = document.createElement('div');
-    stampLike.className = 'stamp stamp-like';
-    stampLike.id = 'stamp-like';
-    stampLike.textContent = 'SAVE!';
-
-    const stampNope = document.createElement('div');
-    stampNope.className = 'stamp stamp-nope';
-    stampNope.id = 'stamp-nope';
-    stampNope.textContent = 'SKIP';
-
-    overlay.append(artist, tags);
-    card.append(img, overlay, stampLike, stampNope);
-
-    const stack = document.getElementById('card-stack');
-    stack.appendChild(card);
-    currentCard = card;
-
-    setupDrag(card, post);
-  }
-
-  function removeCurrentCard() {
-    const old = document.getElementById('current-card');
-    if (old) old.remove();
-  }
-
-  function updateCounter() {
-    const el = document.getElementById('counter');
-    el.textContent = posts.length ? `${idx + 1} / ${posts.length}` : '';
-  }
-
-  // ── drag logic ──
-  function setupDrag(card, post) {
-    let velX = 0;
-
-    const onStart = (e) => {
-      isDragging = true;
-      const pt = e.touches ? e.touches[0] : e;
-      startX = pt.clientX;
-      startY = pt.clientY;
-      card.style.transition = 'none';
-    };
-
-    const onMove = (e) => {
-      if (!isDragging) return;
-      const pt = e.touches ? e.touches[0] : e;
-      const dx = pt.clientX - startX;
-      const dy = pt.clientY - startY;
-      const rotate = dx * 0.08;
-
-      card.style.transform = `translateX(${dx}px) translateY(${dy * 0.3}px) rotate(${rotate}deg)`;
-
-      velX = dx;
-
-      const likeStamp = card.querySelector('.stamp-like');
-      const nopeStamp = card.querySelector('.stamp-nope');
-      const ratio = Math.abs(dx) / 80;
-
-      if (dx > 20) {
-        likeStamp.style.opacity = Math.min(ratio, 1);
-        nopeStamp.style.opacity = 0;
-      } else if (dx < -20) {
-        nopeStamp.style.opacity = Math.min(ratio, 1);
-        likeStamp.style.opacity = 0;
-      } else {
-        likeStamp.style.opacity = 0;
-        nopeStamp.style.opacity = 0;
-      }
-    };
-
-    const onEnd = () => {
-      if (!isDragging) return;
-      isDragging = false;
-
-      if (velX > 80) {
-        animateOut(card, 'like', post);
-      } else if (velX < -80) {
-        animateOut(card, 'nope', post);
-      } else {
-        // snap back
-        card.style.transition = 'transform 0.35s cubic-bezier(.175,.885,.32,1.275)';
-        card.style.transform = 'translateX(0) translateY(0) rotate(0deg)';
-        card.querySelectorAll('.stamp').forEach(s => s.style.opacity = 0);
-      }
-    };
-
-    card.addEventListener('mousedown', onStart);
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onEnd);
-
-    card.addEventListener('touchstart', onStart, { passive: true });
-    window.addEventListener('touchmove', onMove, { passive: true });
-    window.addEventListener('touchend', onEnd);
-  }
-
-  // ── swipe action ──
-  function swipe(dir) {
-    if (!currentCard) return;
-    const post = posts[idx];
-    animateOut(currentCard, dir, post);
-  }
-
-  function animateOut(card, dir, post) {
-    const xOut = dir === 'like' ? 600 : -600;
-    card.style.transition = 'transform 0.38s ease-in, opacity 0.38s';
-    card.style.transform = `translateX(${xOut}px) rotate(${dir === 'like' ? 20 : -20}deg)`;
-    card.style.opacity = '0';
-
-    if (dir === 'like') saveToCollection(post);
-
-    setTimeout(() => {
-      card.remove();
-      idx++;
-      showCard();
-    }, 380);
-  }
-
-  // ── collection ──
-  function saveToCollection(post) {
-    if (collection.find(p => p.id === post.id)) return;
-    collection.push({
-      id: post.id,
-      preview: post.preview_file_url,
-      large: post.large_file_url,
-      artist: post.tag_string_artist?.split(' ')[0] || '',
-      url: `https://danbooru.donmai.us/posts/${post.id}`,
+    // cerrar con Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePreview();
     });
-    localStorage.setItem('somea-collection', JSON.stringify(collection));
-    updateColCount();
-    renderCollection();
-  }
 
-  function removeFromCollection(id) {
-    collection = collection.filter(p => p.id !== id);
-    localStorage.setItem('somea-collection', JSON.stringify(collection));
-    updateColCount();
-    renderCollection();
-  }
-
-  function clearCollection() {
-    if (!confirm('¿Borrar toda la colección?')) return;
-    collection = [];
-    localStorage.setItem('somea-collection', JSON.stringify(collection));
-    updateColCount();
-    renderCollection();
-  }
-
-  function updateColCount() {
-    document.getElementById('col-count').textContent = collection.length;
-  }
-
-  function renderCollection() {
-    const grid = document.getElementById('collection-grid');
-    grid.innerHTML = '';
-
-    if (collection.length === 0) {
-      grid.innerHTML = '<div class="empty-collection" style="grid-column:1/-1">ninguna guardada aún<br>desliza a la derecha ♥</div>';
-      return;
+    function showMsg(text) {
+      const el = document.getElementById('loading-msg');
+      el.textContent = text;
+      el.style.display = 'block';
     }
 
-    collection.forEach(item => {
-      const thumb = document.createElement('div');
-      thumb.className = 'col-thumb';
-      thumb.onclick = () => window.open(item.url, '_blank');
+    // ── render card ──
+    function showCard() {
+      removeCurrentCard();
+
+      if (idx >= posts.length) {
+        loadPosts(currentTag);
+        return;
+      }
+
+      const post = posts[idx];
+      updateCounter();
+
+      const card = document.createElement('div');
+      card.className = 'art-card';
+      card.id = 'current-card';
+    
 
       const img = document.createElement('img');
-      img.src = item.preview;
-      img.alt = item.artist;
+      img.src = post.large_file_url || post.preview_file_url;
+      img.loading = 'lazy';
+      img.alt = '';
+      img.onerror = () => { idx++; showCard(); };
 
-      const removeBtn = document.createElement('button');
-      removeBtn.className = 'remove-btn';
-      removeBtn.textContent = '✕';
-      removeBtn.onclick = (e) => { e.stopPropagation(); removeFromCollection(item.id); };
+      const overlay = document.createElement('div');
+      overlay.className = 'card-overlay';
 
-      thumb.append(img, removeBtn);
-      grid.appendChild(thumb);
-    });
-  }
+      const artist = document.createElement('div');
+      artist.className = 'card-artist';
+      artist.textContent = post.tag_string_artist?.split(' ')[0] || 'unknown artist';
 
-  function toggleCollection() {
-    const panel = document.getElementById('collection-panel');
-    panel.classList.toggle('open');
-    renderCollection();
-  }
+      const tags = document.createElement('div');
+      tags.className = 'card-tags';
+      tags.textContent = post.tag_string_character?.replaceAll('_', ' ') || '';
 
-  // ── switch character ──
-  function switchChar(tag, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => {
-      b.classList.remove('active', 'active-miku', 'active-teto');
-    });
-    btn.classList.add('active');
-    if (tag === 'hatsune_miku') btn.classList.add('active-miku');
-    if (tag === 'kasane_teto') btn.classList.add('active-teto');
-    currentTag = tag;
-    loadPosts(tag);
-  }
+      const stampLike = document.createElement('div');
+      stampLike.className = 'stamp stamp-like';
+      stampLike.id = 'stamp-like';
+      stampLike.textContent = 'SAVE!';
 
-  // ── init ──
-  updateColCount();
-  loadPosts(currentTag);
-</script>
+      const stampNope = document.createElement('div');
+      stampNope.className = 'stamp stamp-nope';
+      stampNope.id = 'stamp-nope';
+      stampNope.textContent = 'SKIP';
+
+      overlay.append(artist, tags);
+      
+      card.append(img, overlay, stampLike, stampNope);
+
+      const stack = document.getElementById('card-stack');
+      stack.appendChild(card);
+      currentCard = card;
+
+      setupDrag(card, post);
+    }
+
+    function removeCurrentCard() {
+      const old = document.getElementById('current-card');
+      // remove event listeners
+      if (old) old.remove();
+    }
+
+    function updateCounter() {
+      const el = document.getElementById('counter');
+      el.textContent = posts.length ? `${idx + 1} / ${posts.length}` : '';
+    }
+
+    // ── drag logic ──
+    function setupDrag(card, post) {
+      let velX = 0;
+
+      const onStart = (e) => {
+        isDragging = true;
+        const pt = e.touches ? e.touches[0] : e;
+        startX = pt.clientX;
+        startY = pt.clientY;
+        card.style.transition = 'none';
+      };
+
+      const onMove = (e) => {
+        if (!isDragging) return;
+        const pt = e.touches ? e.touches[0] : e;
+        const dx = pt.clientX - startX;
+        const dy = pt.clientY - startY;
+        const rotate = dx * 0.08;
+
+        card.style.transform = `translateX(${dx}px) translateY(${dy * 0.3}px) rotate(${rotate}deg)`;
+
+        velX = dx;
+
+        const likeStamp = card.querySelector('.stamp-like');
+        const nopeStamp = card.querySelector('.stamp-nope');
+        const ratio = Math.abs(dx) / 80;
+
+        if (dx > 20) {
+          likeStamp.style.opacity = Math.min(ratio, 1);
+          nopeStamp.style.opacity = 0;
+        } else if (dx < -20) {
+          nopeStamp.style.opacity = Math.min(ratio, 1);
+          likeStamp.style.opacity = 0;
+        } else {
+          likeStamp.style.opacity = 0;
+          nopeStamp.style.opacity = 0;
+        }
+      };
+
+      const onEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        if (velX > 80) {
+          animateOut(card, 'like', post);
+        } else if (velX < -80) {
+          animateOut(card, 'nope', post);
+        } else {
+          // snap back
+          card.style.transition = 'transform 0.35s cubic-bezier(.175,.885,.32,1.275)';
+          card.style.transform = 'translateX(0) translateY(0) rotate(0deg)';
+          card.querySelectorAll('.stamp').forEach(s => s.style.opacity = 0);
+        }
+      };
+
+      card.addEventListener('mousedown', onStart);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
+
+      card.addEventListener('touchstart', onStart, { passive: true });
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', onEnd);
+    }
+
+    // ── swipe action ──
+    function swipe(dir) {
+      if (!currentCard) return;
+      const post = posts[idx];
+      animateOut(currentCard, dir, post);
+    }
+
+    function animateOut(card, dir, post) {
+      const xOut = dir === 'like' ? 600 : -600;
+      card.style.transition = 'transform 0.38s ease-in, opacity 0.38s';
+      card.style.transform = `translateX(${xOut}px) rotate(${dir === 'like' ? 20 : -20}deg)`;
+      card.style.opacity = '0';
+
+      if (dir === 'like') saveToCollection(post);
+
+      setTimeout(() => {
+        card.remove();
+        idx++;
+        showCard();
+      }, 380);
+    }
+
+    // ── collection ──
+    function saveToCollection(post) {
+      if (collection.find(p => p.id === post.id)) return;
+      collection.push({
+        id: post.id,
+        preview: post.preview_file_url,
+        large: post.large_file_url,
+        artist: post.tag_string_artist?.split(' ')[0] || '',
+        url: `https://danbooru.donmai.us/posts/${post.id}`,
+      });
+      localStorage.setItem('somea-collection', JSON.stringify(collection));
+      updateColCount();
+      renderCollection();
+    }
+
+    function removeFromCollection(id) {
+      collection = collection.filter(p => p.id !== id);
+      localStorage.setItem('somea-collection', JSON.stringify(collection));
+      updateColCount();
+      renderCollection();
+    }
+
+    function clearCollection() {
+      if (!confirm('¿Borrar toda la colección?')) return;
+      collection = [];
+      localStorage.setItem('somea-collection', JSON.stringify(collection));
+      updateColCount();
+      renderCollection();
+    }
+
+    function updateColCount() {
+      document.getElementById('col-count').textContent = collection.length;
+    }
+
+    function renderCollection() {
+      const grid = document.getElementById('collection-grid');
+      grid.innerHTML = '';
+
+      if (collection.length === 0) {
+        grid.innerHTML = '<div class="empty-collection" style="grid-column:1/-1">ninguna guardada aún<br>desliza a la derecha ♥</div>';
+        return;
+      }
+
+      collection.forEach(item => {
+        const thumb = document.createElement('div');
+        thumb.className = 'col-thumb';
+        thumb.onclick = () => window.open(item.url, '_blank');
+
+        const img = document.createElement('img');
+        img.src = item.preview;
+        img.alt = item.artist;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = '✕';
+        removeBtn.onclick = (e) => { e.stopPropagation(); removeFromCollection(item.id); };
+
+        thumb.append(img, removeBtn);
+        grid.appendChild(thumb);
+      });
+    }
+
+    function toggleCollection() {
+      const panel = document.getElementById('collection-panel');
+      panel.classList.toggle('open');
+      renderCollection();
+    }
+
+    // ── switch character ──
+    function switchChar(tag, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('active', 'active-miku', 'active-teto');
+      });
+      btn.classList.add('active');
+      if (tag === 'hatsune_miku') btn.classList.add('active-miku');
+      if (tag === 'kasane_teto') btn.classList.add('active-teto');
+      currentTag = tag;
+      loadPosts(tag);
+    }
+
+    // ── init ──
+    updateColCount();
+    loadPosts(currentTag);
+  </script>
 </body>
+
 </html>
