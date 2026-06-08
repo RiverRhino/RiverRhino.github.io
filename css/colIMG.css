@@ -550,6 +550,7 @@ p {
     width: 80px; /* Ajusta a tu gusto */
     cursor: pointer;
     transition: transform 0.2s;
+    z-index: 9999;
 }
 
 #tetopeluche:hover {
