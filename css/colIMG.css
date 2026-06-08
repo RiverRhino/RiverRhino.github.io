@@ -21,10 +21,10 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;   /* sidebar + main en fila */
+  align-items: flex-start;
   overflow-x: hidden;
 }
 
@@ -48,9 +48,9 @@ header {
   max-width: 480px;
   padding: 20px 20px 0;
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  gap: 12px;
+  gap: 9px;
 }
 
 .logo {
@@ -116,20 +116,19 @@ header {
 main {
   position: relative;
   z-index: 5;
-  width: 100%;
-  max-width: 480px;
-  padding: 20px;
-  flex: 1;
+  flex: 1;                 /* ocupa el espacio que queda después del sidebar */
+  min-width: 0;            /* evita overflow horizontal */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
+  padding: 1rem 1rem;
 }
 
 /* ── card stack ── */
 #card-stack {
   position: relative;
-  width: 100%;
+  width: 40%;
   height: 420px;
 }
 
@@ -335,11 +334,14 @@ p {
   max-width: 480px;
   padding: 0 20px 20px;
   position: relative;
-  z-index: 5;
+  z-index: 2;
   display: none;
+  margin: 0 auto;          /* centra dentro del main */
 }
 
-#collection-panel.open { display: block; }
+#collection-panel.open { 
+  display: block; 
+}
 
 .collection-header {
   display: flex;
@@ -556,4 +558,81 @@ p {
 
 #tetopeluche:hover {
     transform: scale(1.1);
+}
+
+.sidebar {
+    background-color:#960016;
+    width: max-content;
+    min-height: 100vh;      /* ocupa toda la altura */
+    position: sticky;       /* se queda fijo al hacer scroll */
+    top: 0;
+    align-self: flex-start;
+    border-radius: 0 16px 16px 0;
+    padding: 1.5rem 1rem;
+    z-index: 100;
+}
+
+.sidebar:hover .sidebar_element {
+    grid-template-columns: 40px 1fr;
+}
+
+.sidebar_list {
+    list-style: none;
+    padding: 0;
+    min-height: calc(100vh - 3rem);
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.sidebar_element {
+    padding: .8rem 1.3rem;
+    border-radius: 10px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 40px 0fr;
+    transition: .3s ease-in-out;
+    color: black;
+    fill: black;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar_element:not(.sidebar_element--logo):hover {
+    background-color: #E88A38;
+    color: white;
+    fill: white;
+    cursor: pointer;
+}
+
+.sidebar_element--logo {
+    margin-bottom: 1.5rem;
+}
+
+.sidebar_icon {
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+    justify-self: center;
+    flex-shrink: 0;
+}
+
+.sidebar_icon--logo {
+    width: 36px;
+    height: 36px;
+}
+
+.sidebar_hide {
+    overflow: hidden;
+    padding-left: .8rem;
+}
+
+.sidebar_text {
+    font-size: .95rem;
+    font-weight: 600;
+}
+
+.sidebar_text--logo {
+    font-size: 1.2rem;
+    font-weight: 800;
 }
