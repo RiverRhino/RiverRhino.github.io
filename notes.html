@@ -190,6 +190,7 @@
       document.getElementById('preview-img').src = '';
     }
 
+  
 
     // cerrar con Escape
     document.addEventListener('keydown', (e) => {
@@ -201,7 +202,7 @@
       el.textContent = text;
       el.style.display = 'block';
     }
-
+   
     // ── render card ──
     function showCard() {
       removeCurrentCard();
@@ -365,6 +366,7 @@
         preview: post.preview_file_url,
         large: post.large_file_url,
         artist: post.tag_string_artist?.split(' ')[0] || '',
+        tags: post.tag_string_character || '',
         url: `https://danbooru.donmai.us/posts/${post.id}`,
       });
       localStorage.setItem('somea-collection', JSON.stringify(collection));
@@ -419,11 +421,17 @@
       });
     }
 
-    function toggleCollection() {
-      const panel = document.getElementById('collection-panel');
-      panel.classList.toggle('open');
-      renderCollection();
-    }
+function toggleCollection() {
+  const panel = document.getElementById('collection-panel');
+  panel.classList.toggle('open');
+
+  if (panel.classList.contains('open')) {
+    const searchInput = document.getElementById('search-collection'); // ← mismo id que el HTML
+    if (searchInput) searchInput.value = '';
+  }
+
+  renderCollection();
+}
 
     // ── switch character ──
     function switchChar(tag, btn) {
@@ -460,7 +468,6 @@
         })
         .catch(() => alert('Error al descargar la imagen'));
     }
-
 
     // ── init ──
     updateColCount();
