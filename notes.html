@@ -1,146 +1,754 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Drive API Quickstart</title>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <p>Drive API Quickstart</p>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Somea — Fan Art Swipe</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=M+PLUS+Rounded+1c:wght@400;700&display=swap');
 
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
-    <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+  :root {
+    --bg: #0e0b1a;
+    --surface: #1a1530;
+    --card: #221e38;
+    --purple-bright: #b388ff;
+    --purple-mid: #7c4dff;
+    --purple-dark: #4a148c;
+    --pink: #f48fb1;
+    --teal: #80cbc4;
+    --text: #e8e0ff;
+    --text-muted: #9e8fc7;
+    --border: rgba(179, 136, 255, 0.2);
+    --like: #80cbc4;
+    --nope: #f48fb1;
+    --pixel: 2px;
+  }
 
-    <pre id="content" style="white-space: pre-wrap;"></pre>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <script type="text/javascript">
-      /* exported gapiLoaded */
-      /* exported gisLoaded */
-      /* exported handleAuthClick */
-      /* exported handleSignoutClick */
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
 
-      // TODO(developer): Set to client ID from the Developer Console
-      const CLIENT_ID = '396131752711-mek0apvcuaopv28sdd482nmtv1b91rtm.apps.googleusercontent.com';
+  /* pixel grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(124, 77, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124, 77, 255, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-      // Discovery doc URL for APIs used by the quickstart
-      const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+  header {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 480px;
+    padding: 20px 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
 
-      // Authorization scopes required by the API; multiple scopes can be
-      // included, separated by spaces.
-      const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+  .logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--purple-bright);
+    letter-spacing: 2px;
+    text-shadow: 0 0 16px rgba(179,136,255,0.5);
+  }
 
-      let tokenClient;
-      let gapiInited = false;
-      let gisInited = false;
+  .filter-row {
+    display: flex;
+    gap: 8px;
+  }
 
-      document.getElementById('authorize_button').style.visibility = 'hidden';
-      document.getElementById('signout_button').style.visibility = 'hidden';
+  .filter-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 8px 14px;
+    border: var(--pixel) solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    image-rendering: pixelated;
+    position: relative;
+  }
 
-      /**
-       * Callback after api.js is loaded.
-       */
-      function gapiLoaded() {
-        gapi.load('client', initializeGapiClient);
+  .filter-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: var(--pixel) solid transparent;
+  }
+
+  .filter-btn:hover {
+    color: var(--purple-bright);
+    border-color: var(--purple-bright);
+    background: rgba(124, 77, 255, 0.1);
+  }
+
+  .filter-btn.active {
+    color: var(--bg);
+    background: var(--purple-bright);
+    border-color: var(--purple-bright);
+    text-shadow: none;
+  }
+
+  .filter-btn.active-miku {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: var(--bg);
+  }
+
+  .filter-btn.active-teto {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: var(--bg);
+  }
+
+  /* ── main area ── */
+  main {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    max-width: 480px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* ── card stack ── */
+  #card-stack {
+    position: relative;
+    width: 100%;
+    height: 420px;
+  }
+
+  .art-card {
+    position: absolute;
+    inset: 0;
+    background: var(--card);
+    border: var(--pixel) solid var(--border);
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+    transform-origin: bottom center;
+    transition: box-shadow 0.2s;
+  }
+
+  .art-card:active { cursor: grabbing; }
+
+  .art-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+
+  .art-card .card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: linear-gradient(transparent, rgba(14,11,26,0.92));
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .card-artist {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--purple-bright);
+  }
+
+  .card-tags {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* swipe indicators */
+  .stamp {
+    position: absolute;
+    top: 28px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    padding: 8px 14px;
+    border: 3px solid;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s;
+    z-index: 20;
+    transform: rotate(-12deg);
+  }
+
+  .stamp-like {
+    left: 20px;
+    color: var(--like);
+    border-color: var(--like);
+    transform: rotate(-12deg);
+    text-shadow: 0 0 10px rgba(128,203,196,0.6);
+  }
+
+  .stamp-nope {
+    right: 20px;
+    color: var(--nope);
+    border-color: var(--nope);
+    transform: rotate(12deg);
+    text-shadow: 0 0 10px rgba(244,143,177,0.6);
+  }
+
+  /* behind cards (stack preview) */
+  .behind-card {
+    position: absolute;
+    inset: 0;
+    background: var(--card);
+    border: var(--pixel) solid var(--border);
+    transform: scale(0.95) translateY(8px);
+    z-index: -1;
+    opacity: 0.5;
+  }
+
+  .behind-card-2 {
+    transform: scale(0.9) translateY(16px);
+    z-index: -2;
+    opacity: 0.3;
+  }
+
+  /* ── action buttons ── */
+  .actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .action-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 12px 20px;
+    border: var(--pixel) solid;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-nope {
+    color: var(--nope);
+    border-color: var(--nope);
+  }
+
+  .btn-nope:hover {
+    background: rgba(244,143,177,0.12);
+    box-shadow: 0 0 16px rgba(244,143,177,0.3);
+  }
+
+  .btn-like {
+    color: var(--like);
+    border-color: var(--like);
+  }
+
+  .btn-like:hover {
+    background: rgba(128,203,196,0.12);
+    box-shadow: 0 0 16px rgba(128,203,196,0.3);
+  }
+
+  .btn-icon { font-size: 16px; }
+
+  /* ── collection panel ── */
+  .collection-toggle {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 8px 16px;
+    border: var(--pixel) solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s;
+  }
+
+  .collection-toggle:hover {
+    color: var(--purple-bright);
+    border-color: var(--purple-bright);
+  }
+
+  .collection-count {
+    background: var(--purple-bright);
+    color: var(--bg);
+    padding: 2px 6px;
+    font-size: 7px;
+  }
+
+  #collection-panel {
+    width: 100%;
+    max-width: 480px;
+    padding: 0 20px 20px;
+    position: relative;
+    z-index: 5;
+    display: none;
+  }
+
+  #collection-panel.open { display: block; }
+
+  .collection-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0 10px;
+    border-bottom: var(--pixel) solid var(--border);
+    margin-bottom: 12px;
+  }
+
+  .collection-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--purple-bright);
+  }
+
+  .btn-clear {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: var(--nope);
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  .btn-clear:hover { opacity: 1; }
+
+  #collection-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .col-thumb {
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: var(--pixel) solid var(--border);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .col-thumb:hover { border-color: var(--purple-bright); }
+
+  .col-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .col-thumb .remove-btn {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    background: rgba(244,143,177,0.9);
+    color: var(--bg);
+    border: none;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    padding: 2px 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .col-thumb:hover .remove-btn { opacity: 1; }
+
+  /* ── loading / empty states ── */
+  .state-msg {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 40px 0;
+    line-height: 2.2;
+  }
+
+  .empty-collection {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 20px 0;
+    line-height: 2;
+  }
+
+  /* pixel scanline effect on card */
+  .art-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.04) 3px,
+      rgba(0,0,0,0.04) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .counter {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">★ SOMEA FANART ★</div>
+  <div class="filter-row">
+    <button class="filter-btn active-miku active" onclick="switchChar('hatsune_miku', this)">MIKU</button>
+    <button class="filter-btn" onclick="switchChar('kasane_teto', this)">TETO</button>
+    <button class="filter-btn" onclick="switchChar('hatsune_miku kasane_teto', this)">AMBAS</button>
+  </div>
+</header>
+
+<main>
+  <div id="card-stack">
+    <div class="behind-card-2"></div>
+    <div class="behind-card"></div>
+    <div id="loading-msg" class="state-msg">CARGANDO...<br>pls wait ♪</div>
+  </div>
+
+  <div class="counter" id="counter"></div>
+
+  <div class="actions">
+    <button class="action-btn btn-nope" onclick="swipe('nope')">
+      <span class="btn-icon">✕</span> SKIP
+    </button>
+    <button class="action-btn btn-like" onclick="swipe('like')">
+      SAVE <span class="btn-icon">♥</span>
+    </button>
+  </div>
+
+  <button class="collection-toggle" onclick="toggleCollection()">
+    ★ MI COLECCIÓN
+    <span class="collection-count" id="col-count">0</span>
+  </button>
+</main>
+
+<div id="collection-panel">
+  <div class="collection-header">
+    <span class="collection-title">GUARDADAS</span>
+    <button class="btn-clear" onclick="clearCollection()">LIMPIAR TODO</button>
+  </div>
+  <div id="collection-grid"></div>
+</div>
+
+<script>
+  let posts = [];
+  let idx = 0;
+  let currentTag = 'hatsune_miku';
+  let collection = JSON.parse(localStorage.getItem('somea-collection') || '[]');
+  let isDragging = false;
+  let startX = 0, startY = 0;
+  let currentCard = null;
+
+  // ── fetch ──
+  async function loadPosts(tag) {
+    document.getElementById('loading-msg').style.display = 'block';
+    removeCurrentCard();
+
+    const params = new URLSearchParams({
+      tags: `${tag} rating:general`,
+      limit: 40,
+      page: Math.ceil(Math.random() * 3),
+    });
+
+    try {
+      const res = await fetch(`https://danbooru.donmai.us/posts.json?${params}`);
+      const data = await res.json();
+      posts = data.filter(p =>
+        p.preview_file_url &&
+        p.large_file_url &&
+        !['zip', 'webm', 'mp4'].includes(p.file_ext)
+      );
+      idx = 0;
+      document.getElementById('loading-msg').style.display = 'none';
+      if (posts.length === 0) {
+        showMsg('NO HAY RESULTADOS\nprueba otro filtro');
+      } else {
+        showCard();
       }
+    } catch(e) {
+      showMsg('ERROR DE RED\nrevisa tu conexión');
+    }
+  }
 
-      /**
-       * Callback after the API client is loaded. Loads the
-       * discovery doc to initialize the API.
-       */
-      async function initializeGapiClient() {
-        await gapi.client.init({
-          discoveryDocs: [DISCOVERY_DOC],
-        });
-        gapiInited = true;
-        maybeEnableButtons();
+  function showMsg(text) {
+    const el = document.getElementById('loading-msg');
+    el.textContent = text;
+    el.style.display = 'block';
+  }
+
+  // ── render card ──
+  function showCard() {
+    removeCurrentCard();
+
+    if (idx >= posts.length) {
+      loadPosts(currentTag);
+      return;
+    }
+
+    const post = posts[idx];
+    updateCounter();
+
+    const card = document.createElement('div');
+    card.className = 'art-card';
+    card.id = 'current-card';
+
+    const img = document.createElement('img');
+    img.src = post.large_file_url || post.preview_file_url;
+    img.loading = 'lazy';
+    img.alt = '';
+    img.onerror = () => { idx++; showCard(); };
+
+    const overlay = document.createElement('div');
+    overlay.className = 'card-overlay';
+
+    const artist = document.createElement('div');
+    artist.className = 'card-artist';
+    artist.textContent = post.tag_string_artist?.split(' ')[0] || 'unknown artist';
+
+    const tags = document.createElement('div');
+    tags.className = 'card-tags';
+    tags.textContent = post.tag_string_character?.replaceAll('_', ' ') || '';
+
+    const stampLike = document.createElement('div');
+    stampLike.className = 'stamp stamp-like';
+    stampLike.id = 'stamp-like';
+    stampLike.textContent = 'SAVE!';
+
+    const stampNope = document.createElement('div');
+    stampNope.className = 'stamp stamp-nope';
+    stampNope.id = 'stamp-nope';
+    stampNope.textContent = 'SKIP';
+
+    overlay.append(artist, tags);
+    card.append(img, overlay, stampLike, stampNope);
+
+    const stack = document.getElementById('card-stack');
+    stack.appendChild(card);
+    currentCard = card;
+
+    setupDrag(card, post);
+  }
+
+  function removeCurrentCard() {
+    const old = document.getElementById('current-card');
+    if (old) old.remove();
+  }
+
+  function updateCounter() {
+    const el = document.getElementById('counter');
+    el.textContent = posts.length ? `${idx + 1} / ${posts.length}` : '';
+  }
+
+  // ── drag logic ──
+  function setupDrag(card, post) {
+    let velX = 0;
+
+    const onStart = (e) => {
+      isDragging = true;
+      const pt = e.touches ? e.touches[0] : e;
+      startX = pt.clientX;
+      startY = pt.clientY;
+      card.style.transition = 'none';
+    };
+
+    const onMove = (e) => {
+      if (!isDragging) return;
+      const pt = e.touches ? e.touches[0] : e;
+      const dx = pt.clientX - startX;
+      const dy = pt.clientY - startY;
+      const rotate = dx * 0.08;
+
+      card.style.transform = `translateX(${dx}px) translateY(${dy * 0.3}px) rotate(${rotate}deg)`;
+
+      velX = dx;
+
+      const likeStamp = card.querySelector('.stamp-like');
+      const nopeStamp = card.querySelector('.stamp-nope');
+      const ratio = Math.abs(dx) / 80;
+
+      if (dx > 20) {
+        likeStamp.style.opacity = Math.min(ratio, 1);
+        nopeStamp.style.opacity = 0;
+      } else if (dx < -20) {
+        nopeStamp.style.opacity = Math.min(ratio, 1);
+        likeStamp.style.opacity = 0;
+      } else {
+        likeStamp.style.opacity = 0;
+        nopeStamp.style.opacity = 0;
       }
+    };
 
-      /**
-       * Callback after Google Identity Services are loaded.
-       */
-      function gisLoaded() {
-        tokenClient = google.accounts.oauth2.initTokenClient({
-          client_id: CLIENT_ID,
-          scope: SCOPES,
-          callback: '', // defined later
-        });
-        gisInited = true;
-        maybeEnableButtons();
+    const onEnd = () => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      if (velX > 80) {
+        animateOut(card, 'like', post);
+      } else if (velX < -80) {
+        animateOut(card, 'nope', post);
+      } else {
+        // snap back
+        card.style.transition = 'transform 0.35s cubic-bezier(.175,.885,.32,1.275)';
+        card.style.transform = 'translateX(0) translateY(0) rotate(0deg)';
+        card.querySelectorAll('.stamp').forEach(s => s.style.opacity = 0);
       }
+    };
 
-      /**
-       * Enables user interaction after all libraries are loaded.
-       */
-      function maybeEnableButtons() {
-        if (gapiInited && gisInited) {
-          document.getElementById('authorize_button').style.visibility = 'visible';
-        }
-      }
+    card.addEventListener('mousedown', onStart);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onEnd);
 
-      /**
-       *  Sign in the user upon button click.
-       */
-      function handleAuthClick() {
-        tokenClient.callback = async (resp) => {
-          if (resp.error !== undefined) {
-            throw (resp);
-          }
-          document.getElementById('signout_button').style.visibility = 'visible';
-          document.getElementById('authorize_button').innerText = 'Refresh';
-          await listFiles();
-        };
+    card.addEventListener('touchstart', onStart, { passive: true });
+    window.addEventListener('touchmove', onMove, { passive: true });
+    window.addEventListener('touchend', onEnd);
+  }
 
-        if (gapi.client.getToken() === null) {
-          // Prompt the user to select a Google Account and ask for consent to share their data
-          // when establishing a new session.
-          tokenClient.requestAccessToken({prompt: 'consent'});
-        } else {
-          // Skip display of account chooser and consent dialog for an existing session.
-          tokenClient.requestAccessToken({prompt: ''});
-        }
-      }
+  // ── swipe action ──
+  function swipe(dir) {
+    if (!currentCard) return;
+    const post = posts[idx];
+    animateOut(currentCard, dir, post);
+  }
 
-      /**
-       *  Sign out the user upon button click.
-       */
-      function handleSignoutClick() {
-        const token = gapi.client.getToken();
-        if (token !== null) {
-          google.accounts.oauth2.revoke(token.access_token);
-          gapi.client.setToken('');
-          document.getElementById('content').innerText = '';
-          document.getElementById('authorize_button').innerText = 'Authorize';
-          document.getElementById('signout_button').style.visibility = 'hidden';
-        }
-      }
+  function animateOut(card, dir, post) {
+    const xOut = dir === 'like' ? 600 : -600;
+    card.style.transition = 'transform 0.38s ease-in, opacity 0.38s';
+    card.style.transform = `translateX(${xOut}px) rotate(${dir === 'like' ? 20 : -20}deg)`;
+    card.style.opacity = '0';
 
-      /**
-       * Print metadata for first 10 files.
-       */
-      async function listFiles() {
-        let response;
-        try {
-          response = await gapi.client.drive.files.list({
-            'pageSize': 10,
-            'fields': 'files(id, name)',
-          });
-        } catch (err) {
-          document.getElementById('content').innerText = err.message;
-          return;
-        }
-        const files = response.result.files;
-        if (!files || files.length == 0) {
-          document.getElementById('content').innerText = 'No files found.';
-          return;
-        }
-        // Flatten to string to display
-        const output = files.reduce(
-            (str, file) => `${str}${file.name} (${file.id})\n`,
-            'Files:\n');
-        document.getElementById('content').innerText = output;
-      }
-    </script>
-    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
-  </body>
+    if (dir === 'like') saveToCollection(post);
+
+    setTimeout(() => {
+      card.remove();
+      idx++;
+      showCard();
+    }, 380);
+  }
+
+  // ── collection ──
+  function saveToCollection(post) {
+    if (collection.find(p => p.id === post.id)) return;
+    collection.push({
+      id: post.id,
+      preview: post.preview_file_url,
+      large: post.large_file_url,
+      artist: post.tag_string_artist?.split(' ')[0] || '',
+      url: `https://danbooru.donmai.us/posts/${post.id}`,
+    });
+    localStorage.setItem('somea-collection', JSON.stringify(collection));
+    updateColCount();
+    renderCollection();
+  }
+
+  function removeFromCollection(id) {
+    collection = collection.filter(p => p.id !== id);
+    localStorage.setItem('somea-collection', JSON.stringify(collection));
+    updateColCount();
+    renderCollection();
+  }
+
+  function clearCollection() {
+    if (!confirm('¿Borrar toda la colección?')) return;
+    collection = [];
+    localStorage.setItem('somea-collection', JSON.stringify(collection));
+    updateColCount();
+    renderCollection();
+  }
+
+  function updateColCount() {
+    document.getElementById('col-count').textContent = collection.length;
+  }
+
+  function renderCollection() {
+    const grid = document.getElementById('collection-grid');
+    grid.innerHTML = '';
+
+    if (collection.length === 0) {
+      grid.innerHTML = '<div class="empty-collection" style="grid-column:1/-1">ninguna guardada aún<br>desliza a la derecha ♥</div>';
+      return;
+    }
+
+    collection.forEach(item => {
+      const thumb = document.createElement('div');
+      thumb.className = 'col-thumb';
+      thumb.onclick = () => window.open(item.url, '_blank');
+
+      const img = document.createElement('img');
+      img.src = item.preview;
+      img.alt = item.artist;
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove-btn';
+      removeBtn.textContent = '✕';
+      removeBtn.onclick = (e) => { e.stopPropagation(); removeFromCollection(item.id); };
+
+      thumb.append(img, removeBtn);
+      grid.appendChild(thumb);
+    });
+  }
+
+  function toggleCollection() {
+    const panel = document.getElementById('collection-panel');
+    panel.classList.toggle('open');
+    renderCollection();
+  }
+
+  // ── switch character ──
+  function switchChar(tag, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.remove('active', 'active-miku', 'active-teto');
+    });
+    btn.classList.add('active');
+    if (tag === 'hatsune_miku') btn.classList.add('active-miku');
+    if (tag === 'kasane_teto') btn.classList.add('active-teto');
+    currentTag = tag;
+    loadPosts(tag);
+  }
+
+  // ── init ──
+  updateColCount();
+  loadPosts(currentTag);
+</script>
+</body>
 </html>
