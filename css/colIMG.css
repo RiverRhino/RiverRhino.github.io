@@ -639,6 +639,76 @@ p {
     font-weight: 800;
 }
 
+.filter-row {
+  position: relative; /* necesario para el dropdown absoluto */
+}
+
+#tag-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: var(--pixel) solid var(--border);
+  z-index: 50;
+  display: none;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+#tag-dropdown.open {
+  display: block;
+}
+
+.tag-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+  transition: background 0.1s;
+}
+
+.tag-option:hover {
+  background: rgba(232, 138, 56, 0.12);
+}
+
+.tag-option:last-child {
+  border-bottom: none;
+}
+
+.tag-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: var(--text);
+}
+
+.tag-count {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.tag-category {
+  font-size: 6px;
+  font-family: 'Press Start 2P', monospace;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.tag-category.character {
+  background: rgba(191, 0, 172, 0.2);
+  color: var(--highlight);
+}
+
+.tag-category.series {
+  background: rgba(232, 138, 56, 0.2);
+  color: var(--accent);
+}
+
 /* ═══════════════════════════════════════
    RESPONSIVE — móvil (max 768px)
    Sidebar lateral → barra inferior fija

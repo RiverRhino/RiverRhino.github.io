@@ -80,8 +80,11 @@
       <p id="help-text" style="display:none">Al buscar una imagen intenta poner espacios entre las palabras, si no, ve a
         ayuda en el menu</p>
       <div class="filter-row">
-        <input type="text" id="search-input" class="filter-btn" placeholder="BUSCAR... (ej: 'vocaloid')"
-          onkeydown="if(event.key === 'Enter') switchChar(this.value, this)">
+        <input type="text" id="search-input" class="filter-btn"
+          placeholder="BUSCAR... (ej: 'hatsune miku' o 'sao series')" oninput="searchTags(this.value)"
+          onkeydown="if(event.key === 'Enter') { selectTag(formatTag(this.value)); hideDropdown(); }"
+          autocomplete="off">
+        <div id="tag-dropdown"></div>
       </div>
     </header>
 
@@ -101,7 +104,8 @@
       <button class="action-btn btn-like" onclick="swipe('like')">
         SAVE <span class="btn-icon">♥</span>
       </button>
-    <button onclick="downloadImage(posts[idx].large_file_url)"><img width="40" height="40" src="https://img.icons8.com/comic/40/1A1A1A/download.png" alt="download"/></button>
+      <button onclick="downloadImage(posts[idx].large_file_url)"><img width="40" height="40"
+          src="https://img.icons8.com/comic/40/1A1A1A/download.png" alt="download" /></button>
     </div>
 
     <button class="collection-toggle" onclick="toggleCollection()">
@@ -173,7 +177,7 @@
       }
     }
 
-   cardteto.addEventListener('dblclick', () => {
+    cardteto.addEventListener('dblclick', () => {
       if (posts.length === 0 || idx >= posts.length) return;
       openPreview(posts[idx]);
     });
@@ -190,7 +194,7 @@
       document.getElementById('preview-img').src = '';
     }
 
-  
+
 
     // cerrar con Escape
     document.addEventListener('keydown', (e) => {
@@ -202,7 +206,7 @@
       el.textContent = text;
       el.style.display = 'block';
     }
-   
+
     // ── render card ──
     function showCard() {
       removeCurrentCard();
@@ -421,17 +425,17 @@
       });
     }
 
-function toggleCollection() {
-  const panel = document.getElementById('collection-panel');
-  panel.classList.toggle('open');
+    function toggleCollection() {
+      const panel = document.getElementById('collection-panel');
+      panel.classList.toggle('open');
 
-  if (panel.classList.contains('open')) {
-    const searchInput = document.getElementById('search-collection'); // ← mismo id que el HTML
-    if (searchInput) searchInput.value = '';
-  }
+      if (panel.classList.contains('open')) {
+        const searchInput = document.getElementById('search-collection'); // ← mismo id que el HTML
+        if (searchInput) searchInput.value = '';
+      }
 
-  renderCollection();
-}
+      renderCollection();
+    }
 
     // ── switch character ──
     function switchChar(tag, btn) {
@@ -468,6 +472,82 @@ function toggleCollection() {
         })
         .catch(() => alert('Error al descargar la imagen'));
     }
+
+    let searchTimeout = null;
+
+    async function searchTags(input) {
+      input = input.trim();
+      if (input.length < 2) { hideDropdown(); return; }
+
+      // debounce — espera 300ms después de que el usuario deje de escribir
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(async () => {
+        const query = input.toLowerCase().replace(/\s+/g, '_');
+
+        // busca personajes Y series al mismo tiempo
+        const [characters, series] = await Promise.all([
+          fetch(`https://danbooru.donmai.us/tags.json?search[name_matches]=${query}*&search[category]=4&limit=6`)
+            .then(r => r.json()).catch(() => []),
+          fetch(`https://danbooru.donmai.us/tags.json?search[name_matches]=${query}*&search[category]=3&limit=4`)
+            .then(r => r.json()).catch(() => []),
+        ]);
+
+        const results = [
+          ...characters.map(t => ({ ...t, type: 'character' })),
+          ...series.map(t => ({ ...t, type: 'series' })),
+        ];
+
+        renderDropdown(results);
+      }, 300);
+    }
+
+    function renderDropdown(tags) {
+      const dropdown = document.getElementById('tag-dropdown');
+
+      if (tags.length === 0) { hideDropdown(); return; }
+
+      dropdown.innerHTML = '';
+
+      tags.forEach(tag => {
+        const div = document.createElement('div');
+        div.className = 'tag-option';
+
+        const name = tag.name.replaceAll('_', ' '); // muestra sin guiones
+        const count = tag.post_count?.toLocaleString() || '0';
+        const type = tag.type;
+
+        div.innerHTML = `
+      <span class="tag-name">${name}</span>
+      <span class="tag-category ${type}">${type === 'character' ? 'personaje' : 'serie'}</span>
+      <span class="tag-count">${count} posts</span>
+    `;
+
+        div.onclick = () => {
+          selectTag(tag.name); // usa el nombre real con guiones bajos
+          document.getElementById('search-input').value = name; // muestra bonito
+          hideDropdown();
+        };
+
+        dropdown.appendChild(div);
+      });
+
+      dropdown.classList.add('open');
+    }
+
+    function selectTag(tag) {
+      currentTag = tag;
+      loadPosts(tag);
+    }
+
+    function hideDropdown() {
+      document.getElementById('tag-dropdown').classList.remove('open');
+      clearTimeout(searchTimeout);
+    }
+
+    // cierra el dropdown al hacer click fuera
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.filter-row')) hideDropdown();
+    });
 
     // ── init ──
     updateColCount();
