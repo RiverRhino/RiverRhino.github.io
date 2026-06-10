@@ -149,7 +149,6 @@
     let startX = 0, startY = 0;
     let currentCard = null;
     const cardteto = document.getElementById('card-stack');
-    const btnsexo = document.getElementById('mdosexo');
 
     // ── fetch ──
     async function loadPosts(tag) {
@@ -157,7 +156,7 @@
       removeCurrentCard();
 
       const params = new URLSearchParams({
-        tags: `${tag} rating:$general`,
+        tags: `${tag} rating:general`,
         limit: 101,
         page: Math.ceil(Math.random() * 3),
       });
@@ -200,16 +199,7 @@
     }
 
     
-    btnsexo.addEventListener('click', () => {
-      if (ctn === 'general') {
-        ctn = 'explicit';
-        btnsexo.textContent = 'Modo normal';
-      } else {
-        ctn = 'general';
-        btnsexo.textContent = 'Modo sexo';
-      }
-      loadPosts(currentTag);
-    });
+    
 
 
     // cerrar con Escape
