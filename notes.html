@@ -79,6 +79,7 @@
       <!-- <div class="logo">★Mira imagenes una por una★</div> -->
       <p id="help-text" style="display:none">Al buscar una imagen intenta poner espacios entre las palabras, si no, ve a
         ayuda en el menu</p>
+        <button id="mdosexo">Modo sexo</button>
       <div class="filter-row">
         <input type="text" id="search-input" class="filter-btn"
           placeholder="BUSCAR... (ej: 'hatsune miku' o 'sao series')" oninput="searchTags(this.value)"
@@ -145,6 +146,9 @@
     let startX = 0, startY = 0;
     let currentCard = null;
     const cardteto = document.getElementById('card-stack');
+    const btnsexo = document.getElementById('mdosexo');
+    let ctn = 'general';
+
 
     // ── fetch ──
     async function loadPosts(tag) {
@@ -152,7 +156,7 @@
       removeCurrentCard();
 
       const params = new URLSearchParams({
-        tags: `${tag} rating:explicit`,
+        tags: `${tag} rating:${ctn}`,
         limit: 101,
         page: Math.ceil(Math.random() * 3),
       });
@@ -194,6 +198,17 @@
       document.getElementById('preview-img').src = '';
     }
 
+    
+    btnsexo.addEventListener('click', () => {
+      if (ctn === 'general') {
+        ctn = 'explicit';
+        btnsexo.textContent = 'Modo normal';
+      } else {
+        ctn = 'general';
+        btnsexo.textContent = 'Modo sexo';
+      }
+      loadPosts(currentTag);
+    });
 
 
     // cerrar con Escape
