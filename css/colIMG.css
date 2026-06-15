@@ -258,7 +258,7 @@ p {
 /* ── action buttons ── */
 .actions {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -548,19 +548,7 @@ p {
     border-style: solid;
     border-color: #ff77aa transparent;
 }
-#tetopeluche {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    width: 80px; /* Ajusta a tu gusto */
-    cursor: pointer;
-    transition: transform 0.2s;
-    z-index: 9999;
-}
 
-#tetopeluche:hover {
-    transform: scale(1.1);
-}
 
 .sidebar {
     background-color:#960016;
@@ -732,8 +720,8 @@ p {
     min-height: unset;
     width: 100%;
     border-radius: 16px 16px 0 0;
-    padding: 0.5rem 1rem;
-    z-index: 200;
+    padding: 0.2px;
+    z-index: 100;
   }
 
   .sidebar_list {
@@ -755,8 +743,8 @@ p {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0.4rem 0.6rem;
-    gap: 3px;
+    padding: 0.3rem 0.3rem;
+    gap: 2px;
     grid-template-columns: unset;
     white-space: nowrap;
   }
@@ -784,7 +772,7 @@ p {
   /* ── Main ocupa todo el ancho ── */
   main {
     width: 100%;
-    padding: 1rem;
+    padding: 0.5rem;
     gap: 1.2rem;
   }
 
@@ -800,13 +788,13 @@ p {
   /* Input de búsqueda más ancho */
   .filter-btn {
     width: 100%;
-    max-width: 320px;
-    font-size: 6px;
+    max-width: 200px;
+    font-size: 8px;
   }
 
   /* ── Card stack más compacto ── */
   #card-stack {
-    height: 360px;
+    height: 400px;
   }
 
   /* ── Botones de acción más grandes (táctil) ── */
@@ -838,11 +826,6 @@ p {
     max-height: 55vh;
   }
 
-  /* ── Peluche Teto más pequeño en móvil ── */
-  #tetopeluche {
-    width: 60px;
-    bottom: 75px; /* que no tape la navbar */
-  }
 
   #help-text {
     bottom: 145px;

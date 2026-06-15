@@ -99,7 +99,7 @@
       <div id="loading-msg" class="state-msg">Cargando...<br>pls wait ♪</div>
     </div>
 
-    <div class="counter" id="counter"></div>
+    <div style="display: none;"class="counter" id="counter"></div>
 
     <div class="actions">
       <button class="action-btn btn-nope" onclick="swipe('nope')">
@@ -136,9 +136,6 @@
       <button class="modal-close" onclick="closePreview()">✕ CERRAR</button>
     </div>
   </div>
-
-  <img src="./imagenes/tetoplush.png" id="tetopeluche">
-
 
   <script>
     let posts = [];
@@ -457,10 +454,7 @@
 
     let txt = document.getElementById('help-text');
 
-    let pleuche = document.getElementById('tetopeluche');
-    pleuche.addEventListener('click', () => {
-      txt.style.display = txt.style.display === 'none' ? 'block' : 'none';
-    });
+    
 
 
     function downloadImage(large_file_url) {
