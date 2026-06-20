@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Modelo GLB</title>
+  <style>
+    * { margin: 0; padding: 0; }
+    body { overflow: hidden; background: #111; }
+    canvas { display: block; }
+  </style>
+
+  <!-- Importmap: le dice al navegador dónde está Three.js -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <script type="module" src="./js/render3d.js"></script>
+</body>
+</html>
