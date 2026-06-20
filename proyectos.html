@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,67 +8,73 @@
     <title>Proyectos</title>
     <link rel="stylesheet" href="./css/indexp.css">
 </head>
+
 <body>
-        <aside class="sidebar">
+    <aside class="sidebar">
         <ul class="sidebar_list">
             <!-- Logo / Título -->
             <li class="sidebar_element sidebar_element--logo">
-                <img class="sidebar_icon sidebar_icon--logo" src="./imagenes/WhatsApp_Image_2025-06-18_at_9.21.55_PM-removebg-preview.png" alt="logo">
+                <img class="sidebar_icon sidebar_icon--logo"
+                    src="./imagenes/WhatsApp_Image_2025-06-18_at_9.21.55_PM-removebg-preview.png" alt="logo">
                 <div class="sidebar_hide">
                     <p class="sidebar_text sidebar_text--logo">Menu</p>
                 </div>
             </li>
 
             <a href="./proyectos.html">
-			<li class="sidebar_element">
-                <img width="40" height="45" src="https://img.icons8.com/ios/30/project.png" alt="project"/>
-                <div class="sidebar_hide">
-                    <p class="sidebar_text">Proyectos</p>
-                </div>
-            </li>
-			</a>
+                <li class="sidebar_element">
+                    <img width="40" height="45" src="https://img.icons8.com/ios/30/project.png" alt="project" />
+                    <div class="sidebar_hide">
+                        <p class="sidebar_text">Proyectos</p>
+                    </div>
+                </li>
+            </a>
 
             <!-- Inicio -->
             <a href="./index.html">
-            <li class="sidebar_element">
-                <img width="40" height="45" src="https://img.icons8.com/ios/50/baguette.png" alt="baguette"/>
-                <div class="sidebar_hide">
-                    <p class="sidebar_text">Inicio</p>
-                </div>
-            </li>
+                <li class="sidebar_element">
+                    <img width="40" height="45" src="https://img.icons8.com/ios/50/baguette.png" alt="baguette" />
+                    <div class="sidebar_hide">
+                        <p class="sidebar_text">Inicio</p>
+                    </div>
+                </li>
             </a>
-	
+
         </ul>
     </aside>
 
     <div class="main">
-       <div class="header" id="inicio">
+        <div class="header" id="inicio">
             <h1 id="titulo"></h1>
             <img src="./imagenes/tortugabailando.gif" width="120px">
         </div>
 
         <div>
-            <p>Es una recopilacion de mafufadas que he hecho a lo largo del tiempo, agregre un poco de contexto y donde esta hecho y el codigo del archivo, en vez de github bru</p>
+            <p>Es una recopilacion de mafufadas que he hecho a lo largo del tiempo, agregre un poco de contexto y donde
+                esta hecho y el codigo del archivo, en vez de github bru</p>
         </div>
 
-        <div>
-            <h3>Descargador de videos de YouTube</h3>
-            <p>Un programa sencillo utilizando la libreria de pytubefix para descargar los videos de YouTube.</p>
-            <p>Hecho en Python</p>
-            <p><a href="./archivos de programar/downloadYTVIDEO.py">Codigo</a></p>
-        </div>
 
-        <div>
-            <h3>Teto hecha en CSS</h3>
-            <p>Un dibujo muy sencillo utilizando solo HTML Y CSS</p>
-            <p>Hecho en HTML Y CSS</p>
-            <img width="400" height="200" src="./imagenes/tetopera.png" alt="Teto corriendo juego">
-            <p><a href="./pera.html">Dibujo</a></p>
+        <div class="row">
+            <div class="column">
+                <h3>Descargador de videos de YouTube</h3>
+                <p>Un programa sencillo utilizando la libreria de pytubefix para descargar los videos de YouTube.</p>
+                <p>Hecho en Python</p>
+                <p><a href="./archivos de programar/downloadYTVIDEO.py">Codigo</a></p>
+            </div>
+            <div class="column">
+                <h3>Teto hecha en CSS</h3>
+                <p>Un dibujo muy sencillo utilizando solo HTML Y CSS</p>
+                <p>Hecho en HTML Y CSS</p>
+                <img width="400" height="200" src="./imagenes/tetopera.png" alt="Teto corriendo juego">
+                <p><a href="./pera.html">Dibujo</a></p>
+            </div>
         </div>
-
+        
         <div>
             <h3>Teto corriendo con camara en mano</h3>
-            <p>Inspirado en el juego del dinosaurio de Chrome, es una kasane teto corriendo por los baguettes y aparte de ello, tienes que hacerlo por teclado o atraves de la camara web</p>
+            <p>Inspirado en el juego del dinosaurio de Chrome, es una kasane teto corriendo por los baguettes y aparte
+                de ello, tienes que hacerlo por teclado o atraves de la camara web</p>
             <p>Hecho en HTML,CSS,JS y Mediapipe web para reconocimiento de gestos</p>
             <img width="400" height="200" src="./imagenes/tetoruneando.png" alt="Teto corriendo juego">
             <p><a href="./Tetorun.html">Juego</a></p>
@@ -75,7 +82,8 @@
 
         <div>
             <h3>Mapa personalizado</h3>
-            <p>Utilizando openstreetmap y leaflet "Una bibliteca de JS para agregar dinamismo a los mapas", para poner puntos de mi gusto y que quiero ver en un mapa</p>
+            <p>Utilizando openstreetmap y leaflet "Una bibliteca de JS para agregar dinamismo a los mapas", para poner
+                puntos de mi gusto y que quiero ver en un mapa</p>
             <p>Hecho en HTML,CSS y JS</p>
             <img width="400" height="200" src="./imagenes/Captura de pantalla 2026-05-28 210350.png" alt="mapa">
             <p><a href="./mapa.html">Mapa</a></p>
@@ -94,24 +102,25 @@
 </body>
 
 
- <script>
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+<script>
+    function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    var i = 0;
+    var txt = 'Proyectos';
+    var speed = 120;
+
+    function typeWriter() {
+
+        if (i < txt.length) {
+            document.getElementById("titulo").innerHTML += txt.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
         }
+    }
+    typeWriter();
 
-		var i=0;
-		var txt = 'Proyectos';
-		var speed = 120;
+</script>
 
-		function typeWriter() {
-		
-		if (i < txt.length) {
-			document.getElementById("titulo").innerHTML += txt.charAt(i);
-			i++;
-			setTimeout(typeWriter, speed);
-		}
-		}
-		typeWriter();
-
-    </script>
 </html>

@@ -160,6 +160,19 @@ h1 {
     transform: scale(1.15);
 }
 
+.column{
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px;
+}
+
+.row::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
 
 /*Contenido para hacer responive */
 
@@ -174,6 +187,10 @@ h1 {
     flex-direction: column;
     align-items: center;
     padding-bottom: 70px; /* espacio para la barra inferior */
+  }
+
+  .column {
+    width: 100%;
   }
 
   /* ── Sidebar se convierte en barra inferior ── */
