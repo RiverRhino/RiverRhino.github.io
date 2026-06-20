@@ -17,6 +17,9 @@ body {
     color: white;
     display: flex;          /* sidebar + main lado a lado */
     min-height: 100vh;
+      flex-direction: row;   /* sidebar + main en fila */
+  align-items: flex-start;
+  overflow-x: hidden;
 }
 
 /* ── SIDEBAR ─────────────────────────────── */
