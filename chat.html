@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat en tiempo real</title>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+      // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyB4mh596cy9fYC1Bk4TTIj08KDEvxeOEG4",
+    authDomain: "someamap.firebaseapp.com",
+    projectId: "someamap",
+    storageBucket: "someamap.firebasestorage.app",
+    messagingSenderId: "852849979745",
+    appId: "1:852849979745:web:41c646959493107e9a1520",
+    measurementId: "G-W0VYFSBZZT"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+    // ────────────────────────────────────────
+    const chatRef = ref(db, "chat/mensajes");
+
+    // Pedir nombre de usuario al entrar
+    let username = "";
+    while (!username.trim()) {
+      username = prompt("¿Cómo te llamas?") || "";
+    }
+    document.getElementById("username-label").textContent = username;
+
+    // Escuchar mensajes nuevos en tiempo real
+    onChildAdded(chatRef, (snapshot) => {
+      const msg = snapshot.val();
+      appendMessage(msg);
+    });
+
+    // Enviar mensaje
+    function sendMessage() {
+      const input = document.getElementById("msg-input");
+      const text  = input.value.trim();
+      if (!text) return;
+
+      push(chatRef, {
+        text,
+        author:    username,
+        timestamp: serverTimestamp()
+      });
+
+      input.value = "";
+      input.focus();
+    }
+
+    // Renderizar mensaje en el DOM
+    function appendMessage(msg) {
+      const box    = document.getElementById("messages");
+      const isMe   = msg.author === username;
+      const time   = msg.timestamp
+        ? new Date(msg.timestamp).toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" })
+        : "";
+
+      const div = document.createElement("div");
+      div.className = "msg-row " + (isMe ? "me" : "them");
+      div.innerHTML = `
+        <div class="bubble">
+          ${!isMe ? `<span class="author">${msg.author}</span>` : ""}
+          <span class="text">${escapeHTML(msg.text)}</span>
+          <span class="time">${time}</span>
+        </div>`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+
+    // Exponer sendMessage al HTML
+    window.sendMessage = sendMessage;
+
+    // Enter para enviar
+    document.getElementById("msg-input").addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #1a1a2e;
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-container {
+      width: min(480px, 100vw);
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: #16213e;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    }
+
+    /* Header */
+    .header {
+      padding: 14px 18px;
+      background: #0f3460;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 6px #4ade80;
+    }
+    .header h1 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #e2e8f0;
+      letter-spacing: 0.02em;
+    }
+    .header .you {
+      margin-left: auto;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .header .you span {
+      color: #818cf8;
+      font-weight: 600;
+    }
+
+    /* Messages area */
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: #334155 transparent;
+    }
+
+    .msg-row { display: flex; }
+    .msg-row.me    { justify-content: flex-end; }
+    .msg-row.them  { justify-content: flex-start; }
+
+    .bubble {
+      max-width: 72%;
+      padding: 9px 13px;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      word-break: break-word;
+    }
+    .msg-row.me .bubble {
+      background: #4f46e5;
+      border-bottom-right-radius: 4px;
+    }
+    .msg-row.them .bubble {
+      background: #1e293b;
+      border-bottom-left-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .author {
+      font-size: 11px;
+      font-weight: 600;
+      color: #818cf8;
+      margin-bottom: 1px;
+    }
+    .text {
+      font-size: 14px;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+    .time {
+      font-size: 10px;
+      color: rgba(255,255,255,0.35);
+      align-self: flex-end;
+      margin-top: 2px;
+    }
+
+    /* Input area */
+    .input-area {
+      padding: 12px 14px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      gap: 8px;
+      background: #16213e;
+    }
+    .input-area input {
+      flex: 1;
+      background: #1e293b;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px;
+      padding: 10px 16px;
+      font-size: 14px;
+      color: #e2e8f0;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .input-area input::placeholder { color: #475569; }
+    .input-area input:focus { border-color: #4f46e5; }
+
+    .input-area button {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: #4f46e5;
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+    .input-area button:hover  { background: #6366f1; }
+    .input-area button:active { transform: scale(0.93); }
+    .input-area button svg {
+      width: 18px; height: 18px;
+      fill: white;
+    }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      color: #334155;
+      font-size: 13px;
+      margin: auto;
+      padding: 2rem;
+      line-height: 1.7;
+    }
+    .empty strong { display: block; font-size: 28px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+
+    <div class="header">
+      <div class="header-dot"></div>
+      <h1>Chat en tiempo real</h1>
+      <div class="you">Tú: <span id="username-label"></span></div>
+    </div>
+
+    <div id="messages">
+      <div class="empty">
+        <strong>💬</strong>
+        Nadie ha escrito aún.<br>
+        Comparte este archivo con tu amigo<br>y empiecen a chatear.
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input id="msg-input" type="text" placeholder="Escribe un mensaje..." autocomplete="off" />
+      <button onclick="sendMessage()" aria-label="Enviar">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</body>
+</html>
