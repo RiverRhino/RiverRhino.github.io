@@ -102,11 +102,15 @@ body {
 
 /* ── MAIN CONTENT ────────────────────────── */
 .main {
-    flex: 1;                /* ocupa el espacio restante */
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    padding: 2rem 3rem;
+  position: relative;
+  z-index: 5;
+  flex: 1;                 /* ocupa el espacio que queda después del sidebar */
+  min-width: 0;            /* evita overflow horizontal */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 3rem;
 }
 
 /* ── HEADER ──────────────────────────────── */
