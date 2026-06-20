@@ -119,6 +119,22 @@ body {
     align-items: center;
 }
 
+.intro {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.intro img {
+    display: block;
+    margin: 10px auto;
+}
+
+.intro p {
+    max-width: 600px;
+    margin: 10px auto;
+}
+
+
 h1 {
     font-size: 60px;
     font-optical-sizing: auto;
