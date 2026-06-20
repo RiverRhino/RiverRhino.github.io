@@ -52,7 +52,7 @@ body {
     align-items: center;
     grid-template-columns: 40px 0fr;
     transition: .3s ease-in-out;
-    color: black;
+    color: rgb(255, 255, 255);
     fill: black;
     white-space: nowrap;
     overflow: hidden;
