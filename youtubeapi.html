@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor Modo Estudio 🎧</title>
+    <style>
+        /* ESTILOS (CSS) */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212; /* Modo oscuro relajante */
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden; /* Evita que se pueda hacer scroll */
+        }
+
+        #setup-container {
+            text-align: center;
+            background: #1e1e1e;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: opacity 0.5s ease;
+        }
+
+        input {
+            padding: 12px;
+            width: 300px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #cc0000;
+        }
+
+        /* Contenedor del video a pantalla completa */
+        #video-container {
+            display: none; /* Oculto al principio */
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Botón para salir del modo estudio */
+        #btn-volver {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            background-color: rgba(0,0,0,0.7);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="setup-container">
+        <h1>Modo Estudio 📚</h1>
+        <p>Pega la URL o el ID del video de YouTube</p>
+        <input type="text" id="video-input" placeholder="Ej: https://www.youtube.com/watch?v=jfKfPfyJRdk">
+        <br>
+        <button onclick="iniciarModoEstudio()">Concentrarse</button>
+    </div>
+
+    <div id="video-container">
+        <button id="btn-volver" onclick="volverInicio()">⬅ Cambiar Video</button>
+        <div id="player"></div> 
+    </div>
+
+    <script>
+        // 1. Cargar el código de la IFrame Player API de forma asíncrona
+        let tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        let firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        let player;
+
+        // 2. Esta función es requerida por la API, se ejecuta cuando la API está lista.
+        // No creamos el reproductor aún porque esperamos a que el usuario ponga el enlace.
+        function onYouTubeIframeAPIReady() {
+            console.log("La API de YouTube está lista para usarse.");
+        }
+
+        // 3. Función para extraer solo el ID del video de una URL larga
+        function extraerID(url) {
+            // Expresión regular para detectar diferentes tipos de enlaces de YT
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            // Si encuentra el ID (que siempre tiene 11 caracteres), lo devuelve. Si no, asume que ya pusiste el ID directo.
+            return (match && match[2].length === 11) ? match[2] : url; 
+        }
+
+        // 4. Función que se ejecuta al darle al botón "Concentrarse"
+        function iniciarModoEstudio() {
+            const input = document.getElementById('video-input').value;
+            const videoId = extraerID(input);
+
+            if (videoId.trim() === "") {
+                alert("Por favor, ingresa un enlace válido.");
+                return;
+            }
+
+            // Ocultar menú inicial y mostrar contenedor de video
+            document.getElementById('setup-container').style.display = 'none';
+            document.getElementById('video-container').style.display = 'block';
+
+            // Si el reproductor ya existe, solo cambiamos el video
+            if (player) {
+                player.loadVideoById(videoId);
+            } else {
+                // Si no existe, creamos el reproductor
+                player = new YT.Player('player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: videoId,
+                    playerVars: {
+                        'autoplay': 1,        // Reproducir automáticamente
+                        'rel': 0,             // NO mostrar videos recomendados de otros canales al final
+                        'modestbranding': 1,  // Ocultar el logo grande de YouTube
+                        'fs': 1               // Permitir botón de pantalla completa
+                    }
+                });
+            }
+        }
+
+        // 5. Función para volver atrás
+        function volverInicio() {
+            if(player) {
+                player.stopVideo(); // Detenemos la música/video
+            }
+            document.getElementById('video-container').style.display = 'none';
+            document.getElementById('setup-container').style.display = 'block';
+            document.getElementById('video-input').value = ""; // Limpiamos el input
+        }
+    </script>
+</body>
+</html>
