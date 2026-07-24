@@ -188,6 +188,10 @@ h1 {
     clear: both;
 }
 
+.imagenesP{
+    border-radius: 5px;
+}
+
 
 /*Contenido para hacer responive */
 
