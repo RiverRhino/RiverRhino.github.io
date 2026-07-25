@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Modelo 3D con cambio de estado - Three.js</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { overflow: hidden; background: #1a1a2e; font-family: sans-serif; }
+  #info {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: #fff;
+    z-index: 10;
+    max-width: 320px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    background: rgba(0,0,0,0.4);
+    padding: 10px 14px;
+    border-radius: 8px;
+  }
+  #calculadora {
+    position: fixed;
+    top: 30%; 
+    right: 39%;
+    z-index: 20;
+    width: 20%;
+    background: #26263a;
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    border: 1px solid #3a3a55;
+  }
+  #pantalla {
+    background: #0d0d16;
+    color: #7cffb2;
+    font-family: 'Courier New', monospace;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    padding: 14px 12px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    text-align: right;
+    min-height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
+  }
+  #teclado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tecla {
+    flex: 1 1 calc(25% - 7.5px);
+    aspect-ratio: 1;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a2e;
+    background: #3a3a55;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.35);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+  .tecla:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.35);
+  }
+  .tecla.numero { background: #40405c; color: #fff; }
+  .tecla.operador { background: #ffd54f; color: #1a1a2e; }
+  .tecla.igual { background: #7cffb2; color: #1a1a2e; }
+  .tecla.limpiar { background: #ff6b6b; color: #fff; }
+  .tecla.cero { flex: 1 1 calc(50% - 5px); }
+</style>
+</head>
+<body>
+
+<div id="calculadora">
+  <div id="pantalla">0</div>
+  <div id="teclado">
+    <button class="tecla limpiar" data-accion="limpiar">C</button>
+    <button class="tecla limpiar" data-accion="borrar">⌫</button>
+    <button class="tecla operador" data-operador="%">%</button>
+    <button class="tecla operador" data-operador="/">÷</button>
+
+    <button class="tecla numero" data-numero="7">7</button>
+    <button class="tecla numero" data-numero="8">8</button>
+    <button class="tecla numero" data-numero="9">9</button>
+    <button class="tecla operador" data-operador="*">×</button>
+
+    <button class="tecla numero" data-numero="4">4</button>
+    <button class="tecla numero" data-numero="5">5</button>
+    <button class="tecla numero" data-numero="6">6</button>
+    <button class="tecla operador" data-operador="-">−</button>
+
+    <button class="tecla numero" data-numero="1">1</button>
+    <button class="tecla numero" data-numero="2">2</button>
+    <button class="tecla numero" data-numero="3">3</button>
+    <button class="tecla operador" data-operador="+">+</button>
+
+    <button class="tecla numero cero" data-numero="0">0</button>
+    <button class="tecla numero" data-accion="decimal">.</button>
+    <button class="tecla igual" data-accion="igual">=</button>
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ---------- Escena básica ----------
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x000000); //Cambio de color de la escena
+
+const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 100);
+camera.position.set(0, 1.5, 4);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 1, 0);
+controls.enableDamping = true;
+
+// --- Bloquear el desplazamiento (pan) para que el modelo siempre quede centrado ---
+controls.enablePan = false;        // El usuario ya no puede arrastrar la cámara lateralmente
+controls.target.set(0, 1, 0);      // Punto fijo al que la cámara siempre mira/orbita
+// Opcional: limita qué tanto puede acercarse/alejarse el usuario con el zoom
+controls.minDistance = 2;
+controls.maxDistance = 6;
+// Opcional: si además quieres impedir que el usuario rote la cámara (solo ver, sin interacción)
+// controls.enableRotate = false;
+// Opcional: bloquear la rotación vertical para que no vea "desde abajo" o "desde arriba"
+// controls.minPolarAngle = Math.PI / 2.5;
+// controls.maxPolarAngle = Math.PI / 1.8;
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+dirLight.position.set(3, 5, 2);
+scene.add(dirLight);
+
+const clock = new THREE.Clock();
+
+// ---------- Variables para animaciones ----------
+let mixer = null;          // AnimationMixer del modelo
+let acciones = {};         // Diccionario { happy: AnimationAction, sad: ..., surprised: ... }
+let accionActual = null;   // Acción que se está reproduciendo ahora
+let cuboFallback = null;   // Cubo de referencia si no hay modelo GLB
+
+// ---------- Intentar cargar el modelo GLB ----------
+const loader = new GLTFLoader();
+
+loader.load(
+  'modelos/kasane_teto_half_life_uno.glb', // <-- reemplaza con la ruta a tu modelo
+  (gltf) => {
+    const modelo = gltf.scene;
+    scene.add(modelo);
+
+    // ---- Centrar automáticamente el modelo en pantalla ----
+    // Calculamos la caja que envuelve todo el modelo (bounding box)
+    const box = new THREE.Box3().setFromObject(modelo);
+    const centro = box.getCenter(new THREE.Vector3());
+    const tamano = box.getSize(new THREE.Vector3());
+
+    // Movemos el modelo para que su centro quede exactamente en (0,0,0)
+    modelo.position.x -= centro.x;
+    modelo.position.y -= centro.y;
+    modelo.position.z -= centro.z;
+
+    // La cámara y el target de OrbitControls ahora apuntan al origen (0,0,0),
+    // que es justo donde dejamos el centro del modelo
+    controls.target.set(0, 0, 0);
+
+    // Ajustamos qué tan lejos está la cámara según el tamaño real del modelo,
+    // para que siempre se vea completo sin importar cuán grande/chico sea
+    const dimensionMayor = Math.max(tamano.x, tamano.y, tamano.z);
+    const distanciaCamara = dimensionMayor * 1.8; // factor de "aire" alrededor del modelo
+    camera.position.set(0, tamano.y * 0.1, distanciaCamara);
+    camera.lookAt(0, 0, 0);
+
+    controls.minDistance = dimensionMayor * 1.2;
+    controls.maxDistance = dimensionMayor * 3;
+    controls.update();
+
+    // El modelo debe traer clips de animación nombrados, ej:
+    // "Idle_Happy", "Idle_Sad", "Idle_Surprised"
+    mixer = new THREE.AnimationMixer(modelo);
+
+    gltf.animations.forEach((clip) => {
+      const accion = mixer.clipAction(clip);
+      // Mapeo por nombre de clip -> nuestros estados internos
+      if (clip.name.toLowerCase().includes('happy'))      acciones.happy = accion;
+      if (clip.name.toLowerCase().includes('sad'))         acciones.sad = accion;
+      if (clip.name.toLowerCase().includes('surprised'))   acciones.surprised = accion;
+    });
+
+    // Reproducir el estado inicial
+    if (acciones.happy) {
+      accionActual = acciones.happy;
+      accionActual.play();
+    }
+  },
+  undefined,
+  (error) => {
+    // No se encontró modelo.glb -> usamos un cubo de referencia
+    console.warn('No se pudo cargar modelo.glb, usando cubo de referencia.', error);
+    const geo = new THREE.BoxGeometry(1, 1, 1);
+    const mat = new THREE.MeshStandardMaterial({ color: 0xffd54f });
+    cuboFallback = new THREE.Mesh(geo, mat);
+    cuboFallback.position.y = 1;
+    scene.add(cuboFallback);
+  }
+);
+
+// ---------- Lógica de la calculadora ----------
+const pantalla = document.getElementById('pantalla');
+
+let valorActual = '0';      // Lo que se ve en pantalla ahora
+let valorAnterior = null;   // El primer número guardado antes del operador
+let operadorActual = null;  // '+', '-', '*', '/', '%'
+let esperandoNuevoNumero = false; // true justo después de presionar un operador
+
+function actualizarPantalla() {
+  pantalla.textContent = valorActual;
+}
+
+function ingresarNumero(digito) {
+  if (esperandoNuevoNumero) {
+    valorActual = digito;
+    esperandoNuevoNumero = false;
+  } else {
+    valorActual = valorActual === '0' ? digito : valorActual + digito;
+  }
+  actualizarPantalla();
+}
+
+function ingresarDecimal() {
+  if (esperandoNuevoNumero) {
+    valorActual = '0.';
+    esperandoNuevoNumero = false;
+  } else if (!valorActual.includes('.')) {
+    valorActual += '.';
+  }
+  actualizarPantalla();
+}
+
+function elegirOperador(op) {
+  if (operadorActual && !esperandoNuevoNumero) {
+    calcular(); // si ya había una operación pendiente, la resolvemos primero (encadenar operaciones)
+  }
+  valorAnterior = parseFloat(valorActual);
+  operadorActual = op;
+  esperandoNuevoNumero = true;
+}
+
+function calcular() {
+  if (operadorActual === null || valorAnterior === null) return;
+  const a = valorAnterior;
+  const b = parseFloat(valorActual);
+  let resultado;
+
+  switch (operadorActual) {
+    case '+': resultado = a + b; break;
+    case '-': resultado = a - b; break;
+    case '*': resultado = a * b; break;
+    case '/': resultado = b === 0 ? 'Error' : a / b; break;
+    case '%': resultado = a % b; break;
+    default: return;
+  }
+
+  // Redondeamos para evitar errores de coma flotante (ej: 0.1 + 0.2)
+  valorActual = resultado === 'Error' ? 'Error' : String(Math.round(resultado * 1e10) / 1e10);
+  operadorActual = null;
+  valorAnterior = null;
+  esperandoNuevoNumero = true;
+  actualizarPantalla();
+}
+
+function limpiar() {
+  valorActual = '0';
+  valorAnterior = null;
+  operadorActual = null;
+  esperandoNuevoNumero = false;
+  actualizarPantalla();
+}
+
+function borrarUltimo() {
+  valorActual = valorActual.length > 1 ? valorActual.slice(0, -1) : '0';
+  actualizarPantalla();
+}
+
+// Conectamos cada botón según sus data-attributes
+document.querySelectorAll('.tecla').forEach((boton) => {
+  boton.addEventListener('click', () => {
+    if (boton.dataset.numero !== undefined) {
+      ingresarNumero(boton.dataset.numero);
+    } else if (boton.dataset.operador !== undefined) {
+      elegirOperador(boton.dataset.operador);
+    } else if (boton.dataset.accion === 'igual') {
+      calcular();
+    } else if (boton.dataset.accion === 'limpiar') {
+      limpiar();
+    } else if (boton.dataset.accion === 'borrar') {
+      borrarUltimo();
+    } else if (boton.dataset.accion === 'decimal') {
+      ingresarDecimal();
+    }
+  });
+});
+
+// Soporte de teclado físico
+window.addEventListener('keydown', (e) => {
+  if (e.key >= '0' && e.key <= '9') ingresarNumero(e.key);
+  else if (['+', '-', '*', '/'].includes(e.key)) elegirOperador(e.key);
+  else if (e.key === 'Enter' || e.key === '=') calcular();
+  else if (e.key === 'Backspace') borrarUltimo();
+  else if (e.key === 'Escape') limpiar();
+  else if (e.key === '.') ingresarDecimal();
+});
+
+// ---------- Loop de render ----------
+function animate() {
+  requestAnimationFrame(animate);
+  const delta = clock.getDelta();
+
+  if (mixer) mixer.update(delta);
+  if (cuboFallback) cuboFallback.rotation.y += delta * 0.6;
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+// ---------- Responsive ----------
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+
+</body>
+</html>
