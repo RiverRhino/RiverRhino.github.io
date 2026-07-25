@@ -26,54 +26,53 @@
     right: 0;
     z-index: 20;
     width: 100%;
-    height: 50vh; /* Ocupa exactamente el 50% inferior de la pantalla */
+    height: 50vh; /* Mantiene la calculadora en la mitad de la pantalla */
     display: flex;
-    flex-direction: column; /* Apila la pantalla arriba y el teclado abajo */
-    gap: 16px;
-    padding: 24px;
+    flex-direction: column;
+    gap: 8px; /* Reducimos significativamente el espacio entre pantalla y teclado */
+    padding: 12px; /* Reducimos el espacio entre la calculadora y los bordes de la pantalla */
     
-    /* Fondo con 30% de transparencia (0.7 de opacidad) */
     background: rgba(38, 38, 58, 0.7);
-    backdrop-filter: blur(2px); /* Un desenfoque muy ligero para no perder legibilidad */
+    backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
-    
     box-shadow: 0 -6px 20px rgba(0,0,0,0.6);
     border-top: 1px solid rgba(58, 58, 85, 0.6);
     box-sizing: border-box;
   }
 
   #pantalla {
-    flex: 0 0 60px; /* Altura fija para la pantalla de los números */
+    flex: 0 0 50px; /* Hacemos la pantalla de los números mucho más chica */
     width: 100%;
     background: #0d0d16;
     color: #7cffb2;
     font-family: 'Courier New', monospace;
-    font-size: 2.2rem;
+    font-size: 1.8rem; /* Ajustamos el tamaño del texto para la nueva pantalla */
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding: 0 16px;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
     box-sizing: border-box;
     overflow: hidden;
   }
 
   #teclado {
-    flex: 1; /* El teclado se estira para llenar todo el resto del espacio del 50vh */
+    flex: 1; /* Esto obliga al teclado a estirarse y llenar TODO el espacio que sobra abajo */
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Crea una cuadrícula de 4 columnas exactas */
-    gap: 12px;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas exactas del mismo ancho */
+    grid-template-rows: repeat(5, 1fr); /* 5 filas exactas del mismo alto */
+    gap: 6px; /* Reducimos el espacio vacío entre cada botón */
   }
 
   .tecla {
     width: 100%;
-    height: 100%; /* Los botones se estiran para llenar su celda en la cuadrícula */
+    height: 100%; /* Obliga a cada botón a expandirse y llenar su espacio en la cuadrícula */
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 1.6rem;
+    font-size: 1.5rem; /* Texto de los botones más grande */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,6 +80,17 @@
     background: #3a3a55;
     box-shadow: 0 4px 0 rgba(0,0,0,0.35);
     transition: transform 0.1s ease, box-shadow 0.1s ease;
+    margin: 0; /* Asegura que no haya espacios fantasma */
+  }
+
+  .tecla:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.35);
+  }
+
+  /* Hace que el botón 0 ocupe dos espacios para que cuadre perfecto en el grid */
+  .tecla[data-numero="0"] {
+    grid-column: span 2;
   }
 
   .tecla:active {
