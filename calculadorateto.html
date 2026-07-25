@@ -142,6 +142,28 @@
   .tecla.operador { background: #ffd54f; color: #1a1a2e; }
   .tecla.igual { background: #7cffb2; color: #1a1a2e; }
   .tecla.limpiar { background: #ff6b6b; color: #fff; }
+
+  /* --- Diseño para PC (Pantallas más anchas de 768px) --- */
+  @media (min-width: 768px) {
+    #calculadora {
+      width: 400px; /* Le damos un ancho fijo, como si fuera un celular físico */
+      height: 100vh; /* Ocupa el 100% del alto de la pantalla */
+      left: auto; /* Desanclamos de la izquierda */
+      right: 0; /* Lo pegamos al borde derecho */
+      top: 0;
+      bottom: 0;
+      
+      /* Ajustamos los bordes y sombras para que apunten hacia la izquierda */
+      border-top: none;
+      border-left: 1px solid rgba(58, 58, 85, 0.6);
+      box-shadow: -6px 0 20px rgba(0,0,0,0.6);
+    }
+
+    #pantalla {
+      flex: 0 0 120px; /* Hacemos la pantalla de los números un poco más alta en PC */
+      font-size: 3rem;
+    }
+  }
 </style>
 </head>
 <body>
@@ -294,6 +316,33 @@ loader.load(
     scene.add(cuboFallback);
   }
 );
+
+// ---------- Responsive ----------
+window.addEventListener('resize', () => {
+  // Calculamos el ancho disponible dependiendo de si estamos en PC o Móvil
+  const esPC = window.innerWidth >= 768;
+  const anchoCalculadora = esPC ? 400 : 0; 
+  const anchoDisponible = window.innerWidth - anchoCalculadora;
+  const altoDisponible = window.innerHeight;
+
+  // Actualizamos la cámara y el renderizador solo con el espacio libre
+  camera.aspect = anchoDisponible / altoDisponible;
+  camera.updateProjectionMatrix();
+  
+  // Renderizamos en toda la pantalla, pero ajustamos el "viewport" (el marco de visión)
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  
+  if (esPC) {
+    // Si es PC, empujamos el dibujo 3D hacia la izquierda para que no quede oculto bajo la calculadora
+    renderer.setViewport(0, 0, anchoDisponible, altoDisponible);
+  } else {
+    // En móvil, como la calculadora está abajo y tiene transparencia, usamos todo
+    renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+  }
+});
+
+// Forzamos un resize al iniciar para que aplique los cálculos inmediatamente
+window.dispatchEvent(new Event('resize'));
 
 // ---------- Lógica de la calculadora ----------
 const pantalla = document.getElementById('pantalla');
