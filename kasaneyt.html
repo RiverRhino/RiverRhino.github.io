@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,7 +65,8 @@
         }
 
         #playlist li.active {
-            color: #39c5bb; /* Cyan de Miku */
+            color: #39c5bb;
+            /* Cyan de Miku */
             border-left: 4px solid #39c5bb;
             background-color: #2a2a2a;
         }
@@ -85,6 +87,12 @@
     <!-- Lista vacía que llenaremos con la API -->
     <ul id="playlist"></ul>
 
+    <!-- NUEVO: Botón para paginación -->
+    <button id="btn-load-more"
+        style="display: none; width: 100%; max-width: 640px; margin-top: 10px; background-color: #2a2a2a; color: white;">
+        Cargar más canciones 👇
+    </button>
+
     <script>
         // --- VARIABLES GLOBALES ---
         const API_KEY = 'AIzaSyBYrNt4TrzbY0ejfafArtIAKFUbiQMGzL0'; // ¡Reemplaza esto con tu clave real!
@@ -92,66 +100,110 @@
         let isPlaying = false;
         let firstVideoId = '';
 
+
         // --- 1. FUNCIÓN PRINCIPAL ---
+        // --- MODIFICADO: inicializarApp ---
         async function inicializarApp() {
             try {
-                const videos = await buscarCancionesVocaloid();
-                renderizarLista(videos);
+                // Pasamos "false" porque es la primera búsqueda, no una paginación
+                const videos = await buscarCancionesVocaloid(false);
+                renderizarLista(videos, true); // true para que limpie el "Cargando..."
 
-                // Guardar el ID del primer resultado para que el reproductor inicie con él
                 firstVideoId = videos[0].id.videoId;
-
                 cargarIframeAPI();
             } catch (error) {
-                console.error("Error al buscar las canciones:", error);
+                console.error(error);
                 document.getElementById('playlist').innerHTML = "<li>Error al cargar las canciones. Revisa la consola.</li>";
             }
         }
 
-        // --- 2. FETCH A LA DATA API ---
-        async function buscarCancionesVocaloid() {
+        // --- NUEVO: Evento para el botón de cargar más ---
+        document.getElementById('btn-load-more').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-load-more');
+            btn.innerText = 'Cargando...';
+            btn.disabled = true;
+
+            try {
+                // Pasamos "true" para usar el nextPageToken
+                const nuevosVideos = await buscarCancionesVocaloid(true);
+                // Pasamos "false" para que ANEXE los nuevos videos al final en lugar de borrar la lista
+                renderizarLista(nuevosVideos, false);
+            } catch (error) {
+                console.error("Error al cargar más:", error);
+            }
+
+            btn.innerText = 'Cargar más canciones 👇';
+            btn.disabled = false;
+        });
+
+        // Añade esta variable al inicio, junto a tus otras variables globales
+        let nextPageToken = '';
+
+        // --- MODIFICADO: Acepta un parámetro para saber si es la primera carga o la siguiente ---
+        async function buscarCancionesVocaloid(cargarMas = false) {
             const query = encodeURIComponent('Kasane Teto OR Hatsune Miku song');
-            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${query}&type=video&key=${API_KEY}`;
+
+            // Nota: Puedes subir maxResults hasta 50 si quieres traer más videos de golpe
+            let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${query}&type=video&key=${API_KEY}`;
+
+            // Si estamos pidiendo la siguiente página, anexamos el token a la URL
+            if (cargarMas && nextPageToken) {
+                url += `&pageToken=${nextPageToken}`;
+            }
 
             const respuesta = await fetch(url);
             const data = await respuesta.json();
-            
-            if(data.error) {
+
+            if (data.error) {
                 throw new Error(data.error.message);
+            }
+
+            // Guardamos el token que YouTube nos da para la *próxima* página
+            // Si ya no hay más resultados, lo dejamos vacío
+            nextPageToken = data.nextPageToken || '';
+
+            // Mostrar u ocultar el botón dependiendo de si hay más páginas
+            const btnCargarMas = document.getElementById('btn-load-more');
+            if (nextPageToken) {
+                btnCargarMas.style.display = 'block';
+            } else {
+                btnCargarMas.style.display = 'none';
             }
 
             return data.items;
         }
 
-        // --- 3. RENDERIZAR EL DOM ---
-        function renderizarLista(videos) {
+        // --- MODIFICADO: Añadimos limpiarLista para decidir si borramos o anexamos ---
+        function renderizarLista(videos, limpiarLista = true) {
             const playlistUl = document.getElementById('playlist');
-            playlistUl.innerHTML = '';
+
+            if (limpiarLista) {
+                playlistUl.innerHTML = '';
+            }
 
             videos.forEach((video, index) => {
                 const videoId = video.id.videoId;
                 const titulo = video.snippet.title;
-                const miniatura = video.snippet.thumbnails.default.url; // 'default' es más pequeño para la lista
+                const miniatura = video.snippet.thumbnails.default.url;
 
                 const li = document.createElement('li');
                 li.dataset.id = videoId;
-                
-                if (index === 0) li.classList.add('active');
+
+                // Solo marcamos el primero como activo si estamos limpiando la lista (carga inicial)
+                if (index === 0 && limpiarLista) li.classList.add('active');
 
                 li.innerHTML = `
-                    <img src="${miniatura}" alt="Miniatura" width="120">
-                    <span>${titulo}</span>
-                `;
+            <img src="${miniatura}" alt="Miniatura" width="120">
+            <span>${titulo}</span>
+        `;
 
-                // Evento de clic para cambiar el video
                 li.addEventListener('click', () => {
                     if (player && player.loadVideoById) {
                         player.loadVideoById(videoId);
 
                         document.querySelectorAll('#playlist li').forEach(el => el.classList.remove('active'));
                         li.classList.add('active');
-                        
-                        // Si le damos clic a un nuevo video, asumimos que se reproduce automáticamente
+
                         const playPauseBtn = document.getElementById('btn-play-pause');
                         playPauseBtn.innerText = "⏸️ Pausa";
                         isPlaying = true;
@@ -171,7 +223,7 @@
         }
 
         // --- 5. EVENTOS DEL REPRODUCTOR YOUTUBE ---
-        window.onYouTubeIframeAPIReady = function() {
+        window.onYouTubeIframeAPIReady = function () {
             player = new YT.Player('yt-player', {
                 height: '360',
                 width: '640',
@@ -218,4 +270,5 @@
         inicializarApp();
     </script>
 </body>
+
 </html>
