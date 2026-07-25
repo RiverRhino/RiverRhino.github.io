@@ -19,9 +19,9 @@
     padding: 10px 14px;
     border-radius: 8px;
   }
-  #calculadora {
+ #calculadora {
     position: fixed;
-    top: 0;
+    bottom: 0; /* Cambiamos 'top: 0' por 'bottom: 0' para mandarlo abajo */
     left: 0;
     right: 0;
     z-index: 20;
@@ -30,9 +30,18 @@
     align-items: center;
     gap: 16px;
     padding: 14px 24px;
-    background: #26263a;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-    border-bottom: 1px solid #3a3a55;
+    
+    /* Color original #26263a (rgb: 38, 38, 58) con 30% de transparencia (0.7 de opacidad) */
+    background: rgba(38, 38, 58, 0.7); 
+    
+    /* Efecto cristal (opcional pero muy recomendado para que el modelo 3D luzca mejor detrás) */
+    backdrop-filter: blur(4px); 
+    -webkit-backdrop-filter: blur(4px);
+    
+    /* Cambiamos la sombra y el borde para que apunten hacia arriba */
+    box-shadow: 0 -6px 20px rgba(0,0,0,0.6); 
+    border-top: 1px solid rgba(58, 58, 85, 0.6);
+    border-bottom: none;
     box-sizing: border-box;
   }
   #pantalla {
