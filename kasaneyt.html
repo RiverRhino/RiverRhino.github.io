@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teto y Miku Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            padding: 20px;
+        }
+
+        #yt-player {
+            /* Mantenemos el reproductor visible por ahora para pruebas */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .custom-controls {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #39c5bb;
+            border: none;
+            border-radius: 5px;
+            color: #1e1e1e;
+            font-weight: bold;
+        }
+
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        /* Estilo para la lista interactiva */
+        #playlist {
+            list-style: none;
+            padding: 0;
+            max-width: 640px;
+        }
+
+        #playlist li {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: background-color 0.3s;
+        }
+
+        #playlist li:hover {
+            background-color: #333;
+        }
+
+        #playlist li img {
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        #playlist li.active {
+            color: #39c5bb; /* Cyan de Miku */
+            border-left: 4px solid #39c5bb;
+            background-color: #2a2a2a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="player-wrapper">
+        <!-- El div que será reemplazado por el video -->
+        <div id="yt-player"></div>
+
+        <!-- Botones de control -->
+        <div class="custom-controls">
+            <button id="btn-play-pause" disabled>Cargando...</button>
+        </div>
+    </div>
+
+    <!-- Lista vacía que llenaremos con la API -->
+    <ul id="playlist"></ul>
+
+    <script>
+        // --- VARIABLES GLOBALES ---
+        const API_KEY = '396131752711-mek0apvcuaopv28sdd482nmtv1b91rtm.apps.googleusercontent.com'; // ¡Reemplaza esto con tu clave real!
+        let player;
+        let isPlaying = false;
+        let firstVideoId = '';
+
+        // --- 1. FUNCIÓN PRINCIPAL ---
+        async function inicializarApp() {
+            try {
+                const videos = await buscarCancionesVocaloid();
+                renderizarLista(videos);
+
+                // Guardar el ID del primer resultado para que el reproductor inicie con él
+                firstVideoId = videos[0].id.videoId;
+
+                cargarIframeAPI();
+            } catch (error) {
+                console.error("Error al buscar las canciones:", error);
+                document.getElementById('playlist').innerHTML = "<li>Error al cargar las canciones. Revisa la consola.</li>";
+            }
+        }
+
+        // --- 2. FETCH A LA DATA API ---
+        async function buscarCancionesVocaloid() {
+            const query = encodeURIComponent('Kasane Teto OR Hatsune Miku song');
+            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${query}&type=video&key=${API_KEY}`;
+
+            const respuesta = await fetch(url);
+            const data = await respuesta.json();
+            
+            if(data.error) {
+                throw new Error(data.error.message);
+            }
+
+            return data.items;
+        }
+
+        // --- 3. RENDERIZAR EL DOM ---
+        function renderizarLista(videos) {
+            const playlistUl = document.getElementById('playlist');
+            playlistUl.innerHTML = '';
+
+            videos.forEach((video, index) => {
+                const videoId = video.id.videoId;
+                const titulo = video.snippet.title;
+                const miniatura = video.snippet.thumbnails.default.url; // 'default' es más pequeño para la lista
+
+                const li = document.createElement('li');
+                li.dataset.id = videoId;
+                
+                if (index === 0) li.classList.add('active');
+
+                li.innerHTML = `
+                    <img src="${miniatura}" alt="Miniatura" width="120">
+                    <span>${titulo}</span>
+                `;
+
+                // Evento de clic para cambiar el video
+                li.addEventListener('click', () => {
+                    if (player && player.loadVideoById) {
+                        player.loadVideoById(videoId);
+
+                        document.querySelectorAll('#playlist li').forEach(el => el.classList.remove('active'));
+                        li.classList.add('active');
+                        
+                        // Si le damos clic a un nuevo video, asumimos que se reproduce automáticamente
+                        const playPauseBtn = document.getElementById('btn-play-pause');
+                        playPauseBtn.innerText = "⏸️ Pausa";
+                        isPlaying = true;
+                    }
+                });
+
+                playlistUl.appendChild(li);
+            });
+        }
+
+        // --- 4. CARGAR IFRAME API ---
+        function cargarIframeAPI() {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        // --- 5. EVENTOS DEL REPRODUCTOR YOUTUBE ---
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('yt-player', {
+                height: '360',
+                width: '640',
+                videoId: firstVideoId, // Usa el ID que obtuvimos dinámicamente
+                playerVars: {
+                    'controls': 0,
+                    'disablekb': 1,
+                    'rel': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            const btn = document.getElementById('btn-play-pause');
+            btn.innerText = "▶️ Play";
+            btn.disabled = false;
+
+            btn.addEventListener('click', () => {
+                if (isPlaying) {
+                    player.pauseVideo();
+                } else {
+                    player.playVideo();
+                }
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            const btn = document.getElementById('btn-play-pause');
+            if (event.data == YT.PlayerState.PLAYING) {
+                btn.innerText = "⏸️ Pausa";
+                isPlaying = true;
+            } else if (event.data == YT.PlayerState.PAUSED) {
+                btn.innerText = "▶️ Play";
+                isPlaying = false;
+            }
+        }
+
+        // ¡Iniciar la aplicación!
+        inicializarApp();
+    </script>
+</body>
+</html>
