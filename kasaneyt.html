@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teto y Miku Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            padding: 20px;
+        }
+
+        #yt-player {
+            /* Mantenemos el reproductor visible por ahora para pruebas */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .custom-controls {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #39c5bb;
+            border: none;
+            border-radius: 5px;
+            color: #1e1e1e;
+            font-weight: bold;
+        }
+
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        /* Estilo para la lista interactiva */
+        #playlist {
+            list-style: none;
+            padding: 0;
+            max-width: 640px;
+        }
+
+        #playlist li {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: background-color 0.3s;
+        }
+
+        #playlist li:hover {
+            background-color: #333;
+        }
+
+        #playlist li img {
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        #playlist li.active {
+            color: #39c5bb;
+            /* Cyan de Miku */
+            border-left: 4px solid #39c5bb;
+            background-color: #2a2a2a;
+        }
+
+        /* Estilos para la barra de progreso */
+        .progress-container {
+            width: 640px;
+            /* Mismo ancho que el reproductor */
+            height: 10px;
+            background-color: #555;
+            /* Color de fondo de la pista (gris oscuro) */
+            cursor: pointer;
+            /* Cambia el cursor para indicar que se puede hacer clic */
+            margin-bottom: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            /* Asegura que la barra interna respete los bordes redondeados */
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            /* Empieza vacía */
+            background-color: #39c5bb;
+            /* Cyan de Miku */
+            transition: width 0.1s linear;
+            /* Suaviza el movimiento de la barra */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="player-wrapper">
+        <!-- El div que será reemplazado por el video -->
+        <div id="yt-player"></div>
+
+        <!-- NUEVO: Contenedor de la barra de progreso personalizada -->
+        <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <!-- Botones de control -->
+        <div class="custom-controls">
+            <button id="btn-play-pause" disabled>Cargando...</button>
+        </div>
+    </div>
+
+    <!-- Lista vacía que llenaremos con la API -->
+    <ul id="playlist"></ul>
+
+    <!-- NUEVO: Botón para paginación -->
+    <button id="btn-load-more"
+        style="display: none; width: 100%; max-width: 640px; margin-top: 10px; background-color: #2a2a2a; color: white;">
+        Cargar más canciones 👇
+    </button>
+
+    <script>
+        // --- VARIABLES GLOBALES ---
+        const API_KEY = 'AIzaSyBYrNt4TrzbY0ejfafArtIAKFUbiQMGzL0'; // ¡Reemplaza esto con tu clave real!
+        let player;
+        let isPlaying = false;
+        let firstVideoId = '';
+        let updateTimer; // Variable para guardar el intervalo del temporizador
+
+        // --- Elementos del DOM ---
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+
+        // --- 1. FUNCIÓN PRINCIPAL (Igual que antes) ---
+        async function inicializarApp() {
+            try {
+                const videos = await buscarCancionesVocaloid();
+                renderizarLista(videos);
+                firstVideoId = videos[0].id.videoId;
+                cargarIframeAPI();
+            } catch (error) {
+                console.error("Error al buscar las canciones:", error);
+                document.getElementById('playlist').innerHTML = "<li>Error al cargar las canciones.</li>";
+            }
+        }
+
+        // --- 2. FETCH A LA DATA API (Igual que antes) ---
+        async function buscarCancionesVocaloid() {
+            const query = encodeURIComponent('Kasane Teto OR Hatsune Miku song');
+            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${query}&type=video&key=${API_KEY}`;
+            const respuesta = await fetch(url);
+            const data = await respuesta.json();
+            return data.items;
+        }
+
+        // --- 3. RENDERIZAR EL DOM (Igual que antes, pero resetea la barra al cambiar de video) ---
+        function renderizarLista(videos) {
+            const playlistUl = document.getElementById('playlist');
+            playlistUl.innerHTML = '';
+
+            videos.forEach((video, index) => {
+                const videoId = video.id.videoId;
+                const titulo = video.snippet.title;
+                const miniatura = video.snippet.thumbnails.default.url;
+
+                const li = document.createElement('li');
+                li.dataset.id = videoId;
+                if (index === 0) li.classList.add('active');
+
+                li.innerHTML = `
+            <img src="${miniatura}" alt="Miniatura" width="120">
+            <span>${titulo}</span>
+        `;
+
+                li.addEventListener('click', () => {
+                    if (player && player.loadVideoById) {
+                        player.loadVideoById(videoId);
+
+                        // NUEVO: Resetear barra visualmente al cambiar de video
+                        progressBar.style.width = '0%';
+
+                        document.querySelectorAll('#playlist li').forEach(el => el.classList.remove('active'));
+                        li.classList.add('active');
+                    }
+                });
+                playlistUl.appendChild(li);
+            });
+        }
+
+        // --- 4. CARGAR IFRAME API (Igual que antes) ---
+        function cargarIframeAPI() {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        // --- 5. EVENTOS DEL REPRODUCTOR YOUTUBE ---
+        window.onYouTubeIframeAPIReady = function () {
+            player = new YT.Player('yt-player', {
+                height: '360',
+                width: '640',
+                videoId: firstVideoId,
+                playerVars: {
+                    'controls': 0, // Controles nativos ocultos
+                    'disablekb': 1,
+                    'rel': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            const btn = document.getElementById('btn-play-pause');
+            btn.innerText = "▶️ Play";
+            btn.disabled = false;
+
+            btn.addEventListener('click', () => {
+                if (isPlaying) {
+                    player.pauseVideo();
+                } else {
+                    player.playVideo();
+                }
+            });
+
+            // NUEVO: Lógica para hacer clic en la barra (Navegación)
+            progressContainer.addEventListener('click', saltarAPuntoDelVideo);
+        }
+
+        // --- MODIFICADO: onPlayerStateChange ---
+        // Necesitamos iniciar el temporizador cuando se reproduce y pararlo cuando se pausa.
+        function onPlayerStateChange(event) {
+            const btn = document.getElementById('btn-play-pause');
+
+            if (event.data == YT.PlayerState.PLAYING) {
+                btn.innerText = "⏸️ Pausa";
+                isPlaying = true;
+
+                // NUEVO: Iniciar el temporizador para actualizar la barra cada 100ms
+                updateTimer = setInterval(actualizarBarraDeProgreso, 100);
+
+            } else {
+                btn.innerText = "▶️ Play";
+                isPlaying = false;
+
+                // NUEVO: Detener el temporizador si no se está reproduciendo (pausa, buffer, fin)
+                clearInterval(updateTimer);
+            }
+        }
+
+        // --- NUEVA FUNCIÓN: Actualizar visualmente la barra ---
+        function actualizarBarraDeProgreso() {
+            if (player && player.getCurrentTime) {
+                const currentTime = player.getCurrentTime();
+                const duration = player.getDuration();
+
+                if (duration > 0) {
+                    // Calcular porcentaje: (actual / total) * 100
+                    const percentage = (currentTime / duration) * 100;
+                    // Aplicar el ancho al div cian
+                    progressBar.style.width = percentage + '%';
+                }
+            }
+        }
+
+        // --- NUEVA FUNCIÓN: Lógica para navegar al hacer clic (Seek) ---
+        function saltarAPuntoDelVideo(e) {
+            if (player && player.getDuration) {
+                // e.offsetX es la posición X donde el usuario hizo clic dentro del contenedor
+                const clickX = e.offsetX;
+                // offsetWidth es el ancho total del contenedor (640px)
+                const totalWidth = progressContainer.offsetWidth;
+                const duration = player.getDuration();
+
+                // Calcular a qué segundo corresponde ese clic
+                // (clicX / anchoTotal) nos da la proporción (ej: 0.5 para la mitad)
+                const nuevoTiempo = (clickX / totalWidth) * duration;
+
+                // Ordenar al reproductor que salte a ese segundo
+                player.seekTo(nuevoTiempo, true); // true = permitir buffering
+            }
+        }
+
+        // ¡Iniciar la aplicación!
+        inicializarApp();
+    </script>
+</body>
+
+
+
+</html>
