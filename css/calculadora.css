@@ -1,4 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Supermercado+One&display=swap');
+:root{
+    /* paleta Fireworks, la misma que usas en el resto del ecosistema Somea */
+    --fw-vino: #960016;
+    --fw-rojo: #ED2100;
+    --fw-naranja: #E88A38;
+    --fw-magenta: #BF00AC;
+}
 
 body {
     margin: 0;
@@ -12,7 +19,7 @@ body {
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    font-family: "Supermercado One", sans-serif;
+    font-family: "Supermercado One", "Noto Sans JP", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
@@ -34,32 +41,48 @@ body {
     object-fit: contain;
 }
 
-/* contenedor de la calculadora: 100% del ancho, pegado abajo, por encima del gif */
+/* contenedor de la calculadora: 100% del ancho, pegado abajo, por encima del gif.
+   le agregamos un panel semitransparente con esquinas redondeadas arriba,
+   para que se lea como "la calculadora" y no como botones sueltos sobre el gif */
 .calculadora {
     position: relative;
     z-index: 1;
     width: 100%;
+    background: linear-gradient(180deg, rgba(20, 12, 12, 0) 0%, rgba(20, 12, 12, 0.55) 40%);
+    border-radius: 24px 24px 0 0;
+    padding-top: 8px;
 }
 
 /* grid de 3 columnas iguales: llena todo el ancho, sin espacio en blanco sobrante */
 .btn-numbers {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 6px;
 }
 
 /* contenedor de la burbuja: cuadrado fijo (70x70), asi el border-radius:50%
-   siempre da un circulo perfecto sin importar la proporcion de la imagen que entre */
+   siempre da un circulo perfecto sin importar la proporcion de la imagen que entre.
+   le agregamos brillo en hover para que se note que es clickeable */
 #Cambiar-Gif{
     position: absolute;
     z-index: 1;
-    top:10px;
+    top: 10px;
     left: 20px;
     width: 70px;
     height: 70px;
     border-style: solid;
     border-radius: 50%;
     border-width: 2px;
+    border-color: var(--fw-naranja);
     overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 0 0 rgba(232, 138, 56, 0);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+#Cambiar-Gif:hover{
+    transform: scale(1.05);
 }
 
 /* la imagen llena el cuadrado y se recorta (no se estira) para mantenerse cuadrada */
@@ -71,14 +94,43 @@ body {
 }
 
 .btn-numbers>div {
-    background-color: rgb(110, 101, 101);
+    background-color: rgba(110, 101, 101, 0.85);
+    color: white;
     padding: 20px;
-    border-color: black;
+    border-color: rgba(0, 0, 0, 0.6);
     border-style: solid;
     border-width: 1px;
+    border-radius: 14px;
     font-size: 20px;
-    filter: opacity(0.9);
     text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.15s ease;
+}
+
+/* operadores (+ - x / = C) resaltados con la paleta Fireworks para diferenciarlos
+   de los digitos de un vistazo */
+.operador {
+    background-color: rgba(150, 0, 22, 0.85); /* --fw-vino */
+    font-weight: bold;
+}
+
+.numeros:hover {
+    background-color: rgb(61, 56, 56);
+}
+
+.operador:hover {
+    background-color: var(--fw-rojo);
+}
+
+#numeroborrar:hover{
+    background-color: var(--fw-magenta);
+}
+
+/* feedback al hacer click/tap, util sobre todo en mobile donde no existe hover */
+.btn-numbers>div:active {
+    transform: scale(0.92);
+    background-color: var(--fw-naranja);
 }
 
 .numbers {
@@ -88,24 +140,20 @@ body {
     border-width: 2px;
     flex-direction: column-reverse;
     align-items: flex-end;
-    background-color: rgb(226, 12, 12);
-    filter: opacity(0.7);
+    background-color: rgba(226, 12, 12, 0.75);
     width: 100%;
     height: 130px;
 }
 
-.numeros:hover {
-    background-color: rgb(61, 56, 56);
-    transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-#numeroborrar:hover{
-    background-color: rgb(61, 56, 56);
-    transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
 .numbers>p {
-    font-size: 40px;
+    font-size: 45px;
+    color: #fff;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+    /* evita que el ancho de la pantalla "salte" al escribir numeros */
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+    padding: 0 12px;
+    word-break: break-all;
 }
 
 @media (max-width: 600px) {
@@ -114,7 +162,7 @@ body {
     }
 
     .numbers>p {
-        font-size: 24px;
+        font-size: 16px;
     }
 
     .btn-numbers>div {
