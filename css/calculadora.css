@@ -204,5 +204,16 @@ body {
     transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
+.imagenpan{
+    position: absolute;
+    z-index: 3;
+    top: 30%;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    border-width: 2px;
+    overflow: hidden;
+}
+
 
 }
