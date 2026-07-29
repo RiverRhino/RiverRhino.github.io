@@ -5,9 +5,26 @@ let borrador = document.getElementById("numeroborrar");
 borrador.addEventListener("click", ()=>{
     pantalla.textContent = "";
 })
-
 // ---- Fish Audio Text-to-Speech (a traves de nuestro propio servidor) ----
-const FRASE_PREDETERMINADA = "chinga tu puta madre cabron"; // la frase que va a decir
+
+// lo que dice cada boton al hacerle click. Cambia las palabras a tu gusto.
+const FRASES = {
+  "1": "uno",
+  "2": "dos",
+  "3": "tres",
+  "4": "cuatro",
+  "5": "cinco",
+  "6": "seis",
+  "7": "siete",
+  "8": "ocho",
+  "9": "nueve",
+  "0": "cero",
+  "+": "más",
+  "-": "menos",
+  "x": "multiplicado por",
+  "/": "entre",
+  "C": "borrado"
+};
 
 async function reproducirFrase(texto) {
   try {
@@ -40,6 +57,9 @@ numbers.forEach((boton) => {
   boton.addEventListener("click", () => {
     // aqui "boton" es el div que se hizo click, boton.textContent trae el numero/simbolo
     pantalla.textContent += boton.textContent;
-    reproducirFrase(FRASE_PREDETERMINADA);
+
+    // buscamos que le toca decir a este boton especifico en el diccionario FRASES
+    const texto = FRASES[boton.textContent] || boton.textContent;
+    reproducirFrase(texto);
   });
 });
