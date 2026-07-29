@@ -1,0 +1,14 @@
+{
+  "name": "calculadora-teto-backend",
+  "version": "1.0.0",
+  "description": "Servidor que sirve la calculadora de Teto y hace de puente hacia Fish Audio TTS",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

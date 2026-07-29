@@ -6,43 +6,32 @@ borrador.addEventListener("click", ()=>{
     pantalla.textContent = "";
 })
 
-
-// ---- Fish Audio Text-to-Speech ----
-// ADVERTENCIA: no subas esta key a un repositorio publico ni a un sitio en linea.
-// Esto es solo para probar localmente. Para produccion, esta llamada deberia
-// hacerse desde un servidor tuyo que guarde la key de forma segura.
-const FISH_AUDIO_API_KEY = "f335bbbb096846908d36706542d4f687"; // pegala aqui (Settings > API Keys en fish.audio)
-const REFERENCE_ID = "0118a35dcb604837abe7961a43e13ba8"; // el id de voz que me diste
+// ---- Fish Audio Text-to-Speech (a traves de nuestro propio servidor) ----
 const FRASE_PREDETERMINADA = "¡Hola! Soy Teto."; // la frase que va a decir
 
 async function reproducirFrase(texto) {
   try {
-    const response = await fetch("https://api.fish.audio/v1/tts", {
+    // ya no llamamos a Fish Audio directo (eso causaba el error de CORS),
+    // le pedimos el audio a nuestro propio servidor, que es quien tiene la key
+    const response = await fetch("/api/tts", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${FISH_AUDIO_API_KEY}`,
-        "Content-Type": "application/json",
-        "model": "s2.1-pro-free" // modelo gratuito de Fish Audio
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        text: texto,
-        reference_id: REFERENCE_ID,
-        format: "mp3"
-      })
+      body: JSON.stringify({ text: texto })
     });
 
     if (!response.ok) {
-      console.error("Fish Audio respondio con error:", await response.text());
+      console.error("El servidor respondio con error:", await response.text());
       return;
     }
 
-    // la respuesta es el audio en binario, lo convertimos en algo que <audio> pueda reproducir
     const audioBlob = await response.blob();
     const audioUrl = URL.createObjectURL(audioBlob);
     const audio = new Audio(audioUrl);
     audio.play();
   } catch (error) {
-    console.error("Error al llamar a Fish Audio:", error);
+    console.error("Error al pedir el audio:", error);
   }
 }
 
