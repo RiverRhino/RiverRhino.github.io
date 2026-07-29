@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 3000;
 const FISH_AUDIO_API_KEY = process.env.FISH_AUDIO_API_KEY;
 const REFERENCE_ID = "0118a35dcb604837abe7961a43e13ba8"; // id de voz de Teto
 
+// deja que tu pagina de GitHub Pages (otro dominio) le pueda pedir audio a este servidor
+app.use(cors());
 app.use(express.json());
 
 // sirve calculadorateto.html, css/, js/, imagenes/ tal cual estan en la carpeta del proyecto
