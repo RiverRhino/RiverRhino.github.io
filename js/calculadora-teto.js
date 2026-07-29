@@ -30,7 +30,7 @@ async function reproducirFrase(texto) {
   try {
     // ya no llamamos a Fish Audio directo (eso causaba el error de CORS),
     // le pedimos el audio a nuestro propio servidor, que es quien tiene la key
-    const response = await fetch("/api/tts", {
+    const response = await fetch("https://riverrhino-github-io.onrender.com", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
