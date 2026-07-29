@@ -7,7 +7,7 @@ borrador.addEventListener("click", ()=>{
 })
 
 // ---- Fish Audio Text-to-Speech (a traves de nuestro propio servidor) ----
-const FRASE_PREDETERMINADA = "¡Hola! Soy Teto."; // la frase que va a decir
+const FRASE_PREDETERMINADA = "chinga tu puta madre cabron"; // la frase que va a decir
 
 async function reproducirFrase(texto) {
   try {
