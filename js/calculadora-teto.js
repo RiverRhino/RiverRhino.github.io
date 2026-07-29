@@ -1,9 +1,24 @@
 let numbers = document.querySelectorAll(".numeros");
 let pantalla = document.getElementById("numero");
 let borrador = document.getElementById("numeroborrar");
+let igual = document.getElementById("igual");
+let cambiarGif = document.getElementById("Cambiar-Gif");
+let gif = document.getElementById("gif");
+let circulo = document.getElementById("tetogirando");
 
-borrador.addEventListener("click", ()=>{
-    pantalla.textContent = "";
+borrador.addEventListener("click", () => {
+  pantalla.textContent = "";
+})
+
+cambiarGif.addEventListener("click", () => {
+  // intercambiamos el gif grande (de fondo) con el de la burbuja:
+  // el que estaba en el circulo pasa a la pantalla, y el que estaba
+  // en la pantalla pasa al circulo. Cada click vuelve a intercambiarlos.
+  const gifPrincipalActual = gif.src;
+  const gifCirculoActual = circulo.src;
+
+  gif.src = gifCirculoActual;
+  circulo.src = gifPrincipalActual;
 })
 // ---- Fish Audio Text-to-Speech (a traves de nuestro propio servidor) ----
 
@@ -23,7 +38,9 @@ const FRASES = {
   "-": "menos",
   "x": "multiplicado por",
   "/": "entre",
-  "C": "borrado"
+  "C": "borrado",
+  "=": "igual a",
+  ".": "「チョッチ (Txotx)」とは、樽から注がれるシードラ（リンゴ酒）を合図とともに皆で楽しむバスク地方の伝統的な習慣です"
 };
 
 async function reproducirFrase(texto) {
@@ -63,3 +80,27 @@ numbers.forEach((boton) => {
     reproducirFrase(texto);
   });
 });
+
+igual.addEventListener("click", () => {
+  calculate();
+
+  setTimeout(() => {
+    const textoresultado = pantalla.textContent;
+    reproducirFrase(textoresultado);
+  }, 1000);
+})
+
+function calculate() {
+  try {
+    // "x" no es un operador valido en JS (lo confunde con una variable),
+    // y el "=" que ya quedo escrito en pantalla rompe el eval. Limpiamos ambos.
+    let expresion = pantalla.innerText
+      .replace(/x/g, "*")
+      .replace(/=/g, "");
+
+    pantalla.innerText = eval(expresion);
+
+  } catch {
+    pantalla.innerText = 'Error';
+  }
+}
