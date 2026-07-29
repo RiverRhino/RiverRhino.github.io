@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doble Transmisión</title>
+<style>
+  :root{
+    --bg: #10131a;
+    --panel: #171b25;
+    --line: #2a2f3d;
+    --accent: #ff6a3d;   /* naranja fireworks */
+    --accent2: #ffd23f;  /* amarillo fireworks */
+    --text: #eef0f5;
+    --muted: #7e8494;
+    --mono: 'Courier New', monospace;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    padding: 32px 16px 60px;
+  }
+
+  header{
+    text-align:center;
+    margin-bottom: 28px;
+  }
+
+  header .tag{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    text-transform: uppercase;
+  }
+
+  header h1{
+    font-size: clamp(24px, 4vw, 36px);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  header p{
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  .stage{
+    width: 100%;
+    max-width: 1100px;
+    display:flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .video-card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: width .45s cubic-bezier(.22,.9,.3,1), height .45s cubic-bezier(.22,.9,.3,1),
+                opacity .3s ease, box-shadow .3s ease, transform .2s ease;
+    position: relative;
+  }
+
+  .video-card:hover{ transform: translateY(-2px); }
+
+  .video-card.big{
+    width: 100%;
+    max-width: 720px;
+    aspect-ratio: 16/9;
+    box-shadow: 0 0 0 2px var(--accent), 0 12px 40px rgba(255,106,61,.18);
+  }
+
+  .video-card.small{
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 16/9;
+    opacity: .82;
+  }
+
+  .video-card.small:hover{ opacity: 1; }
+
+  .video-card iframe{
+    width:100%;
+    height:100%;
+    display:block;
+    border:0;
+    pointer-events: none; /* el click en la tarjeta hace el swap; evita clicks accidentales dentro del iframe */
+  }
+
+  .video-card.big iframe{
+    pointer-events: auto; /* el video grande sí se controla normalmente */
+  }
+
+  .label{
+    position:absolute;
+    top:8px;
+    left:8px;
+    background: rgba(0,0,0,.65);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    z-index: 2;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+
+  .dot{
+    width:7px; height:7px; border-radius:50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+
+  .video-card.small .label{
+    background: rgba(0,0,0,.75);
+  }
+
+  .swap-hint{
+    position:absolute;
+    bottom:8px;
+    right:8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    background: rgba(0,0,0,.55);
+    padding: 3px 7px;
+    border-radius: 4px;
+    z-index:2;
+    pointer-events: none;
+  }
+
+  footer{
+    margin-top: 30px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-align:center;
+  }
+
+  @media (max-width: 640px){
+    .stage{ flex-direction: column; align-items:center; }
+    .video-card.big, .video-card.small{ max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Dos transmisiones, un click</h1>
+</header>
+
+<div class="stage" id="stage">
+  <!-- Los cards se generan por JS -->
+</div>
+
+<footer>edita los IDs de video en el código · &lt;script&gt; al final del archivo</footer>
+
+<script>
+  // ---------------------------------------------------------
+  // Reemplaza estos IDs con los de tus propios videos o lives.
+  // El ID es lo que va después de "v=" en la URL de YouTube.
+  // ---------------------------------------------------------
+  const videos = [
+    { id: "NRmsy3ZBD3U", title: "Canal 1" }, // ejemplo: lofi live
+    { id: "IskkmNPJdUk", title: "Canal 2" }  // ejemplo: lofi live
+  ];
+
+  let bigIndex = 0; // cuál empieza grande
+
+  const stage = document.getElementById('stage');
+
+  function buildURL(id, autoplay){
+    return `https://www.youtube.com/embed/${id}?autoplay=${autoplay ? 1 : 1}&mute=1&rel=0`;
+  }
+
+  function render(){
+    stage.innerHTML = '';
+    videos.forEach((v, i) => {
+      const isBig = i === bigIndex;
+
+      const card = document.createElement('div');
+      card.className = 'video-card ' + (isBig ? 'big' : 'small');
+
+      const label = document.createElement('div');
+      label.className = 'label';
+      label.innerHTML = `<span class="dot"></span>${v.title}`;
+
+      const hint = document.createElement('div');
+      hint.className = 'swap-hint';
+      hint.textContent = isBig ? 'en foco' : 'click para agrandar';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = buildURL(v.id, isBig);
+      iframe.allow = "accelerate=1; autoplay; encrypted-media; picture-in-picture";
+      iframe.allowFullscreen = true;
+
+      card.appendChild(iframe);
+      card.appendChild(label);
+      card.appendChild(hint);
+
+      card.addEventListener('click', () => {
+        if (!isBig){
+          bigIndex = i;
+          render();
+        }
+      });
+
+      stage.appendChild(card);
+    });
+  }
+
+  render();
+</script>
+
+</body>
+</html>
