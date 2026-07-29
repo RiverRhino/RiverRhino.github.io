@@ -47,7 +47,7 @@ body{
     width: 30%;
     background-color: rgb(163, 163, 163);
     padding: 20px;
-    filter: opacity(0.5);
+    filter: opacity(0.6);
     border-radius: 5px;
 }
 
@@ -63,4 +63,10 @@ body{
 
 .numbers > p{
     font-size: 40px;
+}
+
+@media (max-width: 600px){
+    .numbers{ height: 70px; }
+    .numbers > p{ font-size: 24px; }
+    .btn-numbers > div{ padding: 10px; font-size: 14px; }
 }

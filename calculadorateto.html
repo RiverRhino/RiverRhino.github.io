@@ -28,10 +28,56 @@
       <div class="numeros">x</div>
       <div class="numeros">/</div>
       <div class="numeros">-</div>
-      <div class="numeros">C</div>
+      <div class="numeros">=</div>
+      <div id="numeroborrar">C</div>
     </div>
   </div>
 
   <script src="./js/calculadora-teto.js"></script>
 </body>
 </html>
+
+<script>
+  // Source - https://stackoverflow.com/a/36333228
+// Posted by ddepablo
+// Retrieved 2026-07-28, License - CC BY-SA 3.0
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: PUT, GET, POST");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+
+  const options = {
+  method: 'POST',
+  headers: {
+    model: 's2.1-pro-free',
+    Authorization: 'Bearer <token>',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    text: '<string>',
+    temperature: 0.7,
+    top_p: 0.7,
+    references: [{audio: '<string>', text: '<string>'}],
+    reference_id: '0118a35dcb604837abe7961a43e13ba8',
+    prosody: {speed: 1, volume: 0, normalize_loudness: true},
+    chunk_length: 300,
+    normalize: true,
+    format: 'mp3',
+    sample_rate: 123,
+    mp3_bitrate: 128,
+    opus_bitrate: -1000,
+    latency: 'normal',
+    max_new_tokens: 1024,
+    repetition_penalty: 1.2,
+    min_chunk_length: 50,
+    condition_on_previous_chunks: true,
+    early_stop_threshold: 1,
+    features: []
+  })
+};
+
+fetch('https://api.fish.audio/v1/tts', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+</script>
