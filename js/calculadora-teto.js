@@ -24,22 +24,22 @@ cambiarGif.addEventListener("click", () => {
 
 // lo que dice cada boton al hacerle click. Cambia las palabras a tu gusto.
 const FRASES = {
-  "1": "uno",
-  "2": "dos",
-  "3": "tres",
-  "4": "cuatro",
-  "5": "cinco",
-  "6": "seis",
-  "7": "siete",
-  "8": "ocho",
-  "9": "nueve",
-  "0": "cero",
-  "+": "más",
-  "-": "menos",
-  "x": "multiplicado por",
-  "/": "entre",
-  "C": "borrado",
-  "=": "igual a",
+  "1": "ichi",
+  "2": "ni",
+  "3": "san",
+  "4": "shi",
+  "5": "go",
+  "6": "roku",
+  "7": "shichi",
+  "8": "hachi",
+  "9": "kyuu",
+  "0": "rei",
+  "+": "tasu",
+  "-": "hiku",
+  "x": "kakeru",
+  "/": "waru",
+  "C": "Shoukyo suru",
+  "=": "wa",
   ".": "「チョッチ (Txotx)」とは、樽から注がれるシードラ（リンゴ酒）を合図とともに皆で楽しむバスク地方の伝統的な習慣です"
 };
 
