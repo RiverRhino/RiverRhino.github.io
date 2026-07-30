@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 // la key vive SOLO aqui, en el servidor, nunca en el navegador
 const FISH_AUDIO_API_KEY = process.env.FISH_AUDIO_API_KEY;
-const REFERENCE_ID = "0118a35dcb604837abe7961a43e13ba8"; // id de voz de Teto
+const REFERENCE_ID = "6b00830be985432eb6b716c12a152934"; // id de voz de Teto
 
 // deja que tu pagina de GitHub Pages (otro dominio) le pueda pedir audio a este servidor
 app.use(cors());
